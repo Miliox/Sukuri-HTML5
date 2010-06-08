@@ -1,0 +1,3 @@
+/*
+	Classe Graphic descreve as propriedades do Canvas.
+*/

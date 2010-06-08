@@ -1,0 +1,3 @@
+/*
+	Descreve o Funcionamento do Jogo
+*/

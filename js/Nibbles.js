@@ -1,0 +1,3 @@
+/*
+	Regras do Jogo Nibbles:
+*/
