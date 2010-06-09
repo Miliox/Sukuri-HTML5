@@ -16,10 +16,10 @@ function gameInit(){
 	}
 	else {
 		display = new Graphic(document.getElementById('nibbles'), 128, 80);
-		worman = new Worm ([new Vector(4, 3),
-					new Vector(3, 3),
+		worman = new Worm ([new Vector(1, 3),
 					new Vector(2, 3),
-					new Vector(1, 3)], 3);
+					new Vector(3, 3),
+					new Vector(4, 3)], 3);
 		display.render(worman.corpo);
 		window.setInterval("refresh()", 250);
 		

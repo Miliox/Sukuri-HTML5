@@ -17,3 +17,7 @@ Vector.prototype.equals = function (vec) {
 	}
 	return false;
 };
+
+Vector.prototype.add = function (vec) {
+	return new Vector(this.x+vec.x,this.y+vec.y);	
+};
