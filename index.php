@@ -9,10 +9,6 @@
 		<script type="text/javascript" src="js/Graphic.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 		<style type="text/css">
-			body {
-				background-image: url('img/wood.jpg');
-				background-repeat: repeat; 
-			}
 			canvas {
 				/*Centraliza*/
 				position: absolute;
@@ -20,8 +16,8 @@
 				left: 50%;
 				
 				/*Corrigi alinhamento para o centro*/
-				margin-left: -300px;
-				margin-top: -480px;
+				margin-left: -480px;
+				margin-top: -300px;
 
 				/*Destaca o Elemento do Fundo*/
 				border: 1px solid black;
