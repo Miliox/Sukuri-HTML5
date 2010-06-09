@@ -5,6 +5,9 @@
 		<title>NibblesCanvas</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<script type="text/javascript" src="js/Vector.js"></script>
+		<script type="text/javascript" src="js/Worm.js"></script>
+		<script type="text/javascript" src="js/Graphic.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
 		<style type="text/css">
 			body {
 				background-image: url('img/wood.jpg');
@@ -26,7 +29,7 @@
 		</style>
 	</head>
 	<body>
-		<canvas id="map" width="960" height="600">
+		<canvas id="nibbles" width="960" height="600">
 			<p>Seu Browser não suporta o Elemento Canvas</p>
 		</canvas>
 	</body>
