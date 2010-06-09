@@ -17,7 +17,7 @@
 				
 				/*Corrigi alinhamento para o centro*/
 				margin-left: -480px;
-				margin-top: -300px;
+				margin-top: -250px;
 
 				/*Destaca o Elemento do Fundo*/
 				border: 1px solid black;
@@ -25,7 +25,7 @@
 		</style>
 	</head>
 	<body>
-		<canvas id="nibbles" width="960" height="600">
+		<canvas id="nibbles" width="960" height="500">
 			<p>Seu Browser não suporta o Elemento Canvas</p>
 		</canvas>
 	</body>

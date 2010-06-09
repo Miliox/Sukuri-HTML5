@@ -3,6 +3,8 @@
 */
 var display;
 var worman;
+var fps = 4;
+var refreshCode;
 
 function refresh(){
 	worman.moveCabeca();
@@ -21,7 +23,7 @@ function gameInit(){
 					new Vector(2, 3),
 					new Vector(1, 3)], 3);
 		display.render(worman.corpo);
-		window.setInterval("refresh()", 250);
+		refreshCode = window.setInterval("refresh()", 1000 / fps);
 		
 		//Evento
 		if (!document.addEventListener && document.attachEvent){
@@ -44,10 +46,10 @@ function gameInit(){
 }
 
 function mudaDirecao(event){
-	var teclado = {up:38, down: 40, left: 37, right: 39};
+	var teclado = {up:38, down: 40, left: 37, right: 39, plus: 107, minus: 109};
 	
 	switch (event.keyCode){
-		//Player 0 controls
+		//Player controls
 		case teclado.up:
 			worman.direcao = 0;
 			break;
@@ -60,7 +62,22 @@ function mudaDirecao(event){
 		case teclado.right:
 			worman.direcao = 3;
 			break;
+		//Mudar Velocidade
+		case teclado.plus:
+			fps++;
+			window.clearInterval(refreshCode);
+			refreshCode = window.setInterval("refresh()", 1000 / fps);
+			break;
+		case teclado.minus:
+			if(fps <= 1){
+				break;
+			}
+			fps--;
+			window.clearInterval(refreshCode);
+			refreshCode = window.setInterval("refresh()", 1000 / fps);
+			break;
 		//Outros
+			
 		default:
 			break;
 	}
