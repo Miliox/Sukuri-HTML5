@@ -1,11 +1,4 @@
 /* Classe Worm: Minhoca no jogo Nibbles */
-
-//Direcoes
-var UP = 0;
-var DOWN = 1;
-var LEFT = 2;
-var RIGTH = 3;
-
 function Worm(corpoInicial, direcao){
 	//Corpo e Direcoes Iniciais
 	this.corpoInicial = corpoInicial;
@@ -31,16 +24,16 @@ Worm.prototype.removeCauda = function (){
 Worm.prototype.moveCabeca = function (){
 	switch (this.direcao)
 	{
-		case 0:
+		case 0: /*UP*/
 			this.corpo.unshift( this.corpo[0].add(new Vector(0,-1)));
 			break;
-		case 1:
+		case 1: /*DOWN*/
 			this.corpo.unshift( this.corpo[0].add(new Vector(0,1)));
 			break;
-		case 2:
+		case 2: /*LEFT*/
 			this.corpo.unshift( this.corpo[0].add(new Vector(-1,0)));
 			break;
-		case 3:
+		case 3: /*RIGHT*/
 			this.corpo.unshift( this.corpo[0].add(new Vector(1,0)));
 			break;
 	}
