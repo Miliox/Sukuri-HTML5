@@ -8,10 +8,6 @@ var refreshCode;
 var WIDTH = 128;
 var HEIGHT = 80;
 
-function createStart(){
-	return [new Vector(4, 3),new Vector(3, 3),new Vector(2, 3),new Vector(1, 3)];
-}
-
 function refresh(){
 	
 	//Movimenta Minhoca
@@ -21,9 +17,7 @@ function refresh(){
 	//Detecta Colisao com as Paredes
 	if(worman.corpo[0].x >= WIDTH || worman.corpo[0].x < 0 ||
 	worman.corpo[0].y >= HEIGHT || worman.corpo[0].y < 0){
-		//Reinicia Minhoca
-		worman.corpo = createStart();
-		worman.direcao = 3;
+		worman.restart();
 	}
 	
 	//Renderiza a Tela
@@ -36,7 +30,8 @@ function gameInit(){
 	}
 	else {
 		display = new Graphic(document.getElementById('nibbles'), WIDTH, HEIGHT);
-		worman = new Worm (createStart(), 3);
+		worman = new Worm ([new Vector(4, 3),new Vector(3, 3),
+				new Vector(2, 3),new Vector(1, 3)], 3);
 		display.render(worman.corpo);
 		refreshCode = window.setInterval("refresh()", 1000 / fps);
 		

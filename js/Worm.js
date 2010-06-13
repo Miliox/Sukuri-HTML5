@@ -37,13 +37,12 @@ Worm.prototype.moveCabeca = function (){
 };
 
 Worm.prototype.restart = function (){
-	this.corpo = function(){
-		var cell;
+	this.corpo = function(corpoInicial){
 		var body = [];
-		for(cell in this.corpoInicial){
-			body.unshift(new Vector(cell.x,cell.y));
+		for(var i = 0; i < corpoInicial.length;i++){
+			body.push(new Vector(corpoInicial[i].x,corpoInicial[i].y));
 		};
 		return body;
-	}();
+	}(this.corpoInicial);
 	this.direcao = this.direcaoInicial;
 };
