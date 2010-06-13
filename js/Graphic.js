@@ -13,7 +13,7 @@ function Graphic(canvas, divx, divy){
 
 }
 
-Graphic.prototype.render = function (corpo, food) {
+Graphic.prototype.render = function (corpo, food, score) {
 	this.ctx.save();
 	//Limpa Tela
 	this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
@@ -36,5 +36,9 @@ Graphic.prototype.render = function (corpo, food) {
 		this.ctx.rect(food.pos.x * this.dx, food.pos.y * this.dy, this.dx, this.dy);
 		this.ctx.fill();
 	}
+	this.ctx.fillStyle = "black";
+	this.ctx.font = "12pt Arial";
+	this.ctx.fillText("Score: " + score, 24 , 24);
 	this.ctx.restore();
+
 };

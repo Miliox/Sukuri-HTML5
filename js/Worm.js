@@ -11,8 +11,17 @@ var RIGTH = 3;
 function Worm(corpoInicial, direcao){
 	this.corpoInicial = corpoInicial;
 	this.direcaoInicial = Math.floor(Math.abs(direcao) % 4);
-	this.restart(); 
+	this.restart();
+	this.score = 0;
 }
+
+Worm.prototype.addScore = function (point) {
+	this.score += point;
+};
+
+Worm.prototype.resetScore = function () {
+	this.score = 0;
+};
 
 Worm.prototype.removeCauda = function (){
 	this.corpo.pop();	

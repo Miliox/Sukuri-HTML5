@@ -7,6 +7,7 @@ var fps = 15;
 var refreshCode;
 var WIDTH = 32;
 var HEIGHT = 20;
+var MAX_SCORE = 0;
 var food = new Diamond(WIDTH, HEIGHT, 5);
 
 function refresh(){
@@ -31,10 +32,16 @@ function refresh(){
 	//Detecta Colisao com as Paredes
 	if(worman.corpo[0].x >= WIDTH || worman.corpo[0].x < 0 ||
 	worman.corpo[0].y >= HEIGHT || worman.corpo[0].y < 0){
+		if(worman.score > MAX_SCORE){
+			alert("Novo Recorde:\n" + worman.score +" pontos");
+			MAX_SCORE = worman.score;
+		}
 		worman.restart();
+		worman.resetScore();
 	}
 	
 	if(food.visible && worman.corpo[0].equals(food.pos)){
+		worman.addScore(100);
 		food.visible = false;
 		food.randomTime(5);
 		food.randomPosition();
@@ -43,7 +50,7 @@ function refresh(){
 		worman.removeCauda();
 	}	
 	//Renderiza a Tela
-	display.render(worman.corpo, food);
+	display.render(worman.corpo, food, worman.score);
 }
 
 function gameInit(){
