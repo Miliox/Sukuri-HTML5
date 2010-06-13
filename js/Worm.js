@@ -9,9 +9,9 @@ var LEFT = 2;
 var RIGTH = 3;
 
 function Worm(corpoInicial, direcao){
-	this.corpo = corpoInicial;
-	this.direcao = Math.floor(Math.abs(direcao) % 4);
-
+	this.corpoInicial = corpoInicial;
+	this.direcaoInicial = Math.floor(Math.abs(direcao) % 4);
+	this.restart(); 
 }
 
 Worm.prototype.removeCauda = function (){
@@ -34,4 +34,16 @@ Worm.prototype.moveCabeca = function (){
 			this.corpo.unshift( this.corpo[0].add(new Vector(1,0)));
 			break;
 	}
+};
+
+Worm.prototype.restart = function (){
+	this.corpo = function(){
+		var cell;
+		var body = [];
+		for(cell in this.corpoInicial){
+			body.unshift(new Vector(cell.x,cell.y));
+		};
+		return body;
+	}();
+	this.direcao = this.direcaoInicial;
 };
