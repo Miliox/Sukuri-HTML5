@@ -19,7 +19,7 @@ Worm.prototype.resetScore = function () {
 
 //Movimentacao do Corpo
 Worm.prototype.removeCauda = function (){
-	this.corpo.pop();	
+	this.corpo.pop();
 };
 Worm.prototype.moveCabeca = function (){
 	switch (this.direcao)
@@ -49,6 +49,6 @@ Worm.prototype.restart = function (){
 		};
 		return body;
 	}(this.corpoInicial);
-	
+
 	this.direcao = this.direcaoInicial;
 };

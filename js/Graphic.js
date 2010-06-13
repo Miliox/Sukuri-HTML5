@@ -18,12 +18,11 @@ function Graphic(canvas, divx, divy){
 }
 
 Graphic.prototype.render = function (corpo, food, score) {
-	
 	this.ctxBuffer.save();
-	
+
 	//Limpa Buffer
 	this.ctxBuffer.clearRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
-	
+
 	var x, y;
 	//Renderiza Worm
 	this.ctxBuffer.beginPath();
@@ -33,7 +32,7 @@ Graphic.prototype.render = function (corpo, food, score) {
 		this.ctxBuffer.rect(x, y, this.dx, this.dy);
 	}
 	this.ctxBuffer.fill();
-	
+
 	//Renderiza Food
 	if (food.visible) {
 		this.ctxBuffer.beginPath();
@@ -47,9 +46,8 @@ Graphic.prototype.render = function (corpo, food, score) {
 	this.ctxBuffer.fillStyle = "black";
 	this.ctxBuffer.strokeStyle = "white";
 	this.ctxBuffer.font = "12pt Arial";
-	var content = "Score: " + score + "pt Recorde: " + MAX_SCORE + "pt"; 
+	var content = "Score: " + score + "pt Recorde: " + MAX_SCORE + "pt";
 	this.ctxBuffer.fillText(content, 12, 24);
-		
 	this.ctxBuffer.restore();
 	//Aplica Buffer Secundario no Principal
 	this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);

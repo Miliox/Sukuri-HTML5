@@ -11,8 +11,7 @@ var MAX_SCORE = 0;
 var display;
 var worman;
 var refreshCode;
-var food; 
-
+var food;
 
 function registerRefresh(){
 	return window.setInterval("refresh()", 1000 / FPS);
@@ -26,11 +25,11 @@ function gameOver() {
 function refresh(){
 	//Movimenta Minhoca
 	worman.moveCabeca();
-	
+
 	//Atualiza Estado da Comida
 	food.duration--;
 	if(food.duration < 0){
-		
+
 		if(food.visible){
 			food.randomTime(5);
 			food.visible = false;
@@ -49,14 +48,14 @@ function refresh(){
 		food.visible = false;
 		food.randomTime(5);
 		food.randomPosition();
-		
+
 		//Verifica se Ultrapassou o Recorde
 		if (worman.score > MAX_SCORE){
 			//alert("Novo Recorde:\n" + worman.score +" pontos");
 			MAX_SCORE = worman.score;
 		}
 	}
-	else {	
+	else {
 		worman.removeCauda();
 	}
 
@@ -72,7 +71,7 @@ function refresh(){
 			gameOver();
 		}
 	}
-	
+
 	//Renderiza a Tela
 	display.render(worman.corpo, food, worman.score);
 }
@@ -88,7 +87,7 @@ function gameInit(){
 		worman = new Worm ([new Vector(4, 3),new Vector(3, 3),new Vector(2, 3),new Vector(1, 3)], 3);
 		food = new Diamond(5/*Frames*/);
 		display.render(worman.corpo,food, worman.score);
-		
+
 		//Registra LoopGame
 		refreshCode = registerRefresh();
 		//Registra Input Listener
@@ -103,7 +102,7 @@ function gameInit(){
 
 function keyboardInput(event){
 	var teclado = {up:38, down: 40, left: 37, right: 39, plus: 107, minus: 109};
-	
+
 	switch (event.keyCode){
 		//Player controls
 		case teclado.up:
@@ -141,7 +140,7 @@ function keyboardInput(event){
 			refreshCode = registerRefresh();
 			break;
 		//Outros
-			
+
 		default:
 			break;
 	}
