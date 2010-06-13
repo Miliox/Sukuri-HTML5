@@ -34,6 +34,7 @@ function refresh(){
 		}
 		else{
 			food.randomPosition();
+			food.randomStyle();
 			food.randomTime(400);
 			food.visible = true;
 		}

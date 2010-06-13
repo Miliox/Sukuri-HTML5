@@ -37,7 +37,7 @@ Graphic.prototype.render = function (corpo, food, score) {
 	//Renderiza Food
 	if (food.visible) {
 		this.ctxBuffer.beginPath();
-		this.ctxBuffer.fillStyle = "red";
+		this.ctxBuffer.fillStyle = food.style;
 		x = food.getPos().x * this.dx;
 		y = food.getPos().y * this.dy;
 		this.ctxBuffer.rect(x, y, this.dx, this.dy);
