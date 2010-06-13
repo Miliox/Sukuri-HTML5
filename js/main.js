@@ -1,4 +1,4 @@
-/* Descreve e Funcionamento do Jogo */
+/* Descreve o Funcionamento do Jogo */
 
 //Configuracoes
 var FPS = 15;
@@ -42,7 +42,7 @@ function refresh(){
 		}
 	}
 
-	//Movimenta Cauda*
+	//Cresce um pouco, se comeu
 	if (food.visible && worman.corpo[0].equals(food.pos)) {
 		worman.addScore(POINT);
 		food.visible = false;
@@ -51,7 +51,6 @@ function refresh(){
 
 		//Verifica se Ultrapassou o Recorde
 		if (worman.score > MAX_SCORE){
-			//alert("Novo Recorde:\n" + worman.score +" pontos");
 			MAX_SCORE = worman.score;
 		}
 	}
