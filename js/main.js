@@ -5,23 +5,52 @@ var display;
 var worman;
 var fps = 4;
 var refreshCode;
-var WIDTH = 128;
-var HEIGHT = 80;
+var WIDTH = 32;
+var HEIGHT = 20;
+var food = {
+	pos : new Vector (Math.round(Math.random() * WIDTH), 
+	Math.round(Math.random() * HEIGHT)),
+	duration : Math.round(Math.random() * 40),
+	visible : false
+};
 
 function refresh(){
 	
 	//Movimenta Minhoca
 	worman.moveCabeca();
-	worman.removeCauda();
-
+	//worman.removeCauda();
+	
+	food.duration--;
+	if(food.duration < 0){
+		
+		if(food.visible){
+			food.duration = Math.round(Math.random() * 40);
+			food.visible = false;
+		}
+		else{
+			food.duration = Math.round(Math.random() * 40);
+			food.pos.x = Math.round(Math.random() * WIDTH);
+			food.pos.y = Math.round(Math.random() * HEIGHT);
+			food.visible = true;
+		}
+	}	
 	//Detecta Colisao com as Paredes
 	if(worman.corpo[0].x >= WIDTH || worman.corpo[0].x < 0 ||
 	worman.corpo[0].y >= HEIGHT || worman.corpo[0].y < 0){
 		worman.restart();
 	}
 	
+	if(food.visible && worman.corpo[0].equals(food.pos)){
+		food.visible = false;
+		food.duration = Math.round(Math.random() * 40);
+		food.pos.x = Math.round(Math.random() * WIDTH);
+		food.pos.y = Math.round(Math.random() * HEIGHT);
+	}
+	else{
+		worman.removeCauda();
+	}	
 	//Renderiza a Tela
-	display.render(worman.corpo);
+	display.render(worman.corpo, food);
 }
 
 function gameInit(){
@@ -32,7 +61,7 @@ function gameInit(){
 		display = new Graphic(document.getElementById('nibbles'), WIDTH, HEIGHT);
 		worman = new Worm ([new Vector(4, 3),new Vector(3, 3),
 				new Vector(2, 3),new Vector(1, 3)], 3);
-		display.render(worman.corpo);
+		display.render(worman.corpo,food);
 		refreshCode = window.setInterval("refresh()", 1000 / fps);
 		
 		//Evento
