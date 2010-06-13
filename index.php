@@ -5,6 +5,7 @@
 		<title>NibblesCanvas</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<script type="text/javascript" src="js/Vector.js"></script>
+		<script type="text/javascript" src="js/Diamond.js"></script>
 		<script type="text/javascript" src="js/Worm.js"></script>
 		<script type="text/javascript" src="js/Graphic.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>

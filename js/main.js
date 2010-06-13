@@ -3,16 +3,11 @@
 */
 var display;
 var worman;
-var fps = 4;
+var fps = 15;
 var refreshCode;
 var WIDTH = 32;
 var HEIGHT = 20;
-var food = {
-	pos : new Vector (Math.round(Math.random() * WIDTH), 
-	Math.round(Math.random() * HEIGHT)),
-	duration : Math.round(Math.random() * 40),
-	visible : false
-};
+var food = new Diamond(WIDTH, HEIGHT, 5);
 
 function refresh(){
 	
@@ -24,13 +19,12 @@ function refresh(){
 	if(food.duration < 0){
 		
 		if(food.visible){
-			food.duration = Math.round(Math.random() * 40);
+			food.randomTime(5);
 			food.visible = false;
 		}
 		else{
-			food.duration = Math.round(Math.random() * 40);
-			food.pos.x = Math.round(Math.random() * WIDTH);
-			food.pos.y = Math.round(Math.random() * HEIGHT);
+			food.randomPosition();
+			food.randomTime(400);
 			food.visible = true;
 		}
 	}	
@@ -42,9 +36,8 @@ function refresh(){
 	
 	if(food.visible && worman.corpo[0].equals(food.pos)){
 		food.visible = false;
-		food.duration = Math.round(Math.random() * 40);
-		food.pos.x = Math.round(Math.random() * WIDTH);
-		food.pos.y = Math.round(Math.random() * HEIGHT);
+		food.randomTime(5);
+		food.randomPosition();
 	}
 	else{
 		worman.removeCauda();
