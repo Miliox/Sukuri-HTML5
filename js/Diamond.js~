@@ -1,7 +1,6 @@
 function Diamond (time){
-	//Coordenadas
+	//Coordenadas na Matriz
 	this.pos = new Vector(0,0);
-	//Inicia numa Posicao e em tempo aleatorio
 	this.randomPosition();
 	this.randomTime(time);
 	

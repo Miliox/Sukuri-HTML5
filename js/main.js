@@ -11,7 +11,7 @@ var MAX_SCORE = 0;
 var display;
 var worman;
 var refreshCode;
-var food = new Diamond(WIDTH, HEIGHT, 5);
+var food = new Diamond(5/*Frames*/);
 
 
 function registerRefresh(){

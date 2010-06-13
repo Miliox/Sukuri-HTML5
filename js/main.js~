@@ -1,4 +1,4 @@
-/* Descreve o Funcionamento do Jogo */
+/* Descreve e Funcionamento do Jogo */
 
 //Configuracoes
 var FPS = 15;
@@ -11,7 +11,7 @@ var MAX_SCORE = 0;
 var display;
 var worman;
 var refreshCode;
-var food = new Diamond(WIDTH, HEIGHT, 5);
+var food = new Diamond(5/*Frames*/);
 
 
 function registerRefresh(){
@@ -51,7 +51,7 @@ function refresh(){
 	}
 	
 	//Movimenta Cauda*
-	if (food.visible && worman.corpo[0].equals(food.pos)) {
+	if (food.visible && worman.corpo[0].equals(food.getPos())) {
 		worman.addScore(POINT);
 		food.visible = false;
 		food.randomTime(5);
