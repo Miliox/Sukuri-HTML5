@@ -45,12 +45,14 @@ Graphic.prototype.render = function (corpo, food, score) {
 	}
 	//Renderiza Score
 	this.ctxBuffer.fillStyle = "black";
+	this.ctxBuffer.strokeStyle = "white";
 	this.ctxBuffer.font = "12pt Arial";
-	this.ctxBuffer.fillText("Score: " + score, 12 , 24);
+	var content = "Score: " + score + "pt Recorde: " + MAX_SCORE + "pt"; 
+	this.ctxBuffer.fillText(content, 12, 24);
 		
 	this.ctxBuffer.restore();
 	//Aplica Buffer Secundario no Principal
 	this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
-		//clearRect(0, 0, this.canvas.width, this.canvas.weight);
 	this.ctx.drawImage(this.canvasBuffer,0,0);
 };
+
