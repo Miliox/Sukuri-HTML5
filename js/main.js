@@ -17,6 +17,7 @@ function registerRefresh(){
 	return window.setInterval("refresh()", 1000 / FPS);
 }
 
+//GameLoop
 function refresh(){
 	//Movimenta Minhoca
 	worman.moveCabeca();
@@ -70,7 +71,7 @@ function refresh(){
 	display.render(worman.corpo, food, worman.score);
 }
 
-//GameLoop
+
 function gameInit(){
 	if (!Graphic || !Vector || !Worm || !Diamond) {
 		//Aguarda ate que as Classes estejam carregadas
