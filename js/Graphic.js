@@ -46,7 +46,9 @@ Graphic.prototype.render = function (corpo, food, score) {
 	this.ctxBuffer.fillStyle = "black";
 	this.ctxBuffer.strokeStyle = "white";
 	this.ctxBuffer.font = "12pt Arial";
-	var content = "Score: " + score + "pt Recorde: " + MAX_SCORE + "pt";
+	var content = "Score: " + score + "pt ";
+	content += "Recorde: " + MAX_SCORE + "pt ";
+	content += "Nivel: " + level;
 	this.ctxBuffer.fillText(content, 12, 24);
 	this.ctxBuffer.restore();
 	//Aplica Buffer Secundario no Principal
