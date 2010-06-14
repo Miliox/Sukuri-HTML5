@@ -50,6 +50,16 @@ Graphic.prototype.render = function (corpo, food, score) {
 	content += "Recorde: " + MAX_SCORE + "pt ";
 	content += "Nivel: " + level;
 	this.ctxBuffer.fillText(content, 12, 24);
+
+	//Renderiza Propaganda
+	//this.ctxBuffer.textAlign("center");
+	this.ctxBuffer.textAlign = 'center';
+	this.ctxBuffer.textBaseline = 'middle';
+	this.ctxBuffer.fillText("Sucuri Prototipo",(this.canvasBuffer.width / 2), 12);
+	this.ctxBuffer.textAlign = 'end';
+	this.ctxBuffer.font = "8pt Arial";
+	this.ctxBuffer.fillText("\u00A9POWERED BY LABORATÓRIO DE PÓS GRADUAÇÃO",
+			this.canvasBuffer.width - 10, this.canvasBuffer.height - 10);
 	this.ctxBuffer.restore();
 	//Aplica Buffer Secundario no Principal
 	this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
