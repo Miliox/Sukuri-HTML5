@@ -1,7 +1,8 @@
 /* Descreve o Funcionamento do Jogo */
 
 //Configuracoes
-var FPS = 15;
+var defaultFPS = 7;
+var FPS = defaultFPS;
 var WIDTH = 32;
 var HEIGHT = 20;
 var POINT = 100;
@@ -12,6 +13,7 @@ var display;
 var worman;
 var refreshCode;
 var food;
+var ate = 0;
 
 function registerRefresh(){
 	return window.setInterval("refresh()", 1000 / FPS);
@@ -44,6 +46,12 @@ function refresh(){
 		food.visible = false;
 		food.randomTime(5);
 		food.randomPosition();
+		ate++;
+		if (ate % 5 == 0) {
+			FPS++;
+			window.clearInterval(refreshCode);
+			refreshCode = registerRefresh();	
+		}
 
 		//Verifica se Ultrapassou o Recorde
 		if (worman.score > MAX_SCORE){
@@ -95,6 +103,12 @@ function gameInit(){
 	}
 }
 function gameOver() {
+	//Restaura Velocidade Inicial
+	ate = 0;
+	FPS = defaultFPS;
+	window.clearInterval(refreshCode);
+	refreshCode = registerRefresh();
+	//Reinicia minhoca
 	worman.restart();
 	worman.resetScore();
 }
@@ -124,7 +138,7 @@ function keyboardInput(event){
 				worman.direcao = 3;
 			}
 			break;
-		//Mudar Velocidade
+		/* //Mudar Velocidade
 		case teclado.plus:
 			fps++;
 			window.clearInterval(refreshCode);
@@ -138,7 +152,7 @@ function keyboardInput(event){
 			window.clearInterval(refreshCode);
 			refreshCode = registerRefresh();
 			break;
-		//Outros
+		//Outros*/
 
 		default:
 			break;
