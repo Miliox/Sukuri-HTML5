@@ -17,11 +17,6 @@ function registerRefresh(){
 	return window.setInterval("refresh()", 1000 / FPS);
 }
 
-function gameOver() {
-	worman.restart();
-	worman.resetScore();
-}
-//GameLoop
 function refresh(){
 	//Movimenta Minhoca
 	worman.moveCabeca();
@@ -75,6 +70,7 @@ function refresh(){
 	display.render(worman.corpo, food, worman.score);
 }
 
+//GameLoop
 function gameInit(){
 	if (!Graphic || !Vector || !Worm || !Diamond) {
 		//Aguarda ate que as Classes estejam carregadas
@@ -97,7 +93,10 @@ function gameInit(){
 		}
 	}
 }
-
+function gameOver() {
+	worman.restart();
+	worman.resetScore();
+}
 
 function keyboardInput(event){
 	var teclado = {up:38, down: 40, left: 37, right: 39, plus: 107, minus: 109};
