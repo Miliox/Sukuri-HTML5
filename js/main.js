@@ -124,22 +124,22 @@ function keyboardInput(event){
 		//Player controls
 		case teclado.up:
 			if (worman.direcao != 1) {
-				worman.direcao = 0;
+				worman.direcaoPretendida = 0;
 			}
 			break;
 		case teclado.down:
 			if (worman.direcao != 0) {
-				worman.direcao = 1;
+				worman.direcaoPretendida = 1;
 			}
 			break;
 		case teclado.left:
 			if (worman.direcao != 3) {
-				worman.direcao = 2;
+				worman.direcaoPretendida = 2;
 			}
 			break;
 		case teclado.right:
 			if (worman.direcao != 2) {
-				worman.direcao = 3;
+				worman.direcaoPretendida = 3;
 			}
 			break;
 		/* //Mudar Velocidade

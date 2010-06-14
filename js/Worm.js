@@ -22,18 +22,22 @@ Worm.prototype.removeCauda = function (){
 	this.corpo.pop();
 };
 Worm.prototype.moveCabeca = function (){
-	switch (this.direcao)
+	switch (this.direcaoPretendida)
 	{
 		case 0: /*UP*/
+			this.direcao = 0;
 			this.corpo.unshift( this.corpo[0].add(new Vector(0,-1)));
 			break;
 		case 1: /*DOWN*/
+			this.direcao = 1;
 			this.corpo.unshift( this.corpo[0].add(new Vector(0,1)));
 			break;
 		case 2: /*LEFT*/
+			this.direcao = 2;
 			this.corpo.unshift( this.corpo[0].add(new Vector(-1,0)));
 			break;
 		case 3: /*RIGHT*/
+			this.direcao = 3;
 			this.corpo.unshift( this.corpo[0].add(new Vector(1,0)));
 			break;
 	}
@@ -49,6 +53,6 @@ Worm.prototype.restart = function (){
 		};
 		return body;
 	}(this.corpoInicial);
-
+	this.direcaoPretendida = this.direcaoInicial;
 	this.direcao = this.direcaoInicial;
 };
