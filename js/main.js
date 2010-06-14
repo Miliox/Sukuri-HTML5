@@ -11,8 +11,8 @@ var MAX_SCORE = 0;
 //Game variables
 var display;
 var worman;
-var refreshCode;
 var food;
+var refreshCode;
 var ate = 0;
 var level = 1;
 
@@ -142,22 +142,6 @@ function keyboardInput(event){
 				worman.direcaoPretendida = 3;
 			}
 			break;
-		/* //Mudar Velocidade
-		case teclado.plus:
-			FPS++;
-			window.clearInterval(refreshCode);
-			refreshCode = registerRefresh();
-			break;
-		case teclado.minus:
-			if(FPS <= 1){
-				break;
-			}
-			FPS--;
-			window.clearInterval(refreshCode);
-			refreshCode = registerRefresh();
-			break;
-		//Outros*/
-
 		default:
 			break;
 	}
