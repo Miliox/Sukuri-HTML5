@@ -1,6 +1,6 @@
 /* Classe Graphic: Manipula o Canvas */
 
-function Graphic(canvas, divx, divy){
+function Graphic(canvas, tileX, tileY){
 	//Buffer Principal
 	this.canvas = canvas;
 	this.ctx = this.canvas.getContext('2d');
@@ -11,13 +11,12 @@ function Graphic(canvas, divx, divy){
 	this.ctxBuffer = this.canvasBuffer.getContext('2d');
 
 	//Metricas
-	this.div = new Vector(divx,divy);
-	this.dx = this.canvas.width / this.div.x;
-	this.dy = this.canvas.height / this.div.y;
+	this.TILEWIDTH = this.canvas.width / tileX;
+	this.TILEHEIGHT = this.canvas.height / tileY;
 
 }
 
-Graphic.prototype.render = function (corpo, food, score) {
+Graphic.prototype.render = function (worms, food, MAX_SCORE) {
 	this.ctxBuffer.save();
 
 	//Limpa Buffer
@@ -26,10 +25,10 @@ Graphic.prototype.render = function (corpo, food, score) {
 	var x, y;
 	//Renderiza Worm
 	this.ctxBuffer.beginPath();
-	for(var i = 0;i <  corpo.length; i++){
-		x = corpo[i].x * this.dx;
-		y = corpo[i].y * this.dy;
-		this.ctxBuffer.rect(x, y, this.dx, this.dy);
+	for(var i = 0;i <  worms[0].corpo.length; i++){
+		x = worms[0].corpo[i].x * this.TILEWIDTH;
+		y = worms[0].corpo[i].y * this.TILEHEIGHT;
+		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
 	}
 	this.ctxBuffer.fill();
 
@@ -37,9 +36,9 @@ Graphic.prototype.render = function (corpo, food, score) {
 	if (food.visible) {
 		this.ctxBuffer.beginPath();
 		this.ctxBuffer.fillStyle = food.style;
-		x = food.getPos().x * this.dx;
-		y = food.getPos().y * this.dy;
-		this.ctxBuffer.rect(x, y, this.dx, this.dy);
+		x = food.getPos().x * this.TILEWIDTH;
+		y = food.getPos().y * this.TILEHEIGHT;
+		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
 		this.ctxBuffer.fill();
 	}
 	//Renderiza Score
@@ -55,7 +54,7 @@ Graphic.prototype.render = function (corpo, food, score) {
 	//this.ctxBuffer.textAlign("center");
 	this.ctxBuffer.textAlign = 'center';
 	this.ctxBuffer.textBaseline = 'middle';
-	this.ctxBuffer.fillText("Sucuri Prototipo",(this.canvasBuffer.width / 2), 12);
+	this.ctxBuffer.fillText("SUKURI 0.01",(this.canvasBuffer.width / 2), 12);
 	this.ctxBuffer.textAlign = 'end';
 	this.ctxBuffer.font = "8pt Arial";
 	this.ctxBuffer.fillText("\u00A9POWERED BY LABORATÓRIO DE PÓS GRADUAÇÃO",

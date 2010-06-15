@@ -1,6 +1,9 @@
-function Diamond (time){
+function Diamond (time, width, height) {
 	//Coordenadas
 	this.pos = new Vector(0,0);
+	//Metricas
+	this.WIDTH = width;
+	this.HEIGHT = height;
 	//Inicia numa Posicao e em tempo aleatorio
 	this.randomPosition();
 	this.randomTime(time);
@@ -10,8 +13,8 @@ function Diamond (time){
 }
 
 Diamond.prototype.randomPosition = function () {
-	this.pos.x = Math.floor(Math.random() * WIDTH);
-	this.pos.y = Math.floor(Math.random() * HEIGHT);
+	this.pos.x = Math.floor(Math.random() * this.WIDTH);
+	this.pos.y = Math.floor(Math.random() * this.HEIGHT);
 };
 
 Diamond.prototype.randomTime = function (time) {
