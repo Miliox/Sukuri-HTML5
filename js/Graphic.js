@@ -16,7 +16,7 @@ function Graphic(canvas, tileX, tileY){
 
 }
 
-Graphic.prototype.render = function (worms, food, MAX_SCORE) {
+Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	this.ctxBuffer.save();
 
 	//Limpa Buffer
@@ -45,7 +45,7 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE) {
 	this.ctxBuffer.fillStyle = "black";
 	this.ctxBuffer.strokeStyle = "white";
 	this.ctxBuffer.font = "12pt Arial";
-	var content = "Score: " + score + "pt ";
+	var content = "Score: " + worms[0].score + "pt ";
 	content += "Recorde: " + MAX_SCORE + "pt ";
 	content += "Nivel: " + level;
 	this.ctxBuffer.fillText(content, 12, 24);

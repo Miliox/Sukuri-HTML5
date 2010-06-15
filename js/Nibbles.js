@@ -67,7 +67,8 @@ Nibbles.prototype.loopGame = function () {
 	}
 
 
-	for (worm in this.worms) {
+	for (i=0;i < this.worms.length;i++) {
+		worm = this.worms[i];
 		//Movimenta minhoca
 		worm.moveCabeca();
 
@@ -96,10 +97,10 @@ Nibbles.prototype.loopGame = function () {
 		}
 
 		//Detecta Colisao com as Paredes
-		if(this.worm.corpo[0].x >= this.WIDTH ||
-		this.worm.corpo[0].x < 0 ||
-		this.worm.corpo[0].y >= HEIGHT ||
-		this.worm.corpo[0].y < 0){
+		if(worm.corpo[0].x >= this.WIDTH ||
+		worm.corpo[0].x < 0 ||
+		worm.corpo[0].y >= this.HEIGHT ||
+		worm.corpo[0].y < 0){
 			this.gameOver();
 		}
 
@@ -107,11 +108,11 @@ Nibbles.prototype.loopGame = function () {
 		for(i = 1; i < worm.corpo.length; i++){
 			if (worm.corpo[0].equals(worm.corpo[i])) {
 				this.gameOver();
-		 	}
+			}
 		}
 	}//for in worms
 	//Renderiza a Tela
-	this.display.render(worms, food);
+	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };
 
 Nibbles.prototype.keyboardInput = function (event) {
@@ -145,5 +146,6 @@ Nibbles.prototype.keyboardInput = function (event) {
 };
 
 Nibbles.prototype.registerLoopGame = function () {
-	this.loopCode = window.setInterval(this.loopGame, 1000 / this.fps);
+	self = this;
+	this.loopCode = window.setInterval("game.loopGame()", 1000 / this.fps);
 };
