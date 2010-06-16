@@ -116,6 +116,5 @@ Nibbles.prototype.loopGame = function () {
 
 
 Nibbles.prototype.registerLoopGame = function () {
-	self = this;
 	this.loopCode = window.setInterval("game.loopGame()", 1000 / this.fps);
 };
