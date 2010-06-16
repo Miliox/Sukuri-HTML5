@@ -1,54 +1,52 @@
 /* Descreve o Funcionamento do Jogo */
 
-var game;
+var game;	//solucao temporaria para BUG001
 
 function menu() {
 	var canvas = document.getElementById('nibbles');
 	var ctx = canvas.getContext('2d');
 
 	ctx.save();
-	//Background
+	//background
 	ctx.fillStyle = "green";
 	ctx.fillRect(0,0, canvas.width, canvas.height);
 
-	//Title
+	//title
 	ctx.font = '54pt Georgia';
 	ctx.textBaseline = 'middle';
 	ctx.textAlign = 'center';
-	ctx.fillStyle = 'white';	
+	ctx.fillStyle = 'white';
 	ctx.fillText('SUKURI', canvas.width / 2, canvas.height / 2);
 	ctx.strokeStyle = 'black';
 	ctx.strokeText('SUKURI', canvas.width / 2, canvas.height / 2);
-	
-	//Start Button
-	ctx.font = '16pt Tahoma';
+
+	//start Button
+	ctx.font = 'bold 16pt Tahoma';
 	ctx.fillText('START', canvas.width / 2, (canvas.height / 2) + 150);
 	ctx.fillText('START', canvas.width / 2, (canvas.height / 2) + 150);
-	ctx.font = '12pt Tahoma';	
+	ctx.font = '12pt Tahoma';
 	ctx.fillText('- Press Enter -', canvas.width / 2, (canvas.height / 2) + 180);
 
-	//Creditos
+	//creditos
 	ctx.font = '10pt Times New Roman';
 	ctx.fillText('\u00A9 Laboratorio de Pós Graduação', canvas.width / 2, (canvas.height / 2) + 230);
-	
-	//Versao
+
+	//versao
 	ctx.textAlign = 'end';
-	ctx.fillText('v.01a', canvas.width - 5, canvas.height -5);
+	ctx.fillText('v.0.01a', canvas.width - 5, canvas.height -5);
 	ctx.restore();
 
-	//Inicio
+	//aguarda o apertar o enter
 	if (!document.addEventListener && document.attachEvent){
 		document.attachEvent('onkeydown', waitEnter);
 	} else {
 		window.addEventListener('keydown', waitEnter, true);
 	}
-	
 }
 
 function waitEnter (event) {
-
 	switch (event.keyCode){
-		//Player controls
+		//player controls
 		case 13: //Enter
 			window.removeEventListener('keydown', waitEnter, true);
 			gameInit();
@@ -88,7 +86,7 @@ function gameInit(){
 
 function keyboardInput (event) {
 	var teclado = {up:38, down: 40, left: 37, right: 39, plus: 107, minus: 109};
-	
+
 	switch (event.keyCode){
 		//Player controls
 		case teclado.up:

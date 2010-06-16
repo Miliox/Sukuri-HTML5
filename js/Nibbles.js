@@ -7,7 +7,7 @@ function Nibbles(canvas, worms) {
 	this.HEIGHT = 40;
 	this.POINT = 100;
 	this.DEFAULTFPS = 7;
-	this.INCFPS = 1;
+	this.INCFPS = 3;
 
 	//Game Objects
 	this.display = new Graphic(canvas, this.WIDTH, this.HEIGHT);
@@ -19,9 +19,9 @@ function Nibbles(canvas, worms) {
 	this.level = 1;
 	this.maxScore = 0;
 	this.fps = this.DEFAULTFPS;
-	
-	//Sound Effect
-	this.eatSound = new Audio("audio/beep-21.ogg");	
+
+	//Sound Effect - only Firefox
+	this.eatSound = new Audio("audio/beep-21.ogg");
 
 	//ID do Evento
 	this.loopCode = null;
