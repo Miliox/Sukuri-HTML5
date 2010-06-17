@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>SUKURI 0.01</title>
+		<title>SUKURI 0.02</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<script type="text/javascript" src="js/Vector.js"></script>
 		<script type="text/javascript" src="js/Diamond.js"></script>
