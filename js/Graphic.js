@@ -80,11 +80,12 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	//Renderiza Propaganda
 	this.ctxBuffer.textAlign = 'center';
 	this.ctxBuffer.textBaseline = 'middle';
-	this.ctxBuffer.fillText("SUKURI 0.018a",(this.canvasBuffer.width / 2), 12);
+	this.ctxBuffer.fillText("SUKURI",(this.canvasBuffer.width / 2), 12);
 	this.ctxBuffer.textAlign = 'end';
 	this.ctxBuffer.font = "8pt Arial";
 	this.ctxBuffer.fillText("\u00A9POWERED BY LABORATÓRIO DE PÓS GRADUAÇÃO",
 			this.canvasBuffer.width - 10, this.canvasBuffer.height - 10);
+	this.ctxBuffer.fillText("versão: 0.02",this.canvasBuffer.width - 10, 10);
 	this.ctxBuffer.restore();
 	//Aplica Buffer Secundario no Principal
 	this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
