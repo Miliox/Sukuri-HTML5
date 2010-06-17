@@ -25,14 +25,18 @@ function Graphic(canvas, tileX, tileY){
 	this.TILEWIDTH = this.canvas.width / tileX;
 	this.TILEHEIGHT = this.canvas.height / tileY;
 
+	this.BACKGROUNDS = ["white","green","yellow","DarkSlategray", "orange"];
 }
 
 Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	this.ctxBuffer.save();
-
+	
 	//Limpa Buffer
-	this.ctxBuffer.clearRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
-
+	//this.ctxBuffer.clearRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
+	this.ctxBuffer.save();
+	this.ctxBuffer.fillStyle = this.BACKGROUNDS[(level - 1)% this.BACKGROUNDS.length];
+	this.ctxBuffer.fillRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
+	this.ctxBuffer.restore();
 	var x, y;
 	this.ctxBuffer.beginPath();
 	//Renderiza Worms
