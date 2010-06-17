@@ -12,14 +12,13 @@ function Nibbles(canvas, worms) {
 	//Game Objects
 
 	this.map = new Matriz(this.WIDTH, this.HEIGHT, 0);
-
 	this.display = new Graphic(canvas, this.WIDTH, this.HEIGHT);
 	this.worms = worms;	//Array de Worms
 	this.food = new Diamond(5, this.WIDTH, this.HEIGHT);
-	
-	//Registra posicoes no map	
+
+	//Registra posicoes no map
 	for(line = 0; line < this.worms.length; line++){
-		this.map.atribPositions(worms[line].corpo, line + 1)	
+		this.map.atribPositions(worms[line].corpo, line + 1);
 	}
 
 	//Game Variables
@@ -67,6 +66,11 @@ Nibbles.prototype.loopGame = function () {
 			this.food.randomPosition();
 			this.food.randomStyle();
 			this.food.randomTime(400);
+			while(this.map.getCell(this.food.getPos()) != 0){
+				//ja esta ocupada esta casa
+				//crie em outra posicao
+				this.food.randomPosition(400);
+			}
 			this.food.visible = true;
 		}
 	}
@@ -75,7 +79,7 @@ Nibbles.prototype.loopGame = function () {
 	for (i=0;i < this.worms.length;i++) {
 		worm = this.worms[i];
 		//Movimenta minhoca
-		head = worm.moveCabeca();  
+		head = worm.moveCabeca();
 		//this.map.atribCell(head); -- Aguarda a Verificacao de Colisao
 		//Cresce um pouco, se comeu
 		if (this.food.visible && worm.corpo[0].equals(this.food.pos)) {
