@@ -83,7 +83,9 @@ function gameInit(){
 
 function keyboardInput (event) {
 	var teclado = {up:38, down: 40, left: 37, right: 39};
-
+	
+	game.inputRegister(event.keyCode);
+	/*
 	switch (event.keyCode){
 		//Player controls
 		case teclado.up:
@@ -108,6 +110,6 @@ function keyboardInput (event) {
 			break;
 		default:
 			break;
-	}
+	}*/
 };
 window.onload = menu;

@@ -75,3 +75,32 @@ Worm.prototype.dieAndReborn = function (){
 	return dead;
 };
 
+Worm.prototype.inputProcess = function (inputList){
+	var teclado = {up:38, down: 40, left: 37, right: 39};
+	
+	for(var i = 0;i < inputList.length;i++){
+		switch (inputList[i]){
+			//Player controls
+			case teclado.up:
+				if (this.direcao != 1) {
+					this.direcaoPretendida = 0;
+				}
+				break;
+			case teclado.down:
+				if (this.direcao != 0) {
+					this.direcaoPretendida = 1;
+				}
+				break;
+			case teclado.left:
+				if (this.direcao != 3) {
+					this.direcaoPretendida = 2;
+				}
+				break;
+			case teclado.right:
+				if (this.direcao != 2) {
+					this.direcaoPretendida = 3;
+				}
+				break;
+		}//switch
+	}//for
+};
