@@ -43,12 +43,12 @@ function Nibbles(canvas, worms) {
 }
 
 Nibbles.prototype.start = function () {
-		//Registra LoopGame
+		//registra LoopGame
 		this.registerLoopGame();
 
 };
 Nibbles.prototype.end = function () {
-	//Restaura Velocidade Inicial
+	//restaura velocidade inicial
 	this.level = 0;
 	this.ate = 0;
 	this.fps = this.DEFAULTFPS;
@@ -60,9 +60,15 @@ Nibbles.prototype.end = function () {
 	}
 };
 
+Nibbles.prototype.reviveWorm = function (worm, valor){
+	var body = worm.dieAndReborn();
+	this.map.clearPositions(body);
+	this.map.atribPositions(worm.corpo, valor+1);
+};
+
 Nibbles.prototype.loopGame = function () {
 	var worm, i, j;
-	var deadBody, head;
+	var tail, head;
 
 	//processa a comida
 	this.food.duration--;
@@ -76,6 +82,7 @@ Nibbles.prototype.loopGame = function () {
 			//exibe comida
 			this.food.randomStyle();
 			this.food.randomTime(400);
+			this.food.randomType();
 			this.food.randomPosition();
 			while(this.map.getCell(this.food.getPos()) != 0){
 				//posicao ocupada, crie em outra posicao
@@ -94,40 +101,48 @@ Nibbles.prototype.loopGame = function () {
 
 		//detecta colisao com a comida
 		if (this.food.visible && worm.corpo[0].equals(this.food.getPos())) {
-			worm.addScore(this.POINT);
-			this.eatSound.play();
+			if(this.food.poison == false){
+				//cresce um pouco
+				this.eatSound.play();	
+				worm.addScore(this.POINT);
+				this.ate++;
+
+				//verifica se passou pro proximo level
+				if (this.ate % 5 == 0) {
+					this.level++;
+					this.fps += this.INCFPS;
+					window.clearInterval(this.loopCode);
+					this.registerLoopGame();
+				}
+
+				//verifica se ultrapassou o recorde
+				if (worm.score > this.maxScore){
+					this.maxScore = worm.score;
+				}
+			}
+			else {	
+				//morre envenenado
+				this.reviveWorm(worm,i);
+			}
+
+			//apaga comida
 			this.food.visible = false;
 			this.food.randomTime(5);
 			this.food.randomPosition();
-			this.ate++;
-
-			//verifica se passou pro proximo level
-			if (this.ate % 5 == 0) {
-				this.level++;
-				this.fps += this.INCFPS;
-				window.clearInterval(this.loopCode);
-				this.registerLoopGame();
-			}
-
-			//verifica se ultrapassou o recorde
-			if (worm.score > this.maxScore){
-				this.maxScore = worm.score;
-			}
 		}
-		else {
-			deadBody = worm.removeCauda();
-			this.map.clearCell(deadBody);
+		else { 
+			//move-se normalmente
+			tail = worm.removeCauda();
+			this.map.clearCell(tail);
 		}
-
 		//detecta colisao
 		if(this.map.getCell(head) == 0){
+			//nao colidiu
 			this.map.atribCell(head);
 		}
 		else {
-			deadBody = worm.dieAndReborn();
-			this.map.clearPositions(deadBody);
-			worm.reborn();
-			this.map.atribPositions(worm.corpo, i + 1);
+			//colidiu
+			this.reviveWorm(worm,i);
 		}
 	}//for in worms
 	this.inputs = [];

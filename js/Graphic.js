@@ -58,6 +58,9 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 		y = food.getPos().y * this.TILEHEIGHT;
 		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
 		this.ctxBuffer.fill();
+		if(food.poison){
+			this.ctxBuffer.stroke();
+		}
 	}
 	//Renderiza Score
 	this.ctxBuffer.fillStyle = "black";
@@ -71,7 +74,6 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	this.ctxBuffer.fillText(content, 5, 25);
 
 	//Renderiza Propaganda
-	//this.ctxBuffer.textAlign("center");
 	this.ctxBuffer.textAlign = 'center';
 	this.ctxBuffer.textBaseline = 'middle';
 	this.ctxBuffer.fillText("SUKURI 0.018a",(this.canvasBuffer.width / 2), 12);

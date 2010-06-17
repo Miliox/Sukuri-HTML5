@@ -7,7 +7,8 @@ function Diamond (time, width, height) {
 	//Inicia numa Posicao e em tempo aleatorio
 	this.randomPosition();
 	this.randomTime(time);
-	this.randomStyle;
+	this.randomStyle();
+	this.randomType();
 
 	this.visible = false;
 }
@@ -29,4 +30,16 @@ Diamond.prototype.randomStyle = function () {
 
 Diamond.prototype.getPos = function (){
 	return this.pos;
+};
+
+Diamond.prototype.randomType = function () {
+	var prob = 0.85;
+	var rand = Math.random();
+
+	if (prob < rand){
+		this.poison = true;
+	}
+	else {
+		this.poison = false;
+	}
 };
