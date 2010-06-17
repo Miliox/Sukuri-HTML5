@@ -1,5 +1,12 @@
 /* Descreve o Funcionamento do Jogo */
-
+/*
+ *Classe Nibbles:
+ *	Nibbles(canvas, worms): Construtor
+ *	start(): Inicia o jogo
+ *	end(): Encerra o jogo retorna a tela inicial
+ *	loopGame(): Loop de execucao do jogo
+ *	registerLoopGame(): adiciona o loopGame no event listener
+ */
 //Game Nibbles
 function Nibbles(canvas, worms) {
 	//Game Constants
@@ -39,7 +46,7 @@ Nibbles.prototype.start = function () {
 		this.registerLoopGame();
 
 };
-Nibbles.prototype.gameOver = function () {
+Nibbles.prototype.end = function () {
 	//Restaura Velocidade Inicial
 	this.level = 0;
 	this.ate = 0;
@@ -133,8 +140,6 @@ Nibbles.prototype.loopGame = function () {
 	//Renderiza a Tela
 	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };
-
-
 
 Nibbles.prototype.registerLoopGame = function () {
 	this.loopCode = window.setInterval("game.loopGame()", 1000 / this.fps);

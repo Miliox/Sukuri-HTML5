@@ -1,4 +1,15 @@
-/* Classe Graphic: Manipula o Canvas */
+/*	Atributos:
+ *		HTMLCanvasElement canvas:
+ *		CanvasRenderingContext2D ctx:
+ *		HTMLCanvasElement canvasBuffer: 
+ *		CanvasRenderingContext2D ctxBuffer:
+ *		TILEWIDTH:	dimensao horizontal base
+ *		TILEHEIGHT:	dimensao vertical base
+ *	Classe Graphic:
+ *		Graphic(HTMLCanvasElement canvas, Number tileX, Number tileY):
+ *		render(Array<Worm> worms,Diamond food, Number MAX_SCORE, Number level);
+ *
+ */
 
 function Graphic(canvas, tileX, tileY){
 	//Buffer Principal
@@ -23,18 +34,21 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	this.ctxBuffer.clearRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
 
 	var x, y;
-	//Renderiza Worm
 	this.ctxBuffer.beginPath();
-	for(var i = 0;i <  worms[0].corpo.length; i++){
-		x = worms[0].corpo[i].x * this.TILEWIDTH;
-		y = worms[0].corpo[i].y * this.TILEHEIGHT;
-		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
+	//Renderiza Worms
+	for(var j = 0;j < worms.length; j++){
+		//renderiza um worm por vez
+		for(var i = 0;i <  worms[j].corpo.length; i++){
+			x = worms[j].corpo[i].x * this.TILEWIDTH;
+			y = worms[j].corpo[i].y * this.TILEHEIGHT;
+			this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
+		}
 	}
 	this.ctxBuffer.fill();
 
 	//Renderiza Food
+	this.ctxBuffer.beginPath();
 	if (food.visible) {
-		this.ctxBuffer.beginPath();
 		this.ctxBuffer.fillStyle = food.style;
 		x = food.getPos().x * this.TILEWIDTH;
 		y = food.getPos().y * this.TILEHEIGHT;

@@ -52,7 +52,7 @@ function waitEnter (event) {
 			gameInit();
 			break;
 		}
-};
+}
 
 function gameInit(){
 	/*Execute o Jogo*/
@@ -67,14 +67,10 @@ function gameInit(){
 	}
 	else {
 		//Inicializa Jogo
-		game = new Nibbles( document.getElementById('nibbles'),
-				[new Worm ([new Vector(4, 3),
-					new Vector(3, 3),
-					new Vector(2, 3),
-					new Vector(1, 3)],
-					3)]);
+		var w0 = new Worm([new Vector(4,3),new Vector(3,3),new Vector(2,3),new Vector(1,3)],3);
+		var w1 = new Worm([new Vector(52,38),new Vector(53,38),new Vector(54,38),new Vector(55,38)],2);
+		game = new Nibbles(document.getElementById('nibbles'),[w0,w1]);
 		//Registra Controle
-		//Registra Input Listener
 		if (!document.addEventListener && document.attachEvent){
 			document.attachEvent('onkeydown', keyboardInput);
 		} else {
@@ -86,7 +82,7 @@ function gameInit(){
 }
 
 function keyboardInput (event) {
-	var teclado = {up:38, down: 40, left: 37, right: 39, plus: 107, minus: 109};
+	var teclado = {up:38, down: 40, left: 37, right: 39};
 
 	switch (event.keyCode){
 		//Player controls

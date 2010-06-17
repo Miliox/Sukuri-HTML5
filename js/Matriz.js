@@ -1,3 +1,13 @@
+/* Classe que representa matricialmente a fase
+ *
+ * 	Matriz(Number width, Number height, Number valorInicial): Construtor
+ *
+ * 	clearPositions(Array<Vector> lista): aplica o valor padrao as celulas presentes no Array lista
+ * 	clearCell(Vector cell): aplica o valor padrao a uma unica celula na matriz
+ * 	atribPositions(Array<Vector> lista, Number value): aplica as celulas indicadas no Array lista, o valor de value
+ * 	atribCell(Vector cell, Number value):	aplica na celula da matriz o valor indicado em value
+ * 	
+ */
 function Matriz (width, height, valorInicial){
 	//Metricas	
 	this.LINES = height;
