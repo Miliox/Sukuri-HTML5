@@ -60,7 +60,8 @@ function gameInit(){
 		Nibbles === undefined ||
 		Vector === undefined||
 		Worm === undefined ||
-		Diamond === undefined) {
+		Diamond === undefined ||
+		Matriz === undefined) {
 		//Aguarda ate que as Classes estejam carregadas
 		window.setTimeOut(gameInit, 150);
 	}

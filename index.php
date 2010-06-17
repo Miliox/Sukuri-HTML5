@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="js/Vector.js"></script>
 		<script type="text/javascript" src="js/Diamond.js"></script>
 		<script type="text/javascript" src="js/Worm.js"></script>
+		<script type="text/javascript" src="js/Matriz.js"></script>
 		<script type="text/javascript" src="js/Graphic.js"></script>
 		<script type="text/javascript" src="js/Nibbles.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>

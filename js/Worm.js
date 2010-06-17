@@ -19,28 +19,34 @@ Worm.prototype.resetScore = function () {
 
 //Movimentacao do Corpo
 Worm.prototype.removeCauda = function (){
-	this.corpo.pop();
+	return this.corpo.pop();
 };
 Worm.prototype.moveCabeca = function (){
-	switch (this.direcaoPretendida)
+	var head;
+	switch (this.direcaoPretendida)	
 	{
 		case 0: /*UP*/
 			this.direcao = 0;
-			this.corpo.unshift( this.corpo[0].add(new Vector(0,-1)));
+			head = this.corpo[0].add(new Vector(0,-1))
+			this.corpo.unshift(head);			
 			break;
 		case 1: /*DOWN*/
 			this.direcao = 1;
-			this.corpo.unshift( this.corpo[0].add(new Vector(0,1)));
+			head = this.corpo[0].add(new Vector(0,1));
+			this.corpo.unshift(head);
 			break;
 		case 2: /*LEFT*/
 			this.direcao = 2;
-			this.corpo.unshift( this.corpo[0].add(new Vector(-1,0)));
+			head = this.corpo[0].add(new Vector(-1,0))
+			this.corpo.unshift(head);
 			break;
 		case 3: /*RIGHT*/
 			this.direcao = 3;
-			this.corpo.unshift( this.corpo[0].add(new Vector(1,0)));
+			head = this.corpo[0].add(new Vector(1,0))
+			this.corpo.unshift(head);
 			break;
 	}
+	return head;
 };
 
 //Reinicia a minhoca
@@ -56,3 +62,16 @@ Worm.prototype.restart = function (){
 	this.direcaoPretendida = this.direcaoInicial;
 	this.direcao = this.direcaoInicial;
 };
+
+Worm.prototype.dieAndReborn = function (){
+	var dead;	
+	//Restaura Velocidade Inicial
+	dead = this.corpo;
+
+	//Revive
+	this.restart();
+	this.resetScore();
+
+	return dead;
+};
+

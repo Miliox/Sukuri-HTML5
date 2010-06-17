@@ -10,9 +10,17 @@ function Nibbles(canvas, worms) {
 	this.INCFPS = 3;
 
 	//Game Objects
+
+	this.map = new Matriz(this.WIDTH, this.HEIGHT, 0);
+
 	this.display = new Graphic(canvas, this.WIDTH, this.HEIGHT);
 	this.worms = worms;	//Array de Worms
 	this.food = new Diamond(5, this.WIDTH, this.HEIGHT);
+	
+	//Registra posicoes no map	
+	for(line = 0; line < this.worms.length; line++){
+		this.map.atribPositions(worms[line].corpo, line + 1)	
+	}
 
 	//Game Variables
 	this.ate = 0;
@@ -37,16 +45,16 @@ Nibbles.prototype.gameOver = function () {
 	this.level = 0;
 	this.ate = 0;
 	this.fps = this.DEFAULTFPS;
-	window.clearInterval(this.loopCode);
+	//window.clearInterval(this.loopCode);
 	this.registerLoopGame();
 	//Reinicia minhoca
-	this.worms[0].restart();
-	this.worms[0].resetScore();
+	//this.worms[0].restart();
+	//this.worms[0].resetScore();
 };
 
 Nibbles.prototype.loopGame = function () {
-	var worm, i;
-
+	var worm, i, j;
+	var deadBody, head;
 	//Atualiza Estado da Comida
 	this.food.duration--;
 	if(this.food.duration < 0){
@@ -67,8 +75,8 @@ Nibbles.prototype.loopGame = function () {
 	for (i=0;i < this.worms.length;i++) {
 		worm = this.worms[i];
 		//Movimenta minhoca
-		worm.moveCabeca();
-
+		head = worm.moveCabeca();  
+		//this.map.atribCell(head); -- Aguarda a Verificacao de Colisao
 		//Cresce um pouco, se comeu
 		if (this.food.visible && worm.corpo[0].equals(this.food.pos)) {
 			worm.addScore(this.POINT);
@@ -91,22 +99,31 @@ Nibbles.prototype.loopGame = function () {
 			}
 		}
 		else {
-			worm.removeCauda();
+			deadBody = worm.removeCauda();
+			this.map.clearCell(deadBody);
 		}
 
 		//Detecta Colisao com as Paredes
-		if(worm.corpo[0].x >= this.WIDTH ||
+		/*if(worm.corpo[0].x >= this.WIDTH ||
 		worm.corpo[0].x < 0 ||
 		worm.corpo[0].y >= this.HEIGHT ||
 		worm.corpo[0].y < 0){
-			this.gameOver();
-		}
+			deadBody = worm.dieAndReborn();
+			this.map.clearPositions(deadBody);
+			worm.reborn();
+			this.map.atribPositions(worm.corpo, i + 1);			
+			//this.gameOver();
+		}*/
 
 		//Detecta Colisao com o corpo
-		for(i = 1; i < worm.corpo.length; i++){
-			if (worm.corpo[0].equals(worm.corpo[i])) {
-				this.gameOver();
-			}
+		if(this.map.getCell(head) == 0){
+			this.map.atribCell(head)
+		}
+		else {
+			deadBody = worm.dieAndReborn();
+			this.map.clearPositions(deadBody);
+			worm.reborn();
+			this.map.atribPositions(worm.corpo, i + 1);
 		}
 	}//for in worms
 	//Renderiza a Tela
