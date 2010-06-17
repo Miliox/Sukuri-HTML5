@@ -6,8 +6,9 @@
  * 	clearCell(Vector cell): aplica o valor padrao a uma unica celula na matriz
  * 	atribPositions(Array<Vector> lista, Number value): aplica as celulas indicadas no Array lista, o valor de value
  * 	atribCell(Vector cell, Number value):	aplica na celula da matriz o valor indicado em value
- * 	
+ * 	getCell(Vector cell): Obtem o valor na posicao da matriz indicada pelo vetor cell
  */
+
 function Matriz (width, height, valorInicial){
 	//Metricas	
 	this.LINES = height;
@@ -15,7 +16,7 @@ function Matriz (width, height, valorInicial){
 
 	//Valor
 	this.DEFAULTVALUE = valorInicial;
-
+	this.WALLVALUE = -1;
 	this.matriz = new Array(this.LINES);
 	
 	//Inicializa Matriz
@@ -60,7 +61,7 @@ Matriz.prototype.isValidPos = function (cell) {
 	if(cell.x >= this.COLUMS || cell.x < 0 ||
 		cell.y >= this.LINES || cell.y < 0) {
 			return false;
-		}
+	}
 	return true;
 };
 
@@ -69,6 +70,6 @@ Matriz.prototype.getCell = function (cell) {
 		return this.matriz[cell.y][cell.x];
 	}
 	else {
-		return -1;
+		return this.WALLVALUE;
 	}
 };

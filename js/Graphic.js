@@ -70,7 +70,7 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	//this.ctxBuffer.textAlign("center");
 	this.ctxBuffer.textAlign = 'center';
 	this.ctxBuffer.textBaseline = 'middle';
-	this.ctxBuffer.fillText("SUKURI 0.01",(this.canvasBuffer.width / 2), 12);
+	this.ctxBuffer.fillText("SUKURI 0.018a",(this.canvasBuffer.width / 2), 12);
 	this.ctxBuffer.textAlign = 'end';
 	this.ctxBuffer.font = "8pt Arial";
 	this.ctxBuffer.fillText("\u00A9POWERED BY LABORATÓRIO DE PÓS GRADUAÇÃO",

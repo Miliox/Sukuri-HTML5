@@ -33,7 +33,7 @@ function menu() {
 
 	//versao
 	ctx.textAlign = 'end';
-	ctx.fillText('v.0.01a', canvas.width - 5, canvas.height -5);
+	ctx.fillText('v.0.018a', canvas.width - 5, canvas.height -5);
 	ctx.restore();
 
 	//aguarda o apertar o enter
@@ -83,34 +83,6 @@ function gameInit(){
 }
 
 function keyboardInput (event) {
-	var teclado = {up:38, down: 40, left: 37, right: 39};
-	
 	game.inputRegister(event.keyCode);
-	/*
-	switch (event.keyCode){
-		//Player controls
-		case teclado.up:
-			if (game.worms[0].direcao != 1) {
-				game.worms[0].direcaoPretendida = 0;
-			}
-			break;
-		case teclado.down:
-			if (game.worms[0].direcao != 0) {
-				game.worms[0].direcaoPretendida = 1;
-			}
-			break;
-		case teclado.left:
-			if (game.worms[0].direcao != 3) {
-				game.worms[0].direcaoPretendida = 2;
-			}
-			break;
-		case teclado.right:
-			if (game.worms[0].direcao != 2) {
-				game.worms[0].direcaoPretendida = 3;
-			}
-			break;
-		default:
-			break;
-	}*/
 };
 window.onload = menu;

@@ -8,6 +8,7 @@ function Worm(corpoInicial, direcao, teclado){
 	if(teclado !== undefined){
 		this.teclado = teclado;
 	} else {
+		//Default usar teclas direcionais
 		this.teclado = {up:38, down: 40, left: 37, right: 39};
 	}
 
