@@ -1,5 +1,5 @@
 /* Classe Worm: Minhoca no jogo Nibbles */
-function Worm(corpoInicial, direcao, teclado){
+function Worm(corpoInicial, direcao, color,teclado){
 	//Corpo e Direcoes Iniciais
 	this.corpoInicial = corpoInicial;
 	this.direcaoInicial = Math.floor(Math.abs(direcao) % 4);
@@ -11,6 +11,8 @@ function Worm(corpoInicial, direcao, teclado){
 		//Default usar teclas direcionais
 		this.teclado = {up:38, down: 40, left: 37, right: 39};
 	}
+	
+	this.color = color;
 
 	//Inicializa o Corpo
 	this.restart();

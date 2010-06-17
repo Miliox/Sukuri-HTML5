@@ -38,13 +38,17 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	//Renderiza Worms
 	for(var j = 0;j < worms.length; j++){
 		//renderiza um worm por vez
+		this.ctxBuffer.save();
+		this.ctxBuffer.beginPath();
 		for(var i = 0;i <  worms[j].corpo.length; i++){
 			x = worms[j].corpo[i].x * this.TILEWIDTH;
 			y = worms[j].corpo[i].y * this.TILEHEIGHT;
 			this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
 		}
+		this.ctxBuffer.fillStyle = worms[j].color;
+		this.ctxBuffer.fill();
+		this.ctxBuffer.restore();
 	}
-	this.ctxBuffer.fill();
 
 	//Renderiza Food
 	this.ctxBuffer.beginPath();
