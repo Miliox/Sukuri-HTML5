@@ -51,52 +51,54 @@ Nibbles.prototype.end = function () {
 	this.level = 0;
 	this.ate = 0;
 	this.fps = this.DEFAULTFPS;
-	//window.clearInterval(this.loopCode);
+	window.clearInterval(this.loopCode);
 	this.registerLoopGame();
-	//Reinicia minhoca
-	//this.worms[0].restart();
-	//this.worms[0].resetScore();
+	//reinicia todas as minhocas
+	for(var i = 0; i< worms.length; i++){
+		this.worms[i].restart();
+	}
 };
 
 Nibbles.prototype.loopGame = function () {
 	var worm, i, j;
 	var deadBody, head;
-	//Atualiza Estado da Comida
+	//atualiza timer da comida
 	this.food.duration--;
 	if(this.food.duration < 0){
-
 		if(this.food.visible){
+			//escode comida
 			this.food.randomTime(5);
 			this.food.visible = false;
 		}
 		else{
-			this.food.randomPosition();
+			//exibe comida
 			this.food.randomStyle();
 			this.food.randomTime(400);
+			this.food.randomPosition();
 			while(this.map.getCell(this.food.getPos()) != 0){
-				//ja esta ocupada esta casa
-				//crie em outra posicao
+				//posicao ocupada, crie em outra posicao
 				this.food.randomPosition(400);
 			}
 			this.food.visible = true;
 		}
-	}
+	}//if food
 
 
 	for (i=0;i < this.worms.length;i++) {
 		worm = this.worms[i];
-		//Movimenta minhoca
+
 		head = worm.moveCabeca();
-		//this.map.atribCell(head); -- Aguarda a Verificacao de Colisao
-		//Cresce um pouco, se comeu
-		if (this.food.visible && worm.corpo[0].equals(this.food.pos)) {
+
+		//detecta colisao com a comida
+		if (this.food.visible && worm.corpo[0].equals(this.food.getPos())) {
 			worm.addScore(this.POINT);
 			this.eatSound.play();
 			this.food.visible = false;
 			this.food.randomTime(5);
 			this.food.randomPosition();
 			this.ate++;
-			//Verifica se passou pro proximo Nivel
+
+			//verifica se passou pro proximo level
 			if (this.ate % 5 == 0) {
 				this.level++;
 				this.fps += this.INCFPS;
@@ -104,7 +106,7 @@ Nibbles.prototype.loopGame = function () {
 				this.registerLoopGame();
 			}
 
-			//Verifica se Ultrapassou o Recorde
+			//verifica se ultrapassou o recorde
 			if (worm.score > this.maxScore){
 				this.maxScore = worm.score;
 			}
@@ -114,21 +116,9 @@ Nibbles.prototype.loopGame = function () {
 			this.map.clearCell(deadBody);
 		}
 
-		//Detecta Colisao com as Paredes
-		/*if(worm.corpo[0].x >= this.WIDTH ||
-		worm.corpo[0].x < 0 ||
-		worm.corpo[0].y >= this.HEIGHT ||
-		worm.corpo[0].y < 0){
-			deadBody = worm.dieAndReborn();
-			this.map.clearPositions(deadBody);
-			worm.reborn();
-			this.map.atribPositions(worm.corpo, i + 1);			
-			//this.gameOver();
-		}*/
-
-		//Detecta Colisao com o corpo
+		//detecta colisao
 		if(this.map.getCell(head) == 0){
-			this.map.atribCell(head)
+			this.map.atribCell(head);
 		}
 		else {
 			deadBody = worm.dieAndReborn();
@@ -137,6 +127,7 @@ Nibbles.prototype.loopGame = function () {
 			this.map.atribPositions(worm.corpo, i + 1);
 		}
 	}//for in worms
+
 	//Renderiza a Tela
 	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };

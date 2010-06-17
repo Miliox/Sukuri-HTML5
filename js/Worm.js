@@ -23,12 +23,12 @@ Worm.prototype.removeCauda = function (){
 };
 Worm.prototype.moveCabeca = function (){
 	var head;
-	switch (this.direcaoPretendida)	
+	switch (this.direcaoPretendida)
 	{
 		case 0: /*UP*/
 			this.direcao = 0;
 			head = this.corpo[0].add(new Vector(0,-1))
-			this.corpo.unshift(head);			
+			this.corpo.unshift(head);
 			break;
 		case 1: /*DOWN*/
 			this.direcao = 1;
