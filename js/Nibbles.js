@@ -6,6 +6,7 @@
  *	end(): Encerra o jogo retorna a tela inicial
  *	loopGame(): Loop de execucao do jogo
  *	registerLoopGame(): adiciona o loopGame no event listener
+ *	inputRegister(code): registra o valor de caracter do teclado
  */
 //Game Nibbles
 function Nibbles(canvas, worms) {
@@ -62,7 +63,8 @@ Nibbles.prototype.end = function () {
 Nibbles.prototype.loopGame = function () {
 	var worm, i, j;
 	var deadBody, head;
-	//atualiza timer da comida
+
+	//processa a comida
 	this.food.duration--;
 	if(this.food.duration < 0){
 		if(this.food.visible){
@@ -83,9 +85,10 @@ Nibbles.prototype.loopGame = function () {
 		}
 	}//if food
 
-
+	//processa os worms
 	for (i=0;i < this.worms.length;i++) {
 		worm = this.worms[i];
+
 		worm.inputProcess(this.inputs);
 		head = worm.moveCabeca();
 
@@ -128,6 +131,7 @@ Nibbles.prototype.loopGame = function () {
 		}
 	}//for in worms
 	this.inputs = [];
+
 	//Renderiza a Tela
 	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };
