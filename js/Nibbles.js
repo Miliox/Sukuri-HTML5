@@ -42,11 +42,7 @@ function Nibbles(canvas, worms) {
 	this.loopCode = null;
 }
 
-Nibbles.prototype.start = function () {
-		//registra LoopGame
-		this.registerLoopGame();
-
-};
+Nibbles.prototype.start = function () {	this.registerLoopGame(); };
 Nibbles.prototype.end = function () {
 	//restaura velocidade inicial
 	this.level = 0;
@@ -67,16 +63,16 @@ Nibbles.prototype.reviveWorm = function (worm, valor){
 };
 
 Nibbles.prototype.loopGame = function () {
-	var worm, i, j;
-	var tail, head;
+	var worm, head, tail;
+	var i, j;
 
 	//processa a comida
 	this.food.duration--;
 	if(this.food.duration < 0){
-		if(this.food.visible){
+		if(this.food.isVisible()){
 			//escode comida
 			this.food.randomTime(5);
-			this.food.visible = false;
+			this.food.setInvisible();
 		}
 		else{
 			//exibe comida
@@ -88,7 +84,7 @@ Nibbles.prototype.loopGame = function () {
 				//posicao ocupada, crie em outra posicao
 				this.food.randomPosition(400);
 			}
-			this.food.visible = true;
+			this.food.setVisible()
 		}
 	}//if food
 
@@ -100,10 +96,10 @@ Nibbles.prototype.loopGame = function () {
 		head = worm.moveCabeca();
 
 		//detecta colisao com a comida
-		if (this.food.visible && worm.corpo[0].equals(this.food.getPos())) {
-			if(this.food.poison == false){
+		if (this.food.isVisible() && head.equals(this.food.getPos())) {
+			if(!this.food.isToxic()){
 				//cresce um pouco
-				this.eatSound.play();	
+				this.eatSound.play();
 				worm.addScore(this.POINT);
 				this.ate++;
 
@@ -120,7 +116,7 @@ Nibbles.prototype.loopGame = function () {
 					this.maxScore = worm.score;
 				}
 			}
-			else {	
+			else {
 				//morre envenenado
 				this.reviveWorm(worm,i);
 			}
@@ -130,7 +126,7 @@ Nibbles.prototype.loopGame = function () {
 			this.food.randomTime(5);
 			this.food.randomPosition();
 		}
-		else { 
+		else {
 			//move-se normalmente
 			tail = worm.removeCauda();
 			this.map.clearCell(tail);

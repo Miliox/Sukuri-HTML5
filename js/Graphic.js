@@ -30,9 +30,8 @@ function Graphic(canvas, tileX, tileY){
 
 Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	this.ctxBuffer.save();
-	
+
 	//Limpa Buffer
-	//this.ctxBuffer.clearRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
 	this.ctxBuffer.save();
 	this.ctxBuffer.fillStyle = this.BACKGROUNDS[(level - 1)% this.BACKGROUNDS.length];
 	this.ctxBuffer.fillRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
@@ -62,7 +61,7 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 		y = food.getPos().y * this.TILEHEIGHT;
 		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
 		this.ctxBuffer.fill();
-		if(food.poison){
+		if(food.isToxic()){
 			this.ctxBuffer.stroke();
 		}
 	}
