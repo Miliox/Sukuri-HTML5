@@ -24,14 +24,10 @@ function Worm(corpoInicial, direcao, color,teclado){
 Worm.prototype.addScore = function (point) {
 	this.score += point;
 };
-Worm.prototype.resetScore = function () {
-	this.score = 0;
-};
+Worm.prototype.resetScore = function () { this.score = 0; };
 
 //Movimentacao do Corpo
-Worm.prototype.removeCauda = function (){
-	return this.corpo.pop();
-};
+Worm.prototype.removeCauda = function (){ return this.corpo.pop(); };
 Worm.prototype.moveCabeca = function (){
 	var head;
 	switch (this.direcaoPretendida)
@@ -75,7 +71,7 @@ Worm.prototype.restart = function (){
 };
 
 Worm.prototype.dieAndReborn = function (){
-	var dead;	
+	var dead;
 	//Restaura Velocidade Inicial
 	dead = this.corpo;
 
@@ -87,7 +83,6 @@ Worm.prototype.dieAndReborn = function (){
 };
 
 Worm.prototype.inputProcess = function (inputList){
-
 	for(var i = 0;i < inputList.length;i++){
 		switch (inputList[i]){
 			//Player controls

@@ -95,7 +95,7 @@ Graphic.prototype.renderBufferScore = function (i, score, position) {
 	this.ctxBuffer.save();
 	this.setBufferTextFormat('start','alphabetic','8pt Verdana');
 	this.ctxBuffer.fillStyle = "black";
-	this.ctxBuffer.fillText(text_score, position, this.canvasBuffer.height - 10);
+	this.ctxBuffer.fillText(text_score, position, this.canvasBuffer.height - 5);
 
 	this.ctxBuffer.restore();
 };

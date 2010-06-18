@@ -26,7 +26,7 @@ function Nibbles(canvas, worms) {
 
 	//Registra posicoes no map
 	for(line = 0; line < this.worms.length; line++){
-		this.map.atribPositions(worms[line].corpo, line + 1);
+		this.map.setPositions(worms[line].corpo, line + 1);
 	}
 
 	//Game Variables
@@ -48,7 +48,7 @@ Nibbles.prototype.end = function () {
 	this.level = 0;
 	this.ate = 0;
 	this.fps = this.DEFAULTFPS;
-	window.clearInterval(this.loopCode);
+	this.unregisterLoopGame();
 	this.registerLoopGame();
 	//reinicia todas as minhocas
 	for(var i = 0; i< worms.length; i++){
@@ -59,9 +59,8 @@ Nibbles.prototype.end = function () {
 Nibbles.prototype.reviveWorm = function (worm, valor){
 	var body = worm.dieAndReborn();
 	this.map.clearPositions(body);
-	this.map.atribPositions(worm.corpo, valor+1);
+	this.map.setPositions(worm.corpo, valor+1);
 };
-
 Nibbles.prototype.loopGame = function () {
 	var worm, head, tail;
 	var i, j;
@@ -107,7 +106,7 @@ Nibbles.prototype.loopGame = function () {
 				if (this.ate % 5 == 0) {
 					this.level++;
 					this.fps += this.INCFPS;
-					window.clearInterval(this.loopCode);
+					this.unregisterLoopGame();
 					this.registerLoopGame();
 				}
 
@@ -122,7 +121,7 @@ Nibbles.prototype.loopGame = function () {
 			}
 
 			//apaga comida
-			this.food.visible = false;
+			this.food.setInvisible();
 			this.food.randomTime(5);
 			this.food.randomPosition();
 		}
@@ -134,7 +133,7 @@ Nibbles.prototype.loopGame = function () {
 		//detecta colisao
 		if(this.map.getCell(head) == 0){
 			//nao colidiu
-			this.map.atribCell(head);
+			this.map.setCell(head);
 		}
 		else {
 			//colidiu
@@ -146,11 +145,12 @@ Nibbles.prototype.loopGame = function () {
 	//Renderiza a Tela
 	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };
-
 Nibbles.prototype.registerLoopGame = function () {
 	this.loopCode = window.setInterval("game.loopGame()", 1000 / this.fps);
 };
-
+Nibbles.prototype.unregisterLoopGame = function (){
+	window.clearInterval(this.loopCode);
+};
 Nibbles.prototype.inputRegister = function (code) {
 	this.inputs.push(code);
 };

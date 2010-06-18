@@ -18,7 +18,7 @@ function Matriz (width, height, valorInicial){
 	this.DEFAULTVALUE = valorInicial;
 	this.WALLVALUE = -1;
 	this.matriz = new Array(this.LINES);
-	
+
 	//Inicializa Matriz
 	var lin, col;
 	for(lin = 0; lin < this.matriz.length; lin++) {
@@ -43,15 +43,15 @@ Matriz.prototype.clearCell = function (cell){
 	}
 };
 
-Matriz.prototype.atribPositions = function (lista, value) {
+Matriz.prototype.setPositions = function (lista, value) {
 	var cell, i;
 	for(i = 0; i < lista.length; i++) {
 		cell = lista[i];
-		this.atribCell(cell, value);
+		this.setCell(cell, value);
 	}
 };
 
-Matriz.prototype.atribCell = function (cell, value){
+Matriz.prototype.setCell = function (cell, value){
 	if(this.isValidPos(cell)) {
 		this.matriz[cell.y][cell.x] = value;
 	}
