@@ -9,7 +9,6 @@ function Diamond (time, width, height) {
 	this.randomTime(time);
 	this.randomStyle();
 	this.randomType();
-
 	this.setInvisible();
 }
 
@@ -28,9 +27,6 @@ Diamond.prototype.randomStyle = function () {
 	this.style = "rgb("+r +","+g+","+b+")";
 };
 
-Diamond.prototype.getPos = function (){
-	return this.pos;
-};
 
 Diamond.prototype.randomType = function () {
 	var prob = 0.85;
@@ -48,3 +44,4 @@ Diamond.prototype.isToxic = function () { return this.toxic; };
 Diamond.prototype.isVisible = function () { return this.visible };
 Diamond.prototype.setVisible = function () { this.visible = true; };
 Diamond.prototype.setInvisible = function () { this.visible = false; };
+Diamond.prototype.getPos = function () { return this.pos; };

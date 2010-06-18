@@ -148,9 +148,5 @@ Nibbles.prototype.loopGame = function () {
 Nibbles.prototype.registerLoopGame = function () {
 	this.loopCode = window.setInterval("game.loopGame()", 1000 / this.fps);
 };
-Nibbles.prototype.unregisterLoopGame = function (){
-	window.clearInterval(this.loopCode);
-};
-Nibbles.prototype.inputRegister = function (code) {
-	this.inputs.push(code);
-};
+Nibbles.prototype.unregisterLoopGame = function (){ window.clearInterval(this.loopCode); };
+Nibbles.prototype.inputRegister = function (code) { this.inputs.push(code); };

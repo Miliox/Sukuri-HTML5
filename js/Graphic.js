@@ -43,7 +43,7 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	}
 	//renderiza scores
 	for(var i = 0;i < worms.length; i++){
-		this.renderBufferScore(i+1, worms[i].score, (i * 125)+ 10);
+		this.renderBufferScore(i+1, worms[i].score, worms[i].color, (i * 125)+ 10);
 	}
 	this.renderBufferLevel(level);
 	this.renderBufferRecord(MAX_SCORE);
@@ -53,6 +53,7 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	this.renderBufferCopyright();
 	this.renderBufferVersion("0.02");
 
+	//aplica no canvas principal
 	this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 	this.ctx.drawImage(this.canvasBuffer,0,0);
 };
@@ -89,12 +90,12 @@ Graphic.prototype.renderBufferDiamond = function (food){
 	}
 	this.ctxBuffer.restore();
 };
-Graphic.prototype.renderBufferScore = function (i, score, position) {
-	var text_score = "Worm_" + i + ": " + score + "pt ";
+Graphic.prototype.renderBufferScore = function (i, score, color, position) {
+	var text_score = "Worm" + i + ": " + score + "pt ";
 
 	this.ctxBuffer.save();
 	this.setBufferTextFormat('start','alphabetic','8pt Verdana');
-	this.ctxBuffer.fillStyle = "black";
+	this.ctxBuffer.fillStyle = color;
 	this.ctxBuffer.fillText(text_score, position, this.canvasBuffer.height - 5);
 
 	this.ctxBuffer.restore();
