@@ -43,7 +43,7 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	}
 	//renderiza scores
 	for(var i = 0;i < worms.length; i++){
-		this.renderBufferScore(i+1, worms[i].score, worms[i].color, (i * 125)+ 10);
+		this.renderBufferScore(i+1, worms[i].score, worms[i].color, (i * 125)+5);
 	}
 	this.renderBufferLevel(level);
 	this.renderBufferRecord(MAX_SCORE);
@@ -102,21 +102,21 @@ Graphic.prototype.renderBufferScore = function (i, score, color, position) {
 };
 Graphic.prototype.renderBufferTitle = function (text) {
 	this.ctxBuffer.save();
-	this.setBufferTextFormat('center','top','12pt Arial');
-	this.ctxBuffer.fillText(text,(this.canvasBuffer.width / 2), 12);
+	this.setBufferTextFormat('center','top','bold 12pt Georgia');
+	this.ctxBuffer.fillText(text,(this.canvasBuffer.width / 2), 5);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferCopyright = function (){
 	var copyright = "\u00A9POWERED BY LABORATÓRIO DE PÓS GRADUAÇÃO";
 	this.ctxBuffer.save();
 	this.setBufferTextFormat('end','bottom','8pt Arial');
-	this.ctxBuffer.fillText(copyright,this.canvasBuffer.width, this.canvasBuffer.height);
+	this.ctxBuffer.fillText(copyright,this.canvasBuffer.width - 5, this.canvasBuffer.height - 5);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferVersion = function (version) {
 	this.ctxBuffer.save();
-	this.setBufferTextFormat('end','middle','8pt Arial');
-	this.ctxBuffer.fillText("v." + version,this.canvasBuffer.width - 10, 10);
+	this.setBufferTextFormat('end','top','8pt Arial');
+	this.ctxBuffer.fillText("v." + version,this.canvasBuffer.width - 5, 5);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferLevel = function (level){
