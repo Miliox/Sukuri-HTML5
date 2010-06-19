@@ -20,7 +20,14 @@ function Nibbles(canvas, worms) {
 	//Game Objects
 
 	this.map = new Matriz(this.WIDTH, this.HEIGHT, 0);
-	this.map.setCell(new Vector(Math.floor(this.WIDTH / 2), Math.floor(this.HEIGHT / 2)), -1);
+	//----------------Gerar Posicoes Aleatórias---------------------
+	var x, y;
+	for(var i = 0; i < 40; i++) {
+		x = Math.floor(Math.random() * this.WIDTH);
+		y = Math.floor(Math.random() * this.HEIGHT);
+		this.map.setCell(new Vector(x, y), -1);
+	}
+	//----------------------------------------
 	this.display = new Graphic(canvas, this.WIDTH, this.HEIGHT, this.map);
 	this.worms = worms;	//Array de Worms
 	this.food = new Diamond(5, this.WIDTH, this.HEIGHT);
