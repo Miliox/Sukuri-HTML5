@@ -148,7 +148,8 @@ Nibbles.prototype.loopGame = function () {
 	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };
 Nibbles.prototype.registerLoopGame = function () {
-	this.loopCode = window.setInterval("game.loopGame()", 1000 / this.fps);
+	var self = this;
+	this.loopCode = window.setInterval(function () { self.loopGame(); }, 1000 / this.fps);
 };
 Nibbles.prototype.unregisterLoopGame = function (){ window.clearInterval(this.loopCode); };
 Nibbles.prototype.inputRegister = function (code) { this.inputs.push(code); };
