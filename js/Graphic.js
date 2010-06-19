@@ -40,7 +40,7 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 
 	this.renderBufferBackground(level - 1);
 	//renderiza paredes - pre-renderizado
-	this.ctx.drawImage(this.canvasBufferWalls,0,0);
+	this.ctxBuffer.drawImage(this.canvasBufferWalls,0,0);
 
 	//renderiza worms
 	for(var i = 0;i < worms.length; i++){
@@ -83,8 +83,8 @@ Graphic.prototype.renderBufferWalls = function(matriz){
 	};
 	for(y = 0; y < this.TILESY; y++){
 		for(x = 0; x < this.TILESX; x++) {
-			if(matriz.getCell(new Vector(x, y) < 0)){
-				ctx.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
+			if(matriz.getCell(new Vector(x, y)) < 0){
+				ctx.rect(x * this.TILEWIDTH, y * this.TILEHEIGHT, this.TILEWIDTH, this.TILEHEIGHT);
 			}
 		}
 	}

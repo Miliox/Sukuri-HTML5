@@ -20,7 +20,8 @@ function Nibbles(canvas, worms) {
 	//Game Objects
 
 	this.map = new Matriz(this.WIDTH, this.HEIGHT, 0);
-	this.display = new Graphic(canvas, this.WIDTH, this.HEIGHT);
+	this.map.setCell(new Vector(Math.floor(this.WIDTH / 2), Math.floor(this.HEIGHT / 2)), -1);
+	this.display = new Graphic(canvas, this.WIDTH, this.HEIGHT, this.map);
 	this.worms = worms;	//Array de Worms
 	this.food = new Diamond(5, this.WIDTH, this.HEIGHT);
 
@@ -93,7 +94,8 @@ Nibbles.prototype.loopGame = function () {
 		worm = this.worms[i];
 
 		worm.inputProcess(this.inputs);
-		head = worm.moveCabeca();
+		head = worm.newHeadPosition();
+		//head = worm.moveCabeca();
 
 		//detecta colisao com a comida
 		if (this.food.isVisible() && head.equals(this.food.getPos())) {
@@ -135,6 +137,7 @@ Nibbles.prototype.loopGame = function () {
 		//detecta colisao
 		if(this.map.getCell(head) == 0){
 			//nao colidiu
+			worm.moveCabeca(head);
 			this.map.setCell(head);
 		}
 		else {

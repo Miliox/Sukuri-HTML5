@@ -28,34 +28,32 @@ Worm.prototype.resetScore = function () { this.score = 0; };
 
 //Movimentacao do Corpo
 Worm.prototype.removeCauda = function (){ return this.corpo.pop(); };
-Worm.prototype.moveCabeca = function (){
-	var head;
+Worm.prototype.moveCabeca = function (head){
+	this.direcao = this.direcaoPretendida;
+	this.corpo.unshift(head);
+};
+Worm.prototype.newHeadPosition = function (){
+	var vetorUnit;
 	switch (this.direcaoPretendida)
 	{
 		case 0: /*UP*/
-			this.direcao = 0;
-			head = this.corpo[0].add(new Vector(0,-1))
-			this.corpo.unshift(head);
+			vetorUnit = new Vector(0,-1);
 			break;
 		case 1: /*DOWN*/
-			this.direcao = 1;
-			head = this.corpo[0].add(new Vector(0,1));
-			this.corpo.unshift(head);
+			vetorUnit = new Vector(0,1);
 			break;
 		case 2: /*LEFT*/
-			this.direcao = 2;
-			head = this.corpo[0].add(new Vector(-1,0))
-			this.corpo.unshift(head);
+			vetorUnit = new Vector(-1,0);
 			break;
 		case 3: /*RIGHT*/
-			this.direcao = 3;
-			head = this.corpo[0].add(new Vector(1,0))
-			this.corpo.unshift(head);
+			vetorUnit = new Vector(1,0);
+			break;
+		default :
+			vetorUnit = new Vector(0,0);
 			break;
 	}
-	return head;
+	return this.corpo[0].add(vetorUnit);
 };
-
 //Reinicia a minhoca
 Worm.prototype.restart = function (){
 	this.corpo = function(corpoInicial){
