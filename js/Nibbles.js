@@ -35,8 +35,8 @@ function Nibbles(canvas, worms) {
 	this.maxScore = 0;
 	this.fps = this.DEFAULTFPS;
 	this.inputs = [];
-	//Sound Effect - only Firefox
-	this.eatSound = new Audio("audio/beep-21.ogg");
+	//Sound Effect - only Firefox and maybe Chrome
+	this.sound = [new Audio('audio/eat.ogg'), new Audio('audio/die.ogg')];
 
 	//ID do Evento
 	this.loopCode = null;
@@ -58,6 +58,7 @@ Nibbles.prototype.end = function () {
 
 Nibbles.prototype.reviveWorm = function (worm, valor){
 	var body = worm.dieAndReborn();
+	this.sound[1].play();
 	this.map.clearPositions(body);
 	this.map.setPositions(worm.corpo, valor+1);
 };
@@ -98,7 +99,8 @@ Nibbles.prototype.loopGame = function () {
 		if (this.food.isVisible() && head.equals(this.food.getPos())) {
 			if(!this.food.isToxic()){
 				//cresce um pouco
-				this.eatSound.play();
+				//this.eatSound.play();
+				this.sound[0].play();
 				worm.addScore(this.POINT);
 				this.ate++;
 
