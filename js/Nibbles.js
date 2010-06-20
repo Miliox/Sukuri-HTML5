@@ -103,7 +103,7 @@ Nibbles.prototype.loopGame = function () {
 	//processa os worms
 	for (i=0;i < this.worms.length;i++) {
 		worm = this.worms[i];
-		worm.inputProcess(this.inputs);
+		worm.inputProcess(this.inputs, this.map);
 		head = worm.newHeadPosition();
 		switch(this.map.getCell(head))
 		{

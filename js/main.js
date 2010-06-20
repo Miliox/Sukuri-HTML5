@@ -14,7 +14,7 @@ function gameInit(){
 	}
 	else {
 		//Inicializa Jogo
-		var w0 = new Worm([new Vector(4,3),new Vector(3,3),new Vector(2,3),new Vector(1,3)],3, "red");
+		var w0 = new WormHuman([new Vector(4,3),new Vector(3,3),new Vector(2,3),new Vector(1,3)],3, "red");
 		//var teclado_codes_w1 = {up : 87, down : 83, left : 65, right: 68};
 		//var w1 = new Worm([new Vector(52,38),new Vector(53,38),new Vector(54,38),new Vector(55,38)],2, "blue", teclado_codes_w1);
 		game = new Nibbles(document.getElementById('nibbles'),[w0/*,w1*/]);

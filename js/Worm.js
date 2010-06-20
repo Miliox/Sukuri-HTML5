@@ -1,15 +1,8 @@
-/* Classe Worm: Minhoca no jogo Nibbles */
-function Worm(corpoInicial, direcao, color,teclado){
+//Classe Worm: SuperClasse das Classes Worms
+function Worm(corpoInicial, direcao, color){
 	//Corpo e Direcoes Iniciais
 	this.corpoInicial = corpoInicial;
 	this.direcaoInicial = Math.floor(Math.abs(direcao) % 4);
-	//Teclado Input
-	if(teclado !== undefined){
-		this.teclado = teclado;
-	} else {
-		//Default usar teclas direcionais
-		this.teclado = {up:38, down: 40, left: 37, right: 39};
-	}
 	this.color = color;
 	//Inicializa o Corpo
 	this.restart();
@@ -68,7 +61,23 @@ Worm.prototype.dieAndReborn = function (){
 	this.resetScore();
 	return dead;
 };
-Worm.prototype.inputProcess = function (inputList){
+Worm.prototype.inputProcess = function (inputList, matriz){
+	//Implementada nas subclasses
+};
+
+//WormHuman: SubClass de Worm
+function WormHuman(corpoInicial, direcao, color, teclado){
+	Worm.call(this,corpoInicial, direcao,color);
+	//Teclado Input
+	if(teclado !== undefined){
+		this.teclado = teclado;
+	} else {
+		//Default usar teclas direcionais
+		this.teclado = {up:38, down: 40, left: 37, right: 39};
+	}
+}
+WormHuman.prototype = new Worm();
+WormHuman.prototype.inputProcess = function (inputList, matriz){
 	for(var i = 0;i < inputList.length;i++){
 		switch (inputList[i]){
 			//Player controls
