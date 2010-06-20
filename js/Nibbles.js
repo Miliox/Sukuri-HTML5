@@ -70,6 +70,13 @@ Nibbles.prototype.reviveWorm = function (worm, valor){
 	this.map.clearPositions(body);
 	this.map.setPositions(worm.corpo, valor+1);
 };
+Nibbles.prototype.foundDiamond = function(head){
+	if (this.food.isVisible() && head.equals(this.food.getPos())) {
+		if(!this.food.isToxic()){ return 2; }
+		else { return 1; }
+	}
+	return 0;
+};
 Nibbles.prototype.loopGame = function () {
 	var worm, head, tail;
 	var i, j;
@@ -99,57 +106,54 @@ Nibbles.prototype.loopGame = function () {
 	//processa os worms
 	for (i=0;i < this.worms.length;i++) {
 		worm = this.worms[i];
-
 		worm.inputProcess(this.inputs);
 		head = worm.newHeadPosition();
-		//head = worm.moveCabeca();
+		switch(this.map.getCell(head))
+		{
+			case 0: //Casa Vazia
+				switch(this.foundDiamond(head)	)
+				{
+					case 2://comida normal
+						this.sound[0].play();
+						worm.addScore(this.POINT);
+						this.ate++;
+						//apaga comida
+						this.food.setInvisible();
+						this.food.randomTime(5);
+						this.food.randomPosition();
+						//verifica se passou pro proximo level
+						if (this.ate % 5 == 0) {
+							this.level++;
+							this.fps += this.INCFPS;
+							this.unregisterLoopGame();
+							this.registerLoopGame();
+						}
+						//verifica se ultrapassou o recorde
+						if (worm.score > this.maxScore){
+							this.maxScore = worm.score;
+						}
+						//cresce
+						worm.moveCabeca(head);
+						this.map.setCell(head);
+						break;
+					case 1://comida envenenada
+						//apaga comida
+						this.food.setInvisible();
+						this.food.randomTime(5);
+						this.food.randomPosition();
 
-		//detecta colisao com a comida
-		if (this.food.isVisible() && head.equals(this.food.getPos())) {
-			if(!this.food.isToxic()){
-				//cresce um pouco
-				//this.eatSound.play();
-				this.sound[0].play();
-				worm.addScore(this.POINT);
-				this.ate++;
-
-				//verifica se passou pro proximo level
-				if (this.ate % 5 == 0) {
-					this.level++;
-					this.fps += this.INCFPS;
-					this.unregisterLoopGame();
-					this.registerLoopGame();
+						this.reviveWorm(worm,i);
+						break;
+					default://nao encontrou
+						tail = worm.removeCauda();
+						this.map.clearCell(tail);
+						worm.moveCabeca(head);
+						this.map.setCell(head);
 				}
-
-				//verifica se ultrapassou o recorde
-				if (worm.score > this.maxScore){
-					this.maxScore = worm.score;
-				}
-			}
-			else {
-				//morre envenenado
+				break;
+			default://Casa Ocupada
 				this.reviveWorm(worm,i);
-			}
-
-			//apaga comida
-			this.food.setInvisible();
-			this.food.randomTime(5);
-			this.food.randomPosition();
-		}
-		else {
-			//move-se normalmente
-			tail = worm.removeCauda();
-			this.map.clearCell(tail);
-		}
-		//detecta colisao
-		if(this.map.getCell(head) == 0){
-			//nao colidiu
-			worm.moveCabeca(head);
-			this.map.setCell(head);
-		}
-		else {
-			//colidiu
-			this.reviveWorm(worm,i);
+				break;
 		}
 	}//for in worms
 	this.inputs = [];
