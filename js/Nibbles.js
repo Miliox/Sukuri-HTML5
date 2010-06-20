@@ -11,8 +11,8 @@
 //Game Nibbles
 function Nibbles(canvas, worms) {
 	//Game Constants
-	this.WIDTH = 64;
-	this.HEIGHT = 40;
+	this.WIDTH = 96;
+	this.HEIGHT = 50;
 	this.POINT = 100;
 	this.DEFAULTFPS = 7;
 	this.INCFPS = 3;
@@ -22,7 +22,7 @@ function Nibbles(canvas, worms) {
 	this.map = new Matriz(this.WIDTH, this.HEIGHT, 0);
 	//----------------Gerar Posicoes Aleatórias---------------------
 	var x, y;
-	for(var i = 0; i < 40; i++) {
+	for(var i = 0; i < 70; i++) {
 		x = Math.floor(Math.random() * this.WIDTH);
 		y = Math.floor(Math.random() * this.HEIGHT);
 		this.map.setCell(new Vector(x, y), -1);
@@ -165,7 +165,6 @@ Nibbles.prototype.getMaxScore = function () {
 
 };
 Nibbles.prototype.setMaxScore = function (value) {
-
 };
 Nibbles.prototype.registerLoopGame = function () {
 	var self = this;
