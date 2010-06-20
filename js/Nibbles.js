@@ -1,4 +1,3 @@
-/* Descreve o Funcionamento do Jogo */
 /*
  *Classe Nibbles:
  *	Nibbles(canvas, worms): Construtor
@@ -50,7 +49,6 @@ function Nibbles(canvas, worms) {
 	//ID do Evento
 	this.loopCode = null;
 }
-
 Nibbles.prototype.start = function () {	this.registerLoopGame(); };
 Nibbles.prototype.end = function () {
 	//restaura velocidade inicial
@@ -64,7 +62,6 @@ Nibbles.prototype.end = function () {
 		this.worms[i].restart();
 	}
 };
-
 Nibbles.prototype.reviveWorm = function (worm, valor){
 	var body = worm.dieAndReborn();
 	this.sound[1].play();

@@ -11,8 +11,9 @@ function Diamond (time, width, height) {
 	this.setInvisible();
 }
 Diamond.prototype.randomPosition = function () {
-	this.pos.x = Math.floor(Math.random() * this.WIDTH);
-	this.pos.y = Math.floor(Math.random() * this.HEIGHT);
+	var x = Math.floor(Math.random() * this.WIDTH);
+	var y = Math.floor(Math.random() * this.HEIGHT);
+	this.setPos(new Vector(x, y));
 };
 Diamond.prototype.randomTime = function (time) {
 	this.duration = Math.round(Math.random() * time);
@@ -33,3 +34,4 @@ Diamond.prototype.isVisible = function () { return this.visible };
 Diamond.prototype.setVisible = function () { this.visible = true; };
 Diamond.prototype.setInvisible = function () { this.visible = false; };
 Diamond.prototype.getPos = function () { return this.pos; };
+Diamond.prototype.setPos = function (newPos) { this.pos = newPos; };

@@ -3,7 +3,6 @@ function Worm(corpoInicial, direcao, color,teclado){
 	//Corpo e Direcoes Iniciais
 	this.corpoInicial = corpoInicial;
 	this.direcaoInicial = Math.floor(Math.abs(direcao) % 4);
-
 	//Teclado Input
 	if(teclado !== undefined){
 		this.teclado = teclado;
@@ -11,22 +10,15 @@ function Worm(corpoInicial, direcao, color,teclado){
 		//Default usar teclas direcionais
 		this.teclado = {up:38, down: 40, left: 37, right: 39};
 	}
-	
 	this.color = color;
-
 	//Inicializa o Corpo
 	this.restart();
-	//Score Inicial
 	this.resetScore();
 }
-
-//Manipulacao da Pontuacao
 Worm.prototype.addScore = function (point) {
 	this.score += point;
 };
 Worm.prototype.resetScore = function () { this.score = 0; };
-
-//Movimentacao do Corpo
 Worm.prototype.removeCauda = function (){ return this.corpo.pop(); };
 Worm.prototype.moveCabeca = function (head){
 	this.direcao = this.direcaoPretendida;
@@ -67,19 +59,15 @@ Worm.prototype.restart = function (){
 	this.direcaoPretendida = this.direcaoInicial;
 	this.direcao = this.direcaoInicial;
 };
-
 Worm.prototype.dieAndReborn = function (){
 	var dead;
 	//Restaura Velocidade Inicial
 	dead = this.corpo;
-
 	//Revive
 	this.restart();
 	this.resetScore();
-
 	return dead;
 };
-
 Worm.prototype.inputProcess = function (inputList){
 	for(var i = 0;i < inputList.length;i++){
 		switch (inputList[i]){
