@@ -76,7 +76,16 @@ function WormHuman(corpoInicial, direcao, color, teclado){
 		this.teclado = {up:38, down: 40, left: 37, right: 39};
 	}
 }
-WormHuman.prototype = new Worm();
+
+WormHuman.prototype = new Worm([],null,null);
+delete WormHuman.prototype.corpoInicial;
+delete WormHuman.prototype.direcaoInicial;
+delete WormHuman.prototype.direcaoPretendida;
+delete WormHuman.prototype.corpo;
+delete WormHuman.prototype.color;
+delete WormHuman.prototype.direcao;
+delete WormHuman.prototype.score;
+WormHuman.prototype.constructor = WormHuman;
 WormHuman.prototype.inputProcess = function (inputList, matriz){
 	for(var i = 0;i < inputList.length;i++){
 		switch (inputList[i]){
