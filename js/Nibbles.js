@@ -41,6 +41,7 @@ function Nibbles(canvas, worms) {
 	this.ate = 0;
 	this.level = 1;
 	this.maxScore = 0;
+	loadScore();
 	this.fps = this.DEFAULTFPS;
 	this.inputs = [];
 	//Sound Effect - only Firefox and maybe Chrome
@@ -130,7 +131,7 @@ Nibbles.prototype.loopGame = function () {
 						}
 						//verifica se ultrapassou o recorde
 						if (worm.score > this.maxScore){
-							this.maxScore = worm.score;
+							loadScore(worm.score);
 						}
 						//cresce
 						worm.moveCabeca(head);

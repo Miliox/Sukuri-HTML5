@@ -29,7 +29,7 @@ Diamond.prototype.randomStyle = function () {
 
 
 Diamond.prototype.randomType = function () {
-	var prob = 0.85;
+	var prob = 0.95;
 	var rand = Math.random();
 
 	if (prob < rand){
