@@ -113,3 +113,45 @@ WormHuman.prototype.inputProcess = function (inputList, matriz){
 		}//switch
 	}//for
 };
+
+//WormBot: SubClass de Worm
+function WormBot(corpoInicial, direcao, color){
+	Worm.call(this,corpoInicial, direcao,color);
+}
+
+WormBot.prototype = new Worm([],null,null);
+delete WormBot.prototype.corpoInicial;
+delete WormBot.prototype.direcaoInicial;
+delete WormBot.prototype.direcaoPretendida;
+delete WormBot.prototype.corpo;
+delete WormBot.prototype.color;
+delete WormBot.prototype.direcao;
+delete WormBot.prototype.score;
+WormBot.prototype.constructor = WormBot;
+WormBot.prototype.inputProcess = function (inputList, matriz){
+	for(var i = 0;i < inputList.length;i++){
+		switch (inputList[i]){
+			//Player controls
+			case this.teclado.up:
+				if (this.direcao != 1) {
+					this.direcaoPretendida = 0;
+				}
+				break;
+			case this.teclado.down:
+				if (this.direcao != 0) {
+					this.direcaoPretendida = 1;
+				}
+				break;
+			case this.teclado.left:
+				if (this.direcao != 3) {
+					this.direcaoPretendida = 2;
+				}
+				break;
+			case this.teclado.right:
+				if (this.direcao != 2) {
+					this.direcaoPretendida = 3;
+				}
+				break;
+		}//switch
+	}//for
+};
