@@ -24,13 +24,13 @@ Worm.prototype.newHeadPosition = function (){
 		case 0: /*UP*/
 			vetorUnit = new Vector(0,-1);
 			break;
-		case 1: /*DOWN*/
+		case 2: /*DOWN*/
 			vetorUnit = new Vector(0,1);
 			break;
-		case 2: /*LEFT*/
+		case 3: /*LEFT*/
 			vetorUnit = new Vector(-1,0);
 			break;
-		case 3: /*RIGHT*/
+		case 1: /*RIGHT*/
 			vetorUnit = new Vector(1,0);
 			break;
 		default :
@@ -91,23 +91,23 @@ WormHuman.prototype.inputProcess = function (inputList, matriz){
 		switch (inputList[i]){
 			//Player controls
 			case this.teclado.up:
-				if (this.direcao != 1) {
+				if (this.direcao != 2) {
 					this.direcaoPretendida = 0;
 				}
 				break;
 			case this.teclado.down:
 				if (this.direcao != 0) {
-					this.direcaoPretendida = 1;
-				}
-				break;
-			case this.teclado.left:
-				if (this.direcao != 3) {
 					this.direcaoPretendida = 2;
 				}
 				break;
-			case this.teclado.right:
-				if (this.direcao != 2) {
+			case this.teclado.left:
+				if (this.direcao != 1) {
 					this.direcaoPretendida = 3;
+				}
+				break;
+			case this.teclado.right:
+				if (this.direcao != 3) {
+					this.direcaoPretendida = 1;
 				}
 				break;
 		}//switch
@@ -129,6 +129,22 @@ delete WormBot.prototype.direcao;
 delete WormBot.prototype.score;
 WormBot.prototype.constructor = WormBot;
 WormBot.prototype.inputProcess = function (inputList, matriz){
+	var nextPosition = this.newHeadPosition();
+	var valor;
+	var i = 0;
+	var cellValue = matriz.getCell(nextPosition);
+	while(cellValue < 0)
+	{
+		valor = this.direcaoPretendida + 1;
+		this.direcaoPretendida = parseInt((valor)%4);
+		nextPosition = this.newHeadPosition();
+		cellValue = matriz.getCell(nextPosition);
+		i++;
+		if(i>=4){
+			break;
+		}
+	}
+	/*
 	for(var i = 0;i < inputList.length;i++){
 		switch (inputList[i]){
 			//Player controls
@@ -153,5 +169,7 @@ WormBot.prototype.inputProcess = function (inputList, matriz){
 				}
 				break;
 		}//switch
+		
 	}//for
+	*/
 };
