@@ -125,7 +125,7 @@ Graphic.prototype.renderBufferDiamond = function (food) {
 			this.ctxBuffer.drawImage(this.DIAMOND[0], x, y, this.TILEWIDTH,this.TILEHEIGHT);
 		}
 	}
-	else{
+	/*else{
 		this.ctxBuffer.save();
 		this.ctxBuffer.beginPath();
 		this.ctxBuffer.fillStyle = food.style;
@@ -137,7 +137,7 @@ Graphic.prototype.renderBufferDiamond = function (food) {
 			this.ctxBuffer.stroke();
 		}
 		this.ctxBuffer.restore();
-	}
+	}*/
 
 };
 Graphic.prototype.renderBufferScore = function (i, score, color, position) {

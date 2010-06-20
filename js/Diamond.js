@@ -7,7 +7,7 @@ function Diamond (time, width, height) {
 	//Inicia numa Posicao e em tempo aleatorio
 	this.randomPosition();
 	this.randomTime(time);
-	this.randomStyle();
+	//this.randomStyle();
 	this.randomType();
 	this.setInvisible();
 }
@@ -20,13 +20,13 @@ Diamond.prototype.randomPosition = function () {
 Diamond.prototype.randomTime = function (time) {
 	this.duration = Math.round(Math.random() * time);
 };
-Diamond.prototype.randomStyle = function () {
+/*Diamond.prototype.randomStyle = function () {
 	var r = Math.floor(Math.random() * 255);
 	var g = Math.floor(Math.random() * 255);
 	var b = Math.floor(Math.random() * 255);
 	this.style = "rgb("+r +","+g+","+b+")";
 };
-
+*/
 
 Diamond.prototype.randomType = function () {
 	var prob = 0.95;

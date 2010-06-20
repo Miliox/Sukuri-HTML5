@@ -92,7 +92,7 @@ Nibbles.prototype.loopGame = function () {
 		}
 		else{
 			//exibe comida
-			this.food.randomStyle();
+			//this.food.randomStyle();
 			this.food.randomTime(400);
 			this.food.randomType();
 			this.food.randomPosition();
