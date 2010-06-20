@@ -79,7 +79,7 @@ Nibbles.prototype.foundDiamond = function(head){
 };
 Nibbles.prototype.loopGame = function () {
 	var worm, head, tail;
-	var i, j;
+	var i;
 
 	//processa a comida
 	this.food.duration--;
@@ -111,7 +111,7 @@ Nibbles.prototype.loopGame = function () {
 		switch(this.map.getCell(head))
 		{
 			case 0: //Casa Vazia
-				switch(this.foundDiamond(head)	)
+				switch(this.foundDiamond(head))
 				{
 					case 2://comida normal
 						this.sound[0].play();

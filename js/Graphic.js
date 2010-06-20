@@ -62,7 +62,7 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	//renderiza propaganda
 	this.renderBufferTitle("SUKURI");
 	this.renderBufferCopyright();
-	this.renderBufferVersion("0.02");
+	this.renderBufferVersion("0.028");
 
 	//aplica no canvas principal
 	this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
