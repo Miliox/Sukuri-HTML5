@@ -161,6 +161,12 @@ Nibbles.prototype.loopGame = function () {
 	//Renderiza a Tela
 	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };
+Nibbles.prototype.getMaxScore = function () {
+
+};
+Nibbles.prototype.setMaxScore = function (value) {
+
+};
 Nibbles.prototype.registerLoopGame = function () {
 	var self = this;
 	this.loopCode = window.setInterval(function () { self.loopGame(); }, 1000 / this.fps);

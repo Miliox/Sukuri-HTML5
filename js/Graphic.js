@@ -32,7 +32,11 @@ function Graphic(canvas, tileX, tileY, matriz){
 	this.TILEHEIGHT = this.canvas.height / tileY;
 
 	this.BACKGROUNDS = ["white","green","yellow","DarkSlategray", "orange"];
-
+	this.DIAMOND = [new Image(), new Image()];
+	this.DIAMOND[0].src = 'img/fruit.gif';
+	this.DIAMOND[1].src = 'img/fruit_venom.gif';
+	this.WALL = new Image();
+	this.WALL.src = 'img/wall.gif';
 	this.renderBufferWalls(matriz);
 }
 Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
@@ -84,7 +88,12 @@ Graphic.prototype.renderBufferWalls = function(matriz){
 	for(y = 0; y < this.TILESY; y++){
 		for(x = 0; x < this.TILESX; x++) {
 			if(matriz.getCell(new Vector(x, y)) < 0){
-				ctx.rect(x * this.TILEWIDTH, y * this.TILEHEIGHT, this.TILEWIDTH, this.TILEHEIGHT);
+				if(this.WALL.complete){
+					ctx.drawImage(this.WALL, x * this.TILEWIDTH, y * this.TILEHEIGHT,this.TILEWIDTH,this.TILEHEIGHT);
+				}
+				else{
+					ctx.rect(x * this.TILEWIDTH, y * this.TILEHEIGHT, this.TILEWIDTH, this.TILEHEIGHT);
+				}
 			}
 		}
 	}
@@ -106,17 +115,30 @@ Graphic.prototype.renderBufferWorm = function (worm) {
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferDiamond = function (food) {
-	this.ctxBuffer.save();
-	this.ctxBuffer.beginPath();
-	this.ctxBuffer.fillStyle = food.style;
 	var x = food.getPos().x * this.TILEWIDTH;
 	var y = food.getPos().y * this.TILEHEIGHT;
-	this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
-	this.ctxBuffer.fill();
-	if(food.isToxic()){
-		this.ctxBuffer.stroke();
+	if(this.DIAMOND[0].complete && this.DIAMOND[1].complete){
+		if(food.isToxic()){
+			this.ctxBuffer.drawImage(this.DIAMOND[1], x, y,this.TILEWIDTH,this.TILEHEIGHT);
+		}
+		else{
+			this.ctxBuffer.drawImage(this.DIAMOND[0], x, y, this.TILEWIDTH,this.TILEHEIGHT);
+		}
 	}
-	this.ctxBuffer.restore();
+	else{
+		this.ctxBuffer.save();
+		this.ctxBuffer.beginPath();
+		this.ctxBuffer.fillStyle = food.style;
+		var x = food.getPos().x * this.TILEWIDTH;
+		var y = food.getPos().y * this.TILEHEIGHT;
+		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
+		this.ctxBuffer.fill();
+		if(food.isToxic()){
+			this.ctxBuffer.stroke();
+		}
+		this.ctxBuffer.restore();
+	}
+
 };
 Graphic.prototype.renderBufferScore = function (i, score, color, position) {
 	var text_score = "Worm" + i + ": " + score + "pt ";
