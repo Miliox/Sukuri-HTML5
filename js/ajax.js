@@ -1,6 +1,6 @@
 var xmlHttp = new XMLHttpRequest();
 xmlHttp.onreadystatechange = maxScoreProcess;
-function loadScore(score)
+function loadRemoteScore(score)
 {
 	if(score){
 		score = "?setscore="+score;
@@ -11,7 +11,6 @@ function loadScore(score)
 	xmlHttp.open("GET","/nibbles/db/max_score.php"+score, true);
 	xmlHttp.send();
 }
-
 function maxScoreProcess()
 {
 	// apenas quando o estado for "completado"

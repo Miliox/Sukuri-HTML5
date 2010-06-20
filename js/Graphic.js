@@ -125,20 +125,6 @@ Graphic.prototype.renderBufferDiamond = function (food) {
 			this.ctxBuffer.drawImage(this.DIAMOND[0], x, y, this.TILEWIDTH,this.TILEHEIGHT);
 		}
 	}
-	/*else{
-		this.ctxBuffer.save();
-		this.ctxBuffer.beginPath();
-		this.ctxBuffer.fillStyle = food.style;
-		var x = food.getPos().x * this.TILEWIDTH;
-		var y = food.getPos().y * this.TILEHEIGHT;
-		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
-		this.ctxBuffer.fill();
-		if(food.isToxic()){
-			this.ctxBuffer.stroke();
-		}
-		this.ctxBuffer.restore();
-	}*/
-
 };
 Graphic.prototype.renderBufferScore = function (i, score, color, position) {
 	var text_score = "Worm" + i + ": " + score + "pt ";
@@ -147,7 +133,6 @@ Graphic.prototype.renderBufferScore = function (i, score, color, position) {
 	this.setBufferTextFormat('start','alphabetic','8pt Verdana');
 	this.ctxBuffer.fillStyle = color;
 	this.ctxBuffer.fillText(text_score, position, this.canvasBuffer.height - 5);
-
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferTitle = function (text) {

@@ -41,7 +41,7 @@ function Nibbles(canvas, worms) {
 	this.ate = 0;
 	this.level = 1;
 	this.maxScore = 0;
-	loadScore();
+	this.getMaxScore();
 	this.fps = this.DEFAULTFPS;
 	this.inputs = [];
 	//Sound Effect - only Firefox and maybe Chrome
@@ -92,7 +92,6 @@ Nibbles.prototype.loopGame = function () {
 		}
 		else{
 			//exibe comida
-			//this.food.randomStyle();
 			this.food.randomTime(400);
 			this.food.randomType();
 			this.food.randomPosition();
@@ -131,7 +130,7 @@ Nibbles.prototype.loopGame = function () {
 						}
 						//verifica se ultrapassou o recorde
 						if (worm.score > this.maxScore){
-							loadScore(worm.score);
+							this.setMaxScore(worm.score);
 						}
 						//cresce
 						worm.moveCabeca(head);
@@ -162,11 +161,8 @@ Nibbles.prototype.loopGame = function () {
 	//Renderiza a Tela
 	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };
-Nibbles.prototype.getMaxScore = function () {
-
-};
-Nibbles.prototype.setMaxScore = function (value) {
-};
+Nibbles.prototype.getMaxScore = function () { loadRemoteScore(); };
+Nibbles.prototype.setMaxScore = function (value) { loadRemoteScore(value); };
 Nibbles.prototype.registerLoopGame = function () {
 	var self = this;
 	this.loopCode = window.setInterval(function () { self.loopGame(); }, 1000 / this.fps);
