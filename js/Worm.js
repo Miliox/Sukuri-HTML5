@@ -133,7 +133,7 @@ WormBot.prototype.inputProcess = function (inputList, matriz){
 	var valor;
 	var i = 0;
 	var cellValue = matriz.getCell(nextPosition);
-	while(cellValue < 0)
+	while(cellValue != 0)
 	{
 		valor = this.direcaoPretendida + 1;
 		this.direcaoPretendida = parseInt((valor)%4);
