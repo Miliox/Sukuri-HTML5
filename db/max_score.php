@@ -1,6 +1,6 @@
 <?php 
-	if(isset($_GET['setscore'])){
-		$score = (int) $_GET['setscore'];
+	if(isset($_POST['setscore'])){
+		$score = (int) $_POST['setscore'];
 	}
 	else{
 		$score = 0;

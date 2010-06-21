@@ -6,12 +6,12 @@
 	<head>
 		<title>SUKURI 0.03</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<script type="text/javascript" src="js/Vector.js"></script>
-		<script type="text/javascript" src="js/Diamond.js"></script>
-		<script type="text/javascript" src="js/Worm.js"></script>
-		<script type="text/javascript" src="js/Matriz.js"></script>
-		<script type="text/javascript" src="js/Graphic.js"></script>				
-		<script type="text/javascript" src="js/Nibbles.js"></script>
+		<script type="text/javascript" src="js/class/Vector.js"></script>
+		<script type="text/javascript" src="js/class/Diamond.js"></script>
+		<script type="text/javascript" src="js/class/Worm.js"></script>
+		<script type="text/javascript" src="js/class/Matriz.js"></script>
+		<script type="text/javascript" src="js/class/Graphic.js"></script>				
+		<script type="text/javascript" src="js/class/Nibbles.js"></script>
 		<script type="text/javascript" src="js/ajax.js"></script>
 		<script type="text/javascript" src="js/intro.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>

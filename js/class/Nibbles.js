@@ -21,7 +21,7 @@ function Nibbles(canvas, worms) {
 	this.map = new Matriz(this.WIDTH, this.HEIGHT, 0);
 	//----------------Gerar Posicoes Aleatórias---------------------
 	var x, y;
-	for(var i = 0; i < 70; i++) {
+	for(var i = 0; i < 30; i++) {
 		x = Math.floor(Math.random() * this.WIDTH);
 		y = Math.floor(Math.random() * this.HEIGHT);
 		this.map.setCell(new Vector(x, y), -1);

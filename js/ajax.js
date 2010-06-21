@@ -3,15 +3,19 @@ xmlHttp.onreadystatechange = maxScoreProcess;
 function loadRemoteScore(score)
 {
 	if(score){
-		score = "?setscore="+score;
+		score = "setscore=" + score;
+		xmlHttp.open("POST","/nibbles/db/max_score.php", true);
+		xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlHttp.setRequestHeader("Content-length",score.length);
+		xmlHttp.setRequestHeader("Connection","close");
 	}
 	else{
-		score = "";
+		xmlHttp.open("GET","/nibbles/db/max_score.php", true);
+		score = null;
 	}
-	xmlHttp.open("GET","/nibbles/db/max_score.php"+score, true);
-	xmlHttp.send();
+	xmlHttp.send(score);
 }
-function maxScoreProcess()
+function maxScoreProcess(score)
 {
 	// apenas quando o estado for "completado"
 	if (xmlHttp.readyState == 4) {
