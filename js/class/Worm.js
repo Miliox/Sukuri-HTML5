@@ -1,8 +1,8 @@
 //Classe Worm: SuperClasse das Classes Worms
-function Worm(corpoInicial, direcao, color){
+function Worm(initialBody, direction, color){
 	//Corpo e Direcoes Iniciais
-	this.corpoInicial = corpoInicial || [];
-	this.direcaoInicial = Math.floor(Math.abs(direcao) % 4) || 0;
+	this.initialBody = initialBody || [];
+	this.initialDirection = Math.floor(Math.abs(direction) % 4) || 0;
 	this.color = color || "blue";
 	//Inicializa o Corpo
 	this.restart();
@@ -12,14 +12,14 @@ Worm.prototype.addScore = function (point) {
 	this.score += point;
 };
 Worm.prototype.resetScore = function () { this.score = 0; };
-Worm.prototype.removeCauda = function (){ return this.corpo.pop(); };
-Worm.prototype.moveCabeca = function (head){
-	this.direcao = this.direcaoPretendida;
-	this.corpo.unshift(head);
+Worm.prototype.removeTail = function (){ return this.body.pop(); };
+Worm.prototype.movesHead = function (head){
+	this.direction = this.desiredDirection;
+	this.body.unshift(head);
 };
 Worm.prototype.newHeadPosition = function (){
 	var vetorUnit;
-	switch (this.direcaoPretendida)
+	switch (this.desiredDirection)
 	{
 		case 0: /*UP*/
 			vetorUnit = new Vector(0,-1);
@@ -37,25 +37,25 @@ Worm.prototype.newHeadPosition = function (){
 			vetorUnit = new Vector(0,0);
 			break;
 	}
-	return this.corpo[0].add(vetorUnit);
+	return this.body[0].add(vetorUnit);
 };
 //Reinicia a minhoca
 Worm.prototype.restart = function (){
-	this.corpo = function(corpoInicial){
+	this.body = function(initialBody){
 		var body = [];
 		//Produz um novo vetor que representa o corpo
-		for(var i = 0; i < corpoInicial.length;i++){
-			body.push(new Vector(corpoInicial[i].x,corpoInicial[i].y));
+		for(var i = 0; i < initialBody.length;i++){
+			body.push(new Vector(initialBody[i].x,initialBody[i].y));
 		};
 		return body;
-	}(this.corpoInicial);
-	this.direcaoPretendida = this.direcaoInicial;
-	this.direcao = this.direcaoInicial;
+	}(this.initialBody);
+	this.desiredDirection = this.initialDirection;
+	this.direction = this.initialDirection;
 };
 Worm.prototype.dieAndReborn = function (){
 	var dead;
 	//Restaura Velocidade Inicial
-	dead = this.corpo;
+	dead = this.body;
 	//Revive
 	this.restart();
 	this.resetScore();
@@ -66,19 +66,19 @@ Worm.prototype.inputProcess = function (inputList, matriz){
 };
 
 //WormHuman: SubClass de Worm
-function WormHuman(corpoInicial, direcao, color, teclado){
-	Worm.call(this,corpoInicial, direcao,color);
+function WormHuman(initialBody, direction, color, teclado){
+	Worm.call(this,initialBody, direction,color);
 	//Teclado Input
 	this.teclado = teclado || {up:38, down: 40, left: 37, right: 39};
 }
 
 WormHuman.prototype = new Worm();
-delete WormHuman.prototype.corpoInicial;
-delete WormHuman.prototype.direcaoInicial;
-delete WormHuman.prototype.direcaoPretendida;
-delete WormHuman.prototype.corpo;
+delete WormHuman.prototype.initialBody;
+delete WormHuman.prototype.initialDirection;
+delete WormHuman.prototype.desiredDirection;
+delete WormHuman.prototype.body;
 delete WormHuman.prototype.color;
-delete WormHuman.prototype.direcao;
+delete WormHuman.prototype.direction;
 delete WormHuman.prototype.score;
 WormHuman.prototype.constructor = WormHuman;
 WormHuman.prototype.inputProcess = function (inputList, matriz){
@@ -86,23 +86,23 @@ WormHuman.prototype.inputProcess = function (inputList, matriz){
 		switch (inputList[i]){
 			//Player controls
 			case this.teclado.up:
-				if (this.direcao != 2) {
-					this.direcaoPretendida = 0;
+				if (this.direction != 2) {
+					this.desiredDirection = 0;
 				}
 				break;
 			case this.teclado.down:
-				if (this.direcao != 0) {
-					this.direcaoPretendida = 2;
+				if (this.direction != 0) {
+					this.desiredDirection = 2;
 				}
 				break;
 			case this.teclado.left:
-				if (this.direcao != 1) {
-					this.direcaoPretendida = 3;
+				if (this.direction != 1) {
+					this.desiredDirection = 3;
 				}
 				break;
 			case this.teclado.right:
-				if (this.direcao != 3) {
-					this.direcaoPretendida = 1;
+				if (this.direction != 3) {
+					this.desiredDirection = 1;
 				}
 				break;
 		}//switch
@@ -110,17 +110,17 @@ WormHuman.prototype.inputProcess = function (inputList, matriz){
 };
 
 //WormBot: SubClass de Worm
-function WormBot(corpoInicial, direcao, color){
-	Worm.call(this,corpoInicial, direcao,color);
+function WormBot(initialBody, direction, color){
+	Worm.call(this,initialBody, direction,color);
 }
 
 WormBot.prototype = new Worm();
-delete WormBot.prototype.corpoInicial;
-delete WormBot.prototype.direcaoInicial;
-delete WormBot.prototype.direcaoPretendida;
-delete WormBot.prototype.corpo;
+delete WormBot.prototype.initialBody;
+delete WormBot.prototype.initialDirection;
+delete WormBot.prototype.desiredDirection;
+delete WormBot.prototype.body;
 delete WormBot.prototype.color;
-delete WormBot.prototype.direcao;
+delete WormBot.prototype.direction;
 delete WormBot.prototype.score;
 WormBot.prototype.constructor = WormBot;
 WormBot.prototype.inputProcess = function (inputList, matriz){
@@ -130,8 +130,8 @@ WormBot.prototype.inputProcess = function (inputList, matriz){
 	var cellValue = matriz.getCell(nextPosition);
 	while(cellValue != 0)
 	{
-		valor = this.direcaoPretendida + 1;
-		this.direcaoPretendida = parseInt((valor)%4);
+		valor = this.desiredDirection + 1;
+		this.desiredDirection = parseInt((valor)%4);
 		nextPosition = this.newHeadPosition();
 		cellValue = matriz.getCell(nextPosition);
 		i++;
@@ -139,32 +139,4 @@ WormBot.prototype.inputProcess = function (inputList, matriz){
 			break;
 		}
 	}
-	/*
-	for(var i = 0;i < inputList.length;i++){
-		switch (inputList[i]){
-			//Player controls
-			case this.teclado.up:
-				if (this.direcao != 1) {
-					this.direcaoPretendida = 0;
-				}
-				break;
-			case this.teclado.down:
-				if (this.direcao != 0) {
-					this.direcaoPretendida = 1;
-				}
-				break;
-			case this.teclado.left:
-				if (this.direcao != 3) {
-					this.direcaoPretendida = 2;
-				}
-				break;
-			case this.teclado.right:
-				if (this.direcao != 2) {
-					this.direcaoPretendida = 3;
-				}
-				break;
-		}//switch
-		
-	}//for
-	*/
 };

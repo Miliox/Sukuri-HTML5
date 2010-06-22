@@ -9,14 +9,14 @@
  * 	getCell(Vector cell): Obtem o valor na posicao da matriz indicada pelo vetor cell
  */
 
-function Matriz (width, height, valorInicial){
+function Matriz (width, height, startValue, wallValue){
 	//Metricas	
 	this.LINES = height;
 	this.COLUMS = width;
 
 	//Valor
-	this.DEFAULTVALUE = valorInicial;
-	this.WALLVALUE = -1;
+	this.DEFAULTVALUE = startValue || 0;
+	this.WALLVALUE = wallValue || -1;
 	this.matriz = new Array(this.LINES);
 
 	//Inicializa Matriz

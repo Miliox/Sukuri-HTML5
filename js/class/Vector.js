@@ -7,8 +7,8 @@
 		equals(Vector vec): Verifica dois vetores São Iguais 
 */
 function Vector(x, y) {
-	this.x = x;
-	this.y = y;
+	this.x = x || 0;
+	this.y = y || 0;
 }
 Vector.prototype.equals = function (vec) {
 	if ((this.x === vec.x) && (this.y === vec.y)) {

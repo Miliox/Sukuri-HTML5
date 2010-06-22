@@ -18,7 +18,7 @@ function Nibbles(canvas, worms) {
 
 	//Game Objects
 
-	this.map = new Matriz(this.WIDTH, this.HEIGHT, 0);
+	this.map = new Matriz(this.WIDTH, this.HEIGHT);
 	//----------------Gerar Posicoes Aleatórias---------------------
 	var x, y;
 	for(var i = 0; i < 30; i++) {
@@ -33,7 +33,7 @@ function Nibbles(canvas, worms) {
 
 	//Registra posicoes no map
 	for(line = 0; line < this.worms.length; line++){
-		this.map.setPositions(worms[line].corpo, line + 1);
+		this.map.setPositions(worms[line].body, line + 1);
 	}
 
 	//Game Variables
@@ -66,7 +66,7 @@ Nibbles.prototype.reviveWorm = function (worm, valor){
 	var body = worm.dieAndReborn();
 	this.sound[1].play();
 	this.map.clearPositions(body);
-	this.map.setPositions(worm.corpo, valor+1);
+	this.map.setPositions(worm.body, valor+1);
 };
 Nibbles.prototype.foundDiamond = function(head){
 	if (this.food.isVisible() && head.equals(this.food.getPos())) {
@@ -130,7 +130,7 @@ Nibbles.prototype.loopGame = function () {
 							this.setMaxScore(worm.score);
 						}
 						//cresce
-						worm.moveCabeca(head);
+						worm.movesHead(head);
 						this.map.setCell(head);
 						break;
 					case 1://comida envenenada
@@ -142,9 +142,9 @@ Nibbles.prototype.loopGame = function () {
 						this.reviveWorm(worm,i);
 						break;
 					default://nao encontrou
-						tail = worm.removeCauda();
+						tail = worm.removeTail();
 						this.map.clearCell(tail);
-						worm.moveCabeca(head);
+						worm.movesHead(head);
 						this.map.setCell(head);
 				}
 				break;

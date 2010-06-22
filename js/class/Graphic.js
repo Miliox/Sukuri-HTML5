@@ -105,9 +105,9 @@ Graphic.prototype.renderBufferWorm = function (worm) {
 
 	this.ctxBuffer.save();
 	this.ctxBuffer.beginPath();
-	for(var i = 0;i <  worm.corpo.length; i++) {
-		x = worm.corpo[i].x * this.TILEWIDTH;
-		y = worm.corpo[i].y * this.TILEHEIGHT;
+	for(var i = 0;i <  worm.body.length; i++) {
+		x = worm.body[i].x * this.TILEWIDTH;
+		y = worm.body[i].y * this.TILEHEIGHT;
 		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
 	}
 	this.ctxBuffer.fillStyle = worm.color;
