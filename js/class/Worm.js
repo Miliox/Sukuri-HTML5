@@ -126,17 +126,12 @@ WormBot.prototype.constructor = WormBot;
 WormBot.prototype.inputProcess = function (inputList, matriz){
 	var nextPosition = this.newHeadPosition();
 	var valor;
-	var i = 0;
 	var cellValue = matriz.getCell(nextPosition);
-	while(cellValue != 0)
-	{
+	for(var i = 0;cellValue != 0 || i < 4;i++){
 		valor = this.desiredDirection + 1;
 		this.desiredDirection = parseInt((valor)%4);
 		nextPosition = this.newHeadPosition();
 		cellValue = matriz.getCell(nextPosition);
-		i++;
-		if(i>=4){
-			break;
-		}
+
 	}
 };
