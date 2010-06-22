@@ -1,9 +1,9 @@
 //Classe Worm: SuperClasse das Classes Worms
 function Worm(corpoInicial, direcao, color){
 	//Corpo e Direcoes Iniciais
-	this.corpoInicial = corpoInicial;
-	this.direcaoInicial = Math.floor(Math.abs(direcao) % 4);
-	this.color = color;
+	this.corpoInicial = corpoInicial || [];
+	this.direcaoInicial = Math.floor(Math.abs(direcao) % 4) || 0;
+	this.color = color || "blue";
 	//Inicializa o Corpo
 	this.restart();
 	this.resetScore();
@@ -69,15 +69,10 @@ Worm.prototype.inputProcess = function (inputList, matriz){
 function WormHuman(corpoInicial, direcao, color, teclado){
 	Worm.call(this,corpoInicial, direcao,color);
 	//Teclado Input
-	if(teclado !== undefined){
-		this.teclado = teclado;
-	} else {
-		//Default usar teclas direcionais
-		this.teclado = {up:38, down: 40, left: 37, right: 39};
-	}
+	this.teclado = teclado || {up:38, down: 40, left: 37, right: 39};
 }
 
-WormHuman.prototype = new Worm([],null,null);
+WormHuman.prototype = new Worm();
 delete WormHuman.prototype.corpoInicial;
 delete WormHuman.prototype.direcaoInicial;
 delete WormHuman.prototype.direcaoPretendida;
@@ -119,7 +114,7 @@ function WormBot(corpoInicial, direcao, color){
 	Worm.call(this,corpoInicial, direcao,color);
 }
 
-WormBot.prototype = new Worm([],null,null);
+WormBot.prototype = new Worm();
 delete WormBot.prototype.corpoInicial;
 delete WormBot.prototype.direcaoInicial;
 delete WormBot.prototype.direcaoPretendida;
