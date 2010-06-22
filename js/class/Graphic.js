@@ -10,6 +10,11 @@
  *		render(Array<Worm> worms,Diamond food, Number MAX_SCORE, Number level);
  *
  */
+DIAMOND = [new Image(), new Image()];
+DIAMOND[0].src = 'img/fruit.gif';
+DIAMOND[1].src = 'img/fruit_venom.gif';
+WALL = new Image();
+WALL.src = 'img/wall.gif';
 
 function Graphic(canvas, tileX, tileY, matriz){
 	//Buffer Principal
@@ -32,11 +37,15 @@ function Graphic(canvas, tileX, tileY, matriz){
 	this.TILEHEIGHT = this.canvas.height / tileY;
 
 	this.BACKGROUNDS = ["white","green","yellow","DarkSlategray", "orange"];
-	this.DIAMOND = [new Image(), new Image()];
-	this.DIAMOND[0].src = 'img/fruit.gif';
-	this.DIAMOND[1].src = 'img/fruit_venom.gif';
-	this.WALL = new Image();
-	this.WALL.src = 'img/wall.gif';
+	this.DIAMOND = DIAMOND || [new Image(), new Image()];
+	this.WALL = WALL || new Image();
+	if(!DIAMOND){
+		this.DIAMOND[0].src = 'img/fruit.gif';
+		this.DIAMOND[1].src = 'img/fruit_venom.gif';
+	}
+	if(!WALL){
+		this.WALL.src = 'img/wall.gif';
+	}
 	this.renderBufferWalls(matriz);
 }
 Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {

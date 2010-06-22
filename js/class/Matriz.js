@@ -28,6 +28,14 @@ function Matriz (width, height, startValue, wallValue){
 		}
 	}
 };
+Matriz.prototype.getCell = function (cell) {
+	if(this.isValidPos(cell)) {
+		return this.matriz[cell.y][cell.x];
+	}
+	else {
+		return this.WALLVALUE;
+	}
+};
 Matriz.prototype.clearPositions = function (lista) {
 	var cell, i;
 	for(i = 0; i < lista.length; i++) {
@@ -52,18 +60,22 @@ Matriz.prototype.setCell = function (cell, value){
 		this.matriz[cell.y][cell.x] = value;
 	}
 };
+Matriz.prototype.setWallPositions = function (lista) {
+	var cell, i;
+	for(i = 0; i < lista.length; i++) {
+		cell = lista[i];
+		this.setWallCell(cell);
+	}
+};
+Matriz.prototype.setWallCell = function (cell){
+	if(this.isValidPos(cell)) {
+		this.matriz[cell.y][cell.x] = this.WALLVALUE;
+	}
+};
 Matriz.prototype.isValidPos = function (cell) {
 	if(cell.x >= this.COLUMS || cell.x < 0 ||
 		cell.y >= this.LINES || cell.y < 0) {
 			return false;
 	}
 	return true;
-};
-Matriz.prototype.getCell = function (cell) {
-	if(this.isValidPos(cell)) {
-		return this.matriz[cell.y][cell.x];
-	}
-	else {
-		return this.WALLVALUE;
-	}
 };
