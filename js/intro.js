@@ -33,7 +33,7 @@ function menu() {
 
 	//versao
 	ctx.textAlign = 'end';
-	ctx.fillText('v.0.03', canvas.width - 5, canvas.height -5);
+	ctx.fillText('v.0.04', canvas.width - 5, canvas.height -5);
 	ctx.restore();
 
 	//aguarda o apertar o enter

@@ -4,7 +4,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>SUKURI 0.03</title>
+		<title>SUKURI 0.04</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<script type="text/javascript" src="js/class/Vector.js"></script>
 		<script type="text/javascript" src="js/class/Diamond.js"></script>
