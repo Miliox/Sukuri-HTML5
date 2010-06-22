@@ -6,8 +6,8 @@
 		$score = 0;
 	}
 
-	$user = 'root';
-	$password = 'moe';
+	$user = 'nibbles';
+	$password = '';
 	$query = "SELECT max(record) AS max_score FROM scores";
 
 	mysql_connect('localhost',$user,$password) or die(mysql_error());

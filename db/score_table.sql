@@ -5,3 +5,5 @@ CREATE TABLE scores (
 	record int NOT NULL ,
 	PRIMARY KEY (id)
 );
+CREATE USER nibbles;
+GRANT SELECT, INSERT ON nibbles.scores TO nibbles@localhost;
