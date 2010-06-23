@@ -119,6 +119,7 @@ Nibbles.prototype.loopGame = function () {
 		worm = this.worms[i];
 		worm.inputProcess(this.inputs, this.map);
 		head = worm.newHeadPosition();
+		this.map.circularCorrectCell(head);
 		switch(this.map.getCell(head))
 		{
 			case 0: //Casa Vazia

@@ -19,3 +19,7 @@ Vector.prototype.equals = function (vec) {
 Vector.prototype.add = function (vec) {
 	return new Vector(this.x+vec.x,this.y+vec.y);
 };
+Vector.prototype.addUpdate = function(vec) {
+	this.x += vec.x;
+	this.y += vec.y;
+};

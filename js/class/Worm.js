@@ -124,14 +124,34 @@ delete WormBot.prototype.direction;
 delete WormBot.prototype.score;
 WormBot.prototype.constructor = WormBot;
 WormBot.prototype.inputProcess = function (inputList, matriz){
-	var nextPosition = this.newHeadPosition();
-	var valor;
-	var cellValue = matriz.getCell(nextPosition);
-	for(var i = 0;cellValue != 0 || i < 4;i++){
-		valor = this.desiredDirection + 1;
-		this.desiredDirection = parseInt((valor)%4);
-		nextPosition = this.newHeadPosition();
-		cellValue = matriz.getCell(nextPosition);
+	var validDirection;
+	switch (this.direction )
+	{
+		case 0:
+			validDirection = [0,1,3];
+			break;
+		case 1:
+			validDirection = [0,1,2];
+			break;
+		case 2:
+			validDirection = [1,2,3];
+			break;
+		case 3:
+			validDirection = [0,2,3];
+			break;
 
+	}
+	if(Math.random() > 0.97){
+		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length - 1))]; 
+	}
+	var nextPosition = this.newHeadPosition();
+	matriz.circularCorrectCell(nextPosition);
+	var cellValue = matriz.getCell(nextPosition);
+	for(var i = 0;cellValue != 0 && i < 4;i++){
+		this.desiredDirection++;
+		this.desiredDirection %= 4;
+		nextPosition = this.newHeadPosition();
+		matriz.circularCorrectCell(nextPosition);
+		cellValue = matriz.getCell(nextPosition);
 	}
 };

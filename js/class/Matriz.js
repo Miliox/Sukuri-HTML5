@@ -79,3 +79,13 @@ Matriz.prototype.isValidPos = function (cell) {
 	}
 	return true;
 };
+Matriz.prototype.circularCorrectCell = function (cell) {
+	cell.addUpdate(new Vector(this.COLUMS,this.LINES));
+	cell.x %= this.COLUMS;
+	cell.y %= this.LINES;
+
+	/*
+	cell.x = (this.COLUMS + cell.x) % this.COLUMS;
+	cell.y = (this.LINES + cell.y) % this.LINES;
+	*/
+};
