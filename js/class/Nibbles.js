@@ -11,13 +11,203 @@
 var DATA = {
 	SOUNDS : [new Audio('audio/eat.ogg'), new Audio('audio/die.ogg')],
 	NIBBLES_MAPS : {
-	level1 : [new Vector(48,10),new Vector(48,11),new Vector(48,12),new Vector(48,13),new Vector(48,14),new Vector(48,15),new Vector(48,16),new Vector(48,17),new Vector(48,18),new Vector(48,19),new Vector(48,20),new Vector(48,21),new Vector(48,22),new Vector(48,23),new Vector(48,24),new Vector(48,25),new Vector(48,26),new Vector(48,27),new Vector(48,28),new Vector(48,29),new Vector(48,30),new Vector(48,31),new Vector(48,32),new Vector(48,33),new Vector(48,34),new Vector(48,35),new Vector(48,36),new Vector(48,37),new Vector(48,38),new Vector(48,39),
-	new Vector(25,25),new Vector(26,25),new Vector(27,25),new Vector(28,25),new Vector(29,25),new Vector(30,25),new Vector(31,25),new Vector(32,25),new Vector(33,25),new Vector(34,25),new Vector(35,25),new Vector(36,25),new Vector(37,25),new Vector(38,25),new Vector(39,25),new Vector(40,25),new Vector(41,25),new Vector(42,25),new Vector(43,25),new Vector(44,25),new Vector(45,25),new Vector(46,25),new Vector(47,25),new Vector(48,25),new Vector(49,25),new Vector(50,25),new Vector(51,25),new Vector(52,25),new Vector(53,25),new Vector(54,25),new Vector(55,25),new Vector(56,25),new Vector(57,25),new Vector(58,25),new Vector(59,25),new Vector(60,25),new Vector(61,25),new Vector(62,25),new Vector(63,25),new Vector(64,25),new Vector(65,25),new Vector(66,25),new Vector(67,25),new Vector(68,25),new Vector(69,25),new Vector(70,25),new Vector(71,25),
-	new Vector(0,10),new Vector(1,10),new Vector(2,10),new Vector(3,10),new Vector(4,10),new Vector(5,10),new Vector(6,10),new Vector(7,10),new Vector(8,10),new Vector(9,10),new Vector(10,10),new Vector(11,10),new Vector(12,10),new Vector(13,10),new Vector(14,10),new Vector(15,10),new Vector(16,10),new Vector(17,10),new Vector(18,10),new Vector(19,10),new Vector(20,10),new Vector(21,10),new Vector(22,10),new Vector(23,10),new Vector(24,10),
-	new Vector(0,40),new Vector(1,40),new Vector(2,40),new Vector(3,40),new Vector(4,40),new Vector(5,40),new Vector(6,40),new Vector(7,40),new Vector(8,40),new Vector(9,40),new Vector(10,40),new Vector(11,40),new Vector(12,40),new Vector(13,40),new Vector(14,40),new Vector(15,40),new Vector(16,40),new Vector(17,40),new Vector(18,40),new Vector(19,40),new Vector(20,40),new Vector(21,40),new Vector(22,40),new Vector(23,40),new Vector(24,40),
-	new Vector(95-0,10),new Vector(95-1,10),new Vector(95-2,10),new Vector(95-3,10),new Vector(95-4,10),new Vector(95-5,10),new Vector(95-6,10),new Vector(95-7,10),new Vector(95-8,10),new Vector(95-9,10),new Vector(95-10,10),new Vector(95-11,10),new Vector(95-12,10),new Vector(95-13,10),new Vector(95-14,10),new Vector(95-15,10),new Vector(95-16,10),new Vector(95-17,10),new Vector(95-18,10),new Vector(95-19,10),new Vector(95-20,10),new Vector(95-21,10),new Vector(95-22,10),new Vector(95-23,10),new Vector(95-24,10),
-	new Vector(95-0,40),new Vector(95-1,40),new Vector(95-2,40),new Vector(95-3,40),new Vector(95-4,40),new Vector(95-5,40),new Vector(95-6,40),new Vector(95-7,40),new Vector(95-8,40),new Vector(95-9,40),new Vector(95-10,40),new Vector(95-11,40),new Vector(95-12,40),new Vector(95-13,40),new Vector(95-14,40),new Vector(95-15,40),new Vector(95-16,40),new Vector(95-17,40),new Vector(95-18,40),new Vector(95-19,40),new Vector(95-20,40),new Vector(95-21,40),new Vector(95-22,40),new Vector(95-23,40),new Vector(95-24,40)]
-		       }
+	level1 : function(){
+		var lv1_arr = [];
+		var i;
+		/*
+		 *	MAPA
+		 *	.................
+		 *	:____	    ____:
+		 *	:	|	:
+		 *	:    -------	:
+		 *	:____	|   ____:
+		 *	:		:
+		 *	:...............:
+		 */
+		//
+		for(i = 25; i < 71; i++){
+			lv1_arr.push(new Vector(i,25));
+		}
+		for(i = 10; i < 40; i++){
+			lv1_arr.push(new Vector(48,i));
+		}
+		for(i = 0; i < 25; i++){
+			lv1_arr.push(new Vector(i,10));
+		}
+		for(i = 0; i < 25; i++){
+			lv1_arr.push(new Vector(i,40));
+		}
+		for(i = 0; i < 25; i++){
+			lv1_arr.push(new Vector(95-i,10));
+		}
+		for(i = 0; i < 25; i++){
+			lv1_arr.push(new Vector(95-i,40));
+		}
+		return lv1_arr;
+	}(),
+	level2: function(){
+		var lv2_arr = [];
+		var i;
+		/*
+		 *	MAPA
+		 *	-----------------
+		 *	|		|
+		 *	|		|
+		 *	|		|
+		 *	|		|
+		 *	|		|
+		 *	-----------------
+		 *
+		 */
+		for(i = 0; i < 96; i++){
+			lv2_arr.push(new Vector(i,0));
+		}
+		for(i = 0; i < 50; i++){
+			lv2_arr.push(new Vector(0,i));
+		}
+		for(i = 0; i < 96; i++){
+			lv2_arr.push(new Vector(i,49));
+		}
+		for(i = 0; i < 50; i++){
+			lv2_arr.push(new Vector(95,i));
+		}
+		return lv2_arr;
+	}(),
+	level3: function(){
+		var lv3_arr = [];
+		var i;
+		/*
+		 *	MAPA
+		 *	.................
+		 *	:	|	:
+		 *	:	|	:
+		 *	:-------|-------:
+		 *	:	|	:
+		 *	:	|	:
+		 *	:...............:
+		 *
+		 */
+
+		for(i = 0; i < 96; i++){
+			lv3_arr.push(new Vector(i,25));
+		}
+		for(i = 0; i < 50; i++){
+			lv3_arr.push(new Vector(48,i));
+		}
+		return lv3_arr;
+	}(),
+	level4: function(){
+		var lv4_arr = [];
+		var i;
+		/*
+		 *	MAPA
+		 *	______......_____
+		 *	| 	|       |
+		 *	||_   __|__  |_	|
+		 *	:  ||_______|  |: 
+		 *	: _|| _____ | _|:
+		 *	||	|    |  |
+		 *	|____...|...____|
+		 *
+		 */
+
+		for(i = 0; i < 20; i++){
+			lv4_arr.push(new Vector(0,i));
+		}
+		for(i = 0; i < 20; i++){
+			lv4_arr.push(new Vector(0,49-i));
+		}
+		for(i = 0; i < 20; i++){
+			lv4_arr.push(new Vector(95,i));
+		}
+		for(i = 0; i < 20; i++){
+			lv4_arr.push(new Vector(95,49-i));
+		}
+
+		for(i = 0; i <= 35; i++){
+			lv4_arr.push(new Vector(i,0));
+		}
+		for(i = 0; i < 35; i++){
+			lv4_arr.push(new Vector(95-i,0));
+		}
+		for(i = 0; i < 35; i++){
+			lv4_arr.push(new Vector(95-i,49));
+		}
+		for(i = 0; i <= 35; i++){
+			lv4_arr.push(new Vector(i,49));
+		}
+
+		for(i = 35;i < (96-35);i++){
+			lv4_arr.push(new Vector(i,15));
+		}
+		for(i = 35;i < (96-35);i++){
+			lv4_arr.push(new Vector(i,35));
+		}
+
+		for(i = 0;i < 15;i++){
+			lv4_arr.push(new Vector(48,i));
+		}
+		for(i = 0;i < 15;i++){
+			lv4_arr.push(new Vector(48,49-i));
+		}
+
+		for(i = 25;i < (96-25);i++){
+			lv4_arr.push(new Vector(i,25));
+		}
+
+		for(i = 15;i < (50-15);i++){
+			lv4_arr.push(new Vector(25,i));
+		}
+		for(i = 35;i < (50-16);i++){
+			lv4_arr.push(new Vector(25,i));
+		}
+
+		for(i = 15;i < (50-15);i++){
+			lv4_arr.push(new Vector(96-25,i));
+		}
+		for(i = 35;i < (50-16);i++){
+			lv4_arr.push(new Vector(96-25,i));
+		}
+
+		for(i = 10;i < 20;i++){
+			lv4_arr.push(new Vector(5,i));
+		}
+		for(i = 10;i < 20;i++){
+			lv4_arr.push(new Vector(5,49-i));
+		}
+		for(i = 20;i < 29;i++){
+			lv4_arr.push(new Vector(15,i));
+		}
+		for(i = 5;i < 15;i++){
+			lv4_arr.push(new Vector(i,20));
+		}
+		for(i = 5;i < 16;i++){
+			lv4_arr.push(new Vector(i,29));
+		}
+
+
+		for(i = 10;i < 20;i++){
+			lv4_arr.push(new Vector(90,i));
+		}
+		for(i = 10;i < 20;i++){
+			lv4_arr.push(new Vector(90,49-i));
+		}
+		for(i = 20;i < 29;i++){
+			lv4_arr.push(new Vector(96-15,i));
+		}
+		for(i = 5;i < 15;i++){
+			lv4_arr.push(new Vector(95-i,49-20));
+		}
+		for(i = 5;i < 15;i++){
+			lv4_arr.push(new Vector(95-i,29));
+		}
+		for(i = 5;i < 15;i++){
+			lv4_arr.push(new Vector(95-i,20));
+		}
+
+		return lv4_arr;
+	}()
+	}
 };
 function Nibbles(canvas, worms) {
 	//Game Constants
@@ -30,7 +220,9 @@ function Nibbles(canvas, worms) {
 	//Game Objects
 
 	this.map = new Matriz(this.WIDTH, this.HEIGHT);
-	this.map.setWallPositions(DATA.NIBBLES_MAPS.level1);
+	var rand_map = [DATA.NIBBLES_MAPS.level1,DATA.NIBBLES_MAPS.level2,DATA.NIBBLES_MAPS.level3,DATA.NIBBLES_MAPS.level4];
+	var rand_index = Math.floor(4*Math.random());
+	this.map.setWallPositions(rand_map[rand_index]);
 	/*
 	//----------------Gerar Posicoes Aleatórias---------------------
 	var x, y;
