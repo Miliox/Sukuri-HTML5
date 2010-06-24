@@ -15,6 +15,8 @@ DIAMOND[0].src = 'img/fruit.gif';
 DIAMOND[1].src = 'img/fruit_venom.gif';
 WALL = new Image();
 WALL.src = 'img/wall.gif';
+BACKGROUND_IMG = new Image();
+BACKGROUND_IMG.src = 'img/patter.gif';
 
 function Graphic(canvas, tileX, tileY, matriz){
 	//Buffer Principal
@@ -83,6 +85,11 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 };
 Graphic.prototype.renderBufferBackground = function (value) {
 	this.ctxBuffer.save();
+	this.ctxBuffer.save();
+	this.ctxBuffer.fillStyle = this.ctxBuffer.createPattern(BACKGROUND_IMG,'repeat');
+	this.ctxBuffer.fillRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
+	this.ctxBuffer.restore();
+	this.ctxBuffer.globalAlpha = 0.2;
 	this.ctxBuffer.fillStyle = this.BACKGROUNDS[ value % this.BACKGROUNDS.length];
 	this.ctxBuffer.fillRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
 	this.ctxBuffer.restore();

@@ -139,7 +139,6 @@ WormBot.prototype.inputProcess = function (inputList, matriz){
 		case 3:
 			validDirection = [0,2,3];
 			break;
-
 	}
 	if(Math.random() > 0.97){
 		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length - 1))]; 
