@@ -54,9 +54,9 @@ NIBBLES_MAPS = {
 			lv2_arr.push(new Vector(0,i));
 		}
 		for(i = 0; i < 96; i++){
-			lv2_arr.push(new Vector(i,49));
+			lv2_arr.push(new Vector(i,47));
 		}
-		for(i = 0; i < 50; i++){
+		for(i = 0; i < 48; i++){
 			lv2_arr.push(new Vector(95,i));
 		}
 		return lv2_arr;
@@ -80,7 +80,7 @@ NIBBLES_MAPS = {
 			lv3_arr.push(new Vector(i,25));
 		}
 		for(i = 0; i < 50; i++){
-			lv3_arr.push(new Vector(48,i));
+			lv3_arr.push(new Vector(47,i));
 		}
 		return lv3_arr;
 	}(),
@@ -103,13 +103,13 @@ NIBBLES_MAPS = {
 			lv4_arr.push(new Vector(0,i));
 		}
 		for(i = 0; i < 20; i++){
-			lv4_arr.push(new Vector(0,49-i));
+			lv4_arr.push(new Vector(0,47-i));
 		}
 		for(i = 0; i < 20; i++){
 			lv4_arr.push(new Vector(95,i));
 		}
 		for(i = 0; i < 20; i++){
-			lv4_arr.push(new Vector(95,49-i));
+			lv4_arr.push(new Vector(95,47-i));
 		}
 
 		for(i = 0; i <= 35; i++){
@@ -119,10 +119,10 @@ NIBBLES_MAPS = {
 			lv4_arr.push(new Vector(95-i,0));
 		}
 		for(i = 0; i < 35; i++){
-			lv4_arr.push(new Vector(95-i,49));
+			lv4_arr.push(new Vector(95-i,47));
 		}
 		for(i = 0; i <= 35; i++){
-			lv4_arr.push(new Vector(i,49));
+			lv4_arr.push(new Vector(i,47));
 		}
 
 		for(i = 35;i < (96-35);i++){
@@ -135,25 +135,25 @@ NIBBLES_MAPS = {
 		for(i = 0;i < 15;i++){
 			lv4_arr.push(new Vector(48,i));
 		}
-		for(i = 0;i < 15;i++){
-			lv4_arr.push(new Vector(48,49-i));
+		for(i = 0;i < 14;i++){
+			lv4_arr.push(new Vector(48,47-i));
 		}
 
 		for(i = 25;i < (96-25);i++){
 			lv4_arr.push(new Vector(i,25));
 		}
 
-		for(i = 15;i < (50-15);i++){
+		for(i = 15;i < (48-15);i++){
 			lv4_arr.push(new Vector(25,i));
 		}
-		for(i = 35;i < (50-16);i++){
+		for(i = 35;i < (48-16);i++){
 			lv4_arr.push(new Vector(25,i));
 		}
 
-		for(i = 15;i < (50-15);i++){
+		for(i = 15;i < (48-15);i++){
 			lv4_arr.push(new Vector(96-25,i));
 		}
-		for(i = 35;i < (50-16);i++){
+		for(i = 35;i < (48-16);i++){
 			lv4_arr.push(new Vector(96-25,i));
 		}
 
@@ -161,7 +161,7 @@ NIBBLES_MAPS = {
 			lv4_arr.push(new Vector(5,i));
 		}
 		for(i = 10;i < 20;i++){
-			lv4_arr.push(new Vector(5,49-i));
+			lv4_arr.push(new Vector(5,47-i));
 		}
 		for(i = 20;i < 29;i++){
 			lv4_arr.push(new Vector(15,i));
@@ -170,7 +170,7 @@ NIBBLES_MAPS = {
 			lv4_arr.push(new Vector(i,20));
 		}
 		for(i = 5;i < 16;i++){
-			lv4_arr.push(new Vector(i,29));
+			lv4_arr.push(new Vector(i,28));
 		}
 
 
@@ -178,16 +178,16 @@ NIBBLES_MAPS = {
 			lv4_arr.push(new Vector(90,i));
 		}
 		for(i = 10;i < 20;i++){
-			lv4_arr.push(new Vector(90,49-i));
+			lv4_arr.push(new Vector(90,47-i));
 		}
 		for(i = 20;i < 29;i++){
 			lv4_arr.push(new Vector(96-15,i));
-		}
+		}/*
 		for(i = 5;i < 15;i++){
-			lv4_arr.push(new Vector(95-i,49-20));
-		}
+			lv4_arr.push(new Vector(95-i,47-20));
+		}*/
 		for(i = 5;i < 15;i++){
-			lv4_arr.push(new Vector(95-i,29));
+			lv4_arr.push(new Vector(95-i,28));
 		}
 		for(i = 5;i < 15;i++){
 			lv4_arr.push(new Vector(95-i,20));

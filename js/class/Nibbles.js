@@ -9,12 +9,12 @@
  */
 //Game Nibbles
 var DATA = {
-	SOUNDS : [new Audio('audio/eat.ogg'), new Audio('audio/die.ogg')], 
+	SOUNDS : [new Audio('audio/eat.ogg'), new Audio('audio/die.ogg')] 
 };
 function Nibbles(canvas, worms) {
 	//Game Constants
 	this.WIDTH = 96;
-	this.HEIGHT = 50;
+	this.HEIGHT = 48;
 	this.POINT = 100;
 	this.DEFAULTFPS = 7;
 	this.INCFPS = 3;

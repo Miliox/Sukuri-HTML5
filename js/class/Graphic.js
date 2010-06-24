@@ -35,8 +35,8 @@ function Graphic(canvas, tileX, tileY, matriz){
 	//Metricas
 	this.TILESX = tileX;
 	this.TILESY = tileY;
-	this.TILEWIDTH = this.canvas.width / tileX;
-	this.TILEHEIGHT = this.canvas.height / tileY;
+	this.TILEWIDTH = this.canvas.width/ tileX;
+	this.TILEHEIGHT = (this.canvas.height - 20) / tileY;
 
 	this.BACKGROUNDS = ["white","green","yellow","DarkSlategray", "orange"];
 	this.DIAMOND = DIAMOND || [new Image(), new Image()];
@@ -67,6 +67,9 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	if (food.isVisible()) {
 		this.renderBufferDiamond(food);
 	}
+
+	//renderiza footer
+	this.renderBufferFooter();
 	//renderiza scores
 	for(var i = 0;i < worms.length; i++){
 		this.renderBufferScore(i+1, worms[i].score, worms[i].color, (i * 125)+5);
@@ -154,7 +157,7 @@ Graphic.prototype.renderBufferScore = function (i, score, color, position) {
 	this.setBufferTextFormat('start','alphabetic','bold 8pt Verdana');
 	this.ctxBuffer.fillStyle = color;
 	this.ctxBuffer.fillText(text_score, position, this.canvasBuffer.height - 5);
-	this.ctxBuffer.strokeText(text_score, position, this.canvasBuffer.height - 5);
+	//this.ctxBuffer.strokeText(text_score, position, this.canvasBuffer.height - 5);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferTitle = function (text) {
@@ -192,4 +195,13 @@ Graphic.prototype.setBufferTextFormat = function (align, baseline, font){
 	this.ctxBuffer.textAlign = align;
 	this.ctxBuffer.textBaseline = baseline;
 	this.ctxBuffer.font = font;
+};
+Graphic.prototype.renderBufferFooter = function (){
+	this.ctxBuffer.save();
+	this.ctxBuffer.beginPath();
+	this.ctxBuffer.fillStyle = 'darkgray';
+	this.ctxBuffer.rect(0,(this.canvasBuffer.height-20),this.canvasBuffer.width,20);
+	this.ctxBuffer.fill();
+	this.ctxBuffer.beginPath();
+	this.ctxBuffer.restore();
 };
