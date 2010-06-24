@@ -1,4 +1,8 @@
-canvas 
+body{
+	background-image: url(back_patt.gif);
+	background-repeat: repeat;
+}
+canvas
 {
 	/*Centraliza*/
 	position: absolute;

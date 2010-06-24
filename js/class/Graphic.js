@@ -151,9 +151,10 @@ Graphic.prototype.renderBufferScore = function (i, score, color, position) {
 	var text_score = "Worm" + i + ": " + score + "pt ";
 
 	this.ctxBuffer.save();
-	this.setBufferTextFormat('start','alphabetic','8pt Verdana');
+	this.setBufferTextFormat('start','alphabetic','bold 8pt Verdana');
 	this.ctxBuffer.fillStyle = color;
 	this.ctxBuffer.fillText(text_score, position, this.canvasBuffer.height - 5);
+	this.ctxBuffer.strokeText(text_score, position, this.canvasBuffer.height - 5);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferTitle = function (text) {
