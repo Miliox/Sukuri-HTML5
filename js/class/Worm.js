@@ -166,15 +166,17 @@ WormBot.prototype.inputProcess = function (inputList, matriz){
 			validDirection = [this.UP,this.DOWN,this.LEFT];
 			break;
 	}
-	if(Math.random() > 0.9){
-		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length - 1))]; 
+	if(Math.random() > 0.8){
+		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))]; 
 	}
 	var nextPosition = this.newHeadPosition();
 	matriz.circularCorrectCell(nextPosition);
 	var cellValue = matriz.getCell(nextPosition);
-	for(var i = 0;cellValue != 0 && i < 4;i++){
-		this.desiredDirection++;
-		this.desiredDirection %= 4;
+	var index;
+	for(var i = 0;(cellValue != 0) && (validDirection.length > 0);i++){
+		index = Math.floor(Math.random() * validDirection.length);
+		this.desiredDirection = validDirection[index];
+		validDirection.splice(index,1);
 		nextPosition = this.newHeadPosition();
 		matriz.circularCorrectCell(nextPosition);
 		cellValue = matriz.getCell(nextPosition);
