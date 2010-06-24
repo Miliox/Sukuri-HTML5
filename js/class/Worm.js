@@ -140,7 +140,7 @@ WormBot.prototype.inputProcess = function (inputList, matriz){
 			validDirection = [0,2,3];
 			break;
 	}
-	if(Math.random() > 0.97){
+	if(Math.random() > 0.9){
 		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length - 1))]; 
 	}
 	var nextPosition = this.newHeadPosition();
