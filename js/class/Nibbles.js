@@ -14,7 +14,7 @@ var DATA = {
 function Nibbles(canvas, worms) {
 	//Game Constants
 	this.WIDTH = 96;
-	this.HEIGHT = 48;
+	this.HEIGHT = 46;
 	this.POINT = 100;
 	this.DEFAULTFPS = 7;
 	this.INCFPS = 3;
@@ -22,8 +22,8 @@ function Nibbles(canvas, worms) {
 	//Game Objects
 
 	this.map = new Matriz(this.WIDTH, this.HEIGHT);
-	var rand_map = [NIBBLES_MAPS.level1,NIBBLES_MAPS.level2,NIBBLES_MAPS.level3,NIBBLES_MAPS.level4];
-	var rand_index = Math.floor(4*Math.random());
+	var rand_map = [NIBBLES_MAPS.level1,NIBBLES_MAPS.level2,NIBBLES_MAPS.level3/*,NIBBLES_MAPS.level4*/];
+	var rand_index = Math.floor(3*Math.random());
 	this.map.setWallPositions(rand_map[rand_index]);
 	/*
 	//----------------Gerar Posicoes Aleatórias---------------------

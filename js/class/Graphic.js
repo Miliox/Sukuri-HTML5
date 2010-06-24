@@ -35,8 +35,10 @@ function Graphic(canvas, tileX, tileY, matriz){
 	//Metricas
 	this.TILESX = tileX;
 	this.TILESY = tileY;
+
+	this.DY = 20;
 	this.TILEWIDTH = this.canvas.width/ tileX;
-	this.TILEHEIGHT = (this.canvas.height - 20) / tileY;
+	this.TILEHEIGHT = (this.canvas.height - 40) / tileY;
 
 	this.BACKGROUNDS = ["white","green","yellow","DarkSlategray", "orange"];
 	this.DIAMOND = DIAMOND || [new Image(), new Image()];
@@ -68,7 +70,8 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 		this.renderBufferDiamond(food);
 	}
 
-	//renderiza footer
+	//renderiza footer e header
+	this.renderBufferHeader();
 	this.renderBufferFooter();
 	//renderiza scores
 	for(var i = 0;i < worms.length; i++){
@@ -108,10 +111,10 @@ Graphic.prototype.renderBufferWalls = function(matriz){
 		for(x = 0; x < this.TILESX; x++) {
 			if(matriz.getCell(new Vector(x, y)) < 0){
 				if(this.WALL.complete){
-					ctx.drawImage(this.WALL, x * this.TILEWIDTH, y * this.TILEHEIGHT,this.TILEWIDTH,this.TILEHEIGHT);
+					ctx.drawImage(this.WALL, x * this.TILEWIDTH, y * this.TILEHEIGHT + this.DY,this.TILEWIDTH,this.TILEHEIGHT);
 				}
 				else{
-					ctx.rect(x * this.TILEWIDTH, y * this.TILEHEIGHT, this.TILEWIDTH, this.TILEHEIGHT);
+					ctx.rect(x * this.TILEWIDTH, y * this.TILEHEIGHT + this.DY, this.TILEWIDTH, this.TILEHEIGHT);
 				}
 			}
 		}
@@ -127,7 +130,7 @@ Graphic.prototype.renderBufferWorm = function (worm) {
 	for(var i = 0;i <  worm.body.length; i++) {
 		x = worm.body[i].x * this.TILEWIDTH;
 		y = worm.body[i].y * this.TILEHEIGHT;
-		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
+		this.ctxBuffer.rect(x, y + this.DY, this.TILEWIDTH, this.TILEHEIGHT);
 	}
 	this.ctxBuffer.fillStyle = worm.color;
 	this.ctxBuffer.fill();
@@ -135,7 +138,7 @@ Graphic.prototype.renderBufferWorm = function (worm) {
 	this.ctxBuffer.fillStyle = 'rgba(0,0,0,0.25)';
 	x = worm.body[0].x * this.TILEWIDTH;
 	y = worm.body[0].y * this.TILEHEIGHT;
-	this.ctxBuffer.fillRect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
+	this.ctxBuffer.fillRect(x, y + this.DY, this.TILEWIDTH, this.TILEHEIGHT);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferDiamond = function (food) {
@@ -143,10 +146,10 @@ Graphic.prototype.renderBufferDiamond = function (food) {
 	var y = food.getPos().y * this.TILEHEIGHT;
 	if(this.DIAMOND[0].complete && this.DIAMOND[1].complete){
 		if(food.isToxic()){
-			this.ctxBuffer.drawImage(this.DIAMOND[1], x, y,this.TILEWIDTH,this.TILEHEIGHT);
+			this.ctxBuffer.drawImage(this.DIAMOND[1], x, y+this.DY,this.TILEWIDTH,this.TILEHEIGHT);
 		}
 		else{
-			this.ctxBuffer.drawImage(this.DIAMOND[0], x, y, this.TILEWIDTH,this.TILEHEIGHT);
+			this.ctxBuffer.drawImage(this.DIAMOND[0], x, y+this.DY, this.TILEWIDTH,this.TILEHEIGHT);
 		}
 	}
 };
@@ -163,7 +166,7 @@ Graphic.prototype.renderBufferScore = function (i, score, color, position) {
 Graphic.prototype.renderBufferTitle = function (text) {
 	this.ctxBuffer.save();
 	this.setBufferTextFormat('center','top','bold 12pt Georgia');
-	this.ctxBuffer.fillText(text,(this.canvasBuffer.width / 2), 5);
+	this.ctxBuffer.fillText(text,(this.canvasBuffer.width / 2), 2);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferCopyright = function (){
@@ -201,6 +204,15 @@ Graphic.prototype.renderBufferFooter = function (){
 	this.ctxBuffer.beginPath();
 	this.ctxBuffer.fillStyle = 'darkgray';
 	this.ctxBuffer.rect(0,(this.canvasBuffer.height-20),this.canvasBuffer.width,20);
+	this.ctxBuffer.fill();
+	this.ctxBuffer.beginPath();
+	this.ctxBuffer.restore();
+};
+Graphic.prototype.renderBufferHeader = function (){
+	this.ctxBuffer.save();
+	this.ctxBuffer.beginPath();
+	this.ctxBuffer.fillStyle = 'darkgray';
+	this.ctxBuffer.rect(0,0,this.canvasBuffer.width,20);
 	this.ctxBuffer.fill();
 	this.ctxBuffer.beginPath();
 	this.ctxBuffer.restore();
