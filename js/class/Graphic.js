@@ -128,6 +128,11 @@ Graphic.prototype.renderBufferWorm = function (worm) {
 	}
 	this.ctxBuffer.fillStyle = worm.color;
 	this.ctxBuffer.fill();
+	this.ctxBuffer.beginPath();
+	this.ctxBuffer.fillStyle = 'rgba(0,0,0,0.25)';
+	x = worm.body[0].x * this.TILEWIDTH;
+	y = worm.body[0].y * this.TILEHEIGHT;
+	this.ctxBuffer.fillRect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferDiamond = function (food) {

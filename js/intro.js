@@ -1,12 +1,21 @@
+var pattern_title = new Image();
+pattern_title.src = "img/title.png";
+
 function menu() {
 	var canvas = document.getElementById('nibbles');
 	var ctx = canvas.getContext('2d');
 
 	ctx.save();
 	//background
-	ctx.fillStyle = "green";
+	ctx.save()
+	if(!pattern_title.complete){
+		ctx.fillStyle = "green";
+	}
+	else{
+		ctx.fillStyle = ctx.createPattern(pattern_title,'repeat');
+	}
 	ctx.fillRect(0,0, canvas.width, canvas.height);
-
+	ctx.restore();
 	//title
 	ctx.font = '54pt Georgia';
 	ctx.textBaseline = 'middle';
@@ -50,11 +59,17 @@ function about() {
 
 	ctx.save();
 	//background
-	ctx.fillStyle = "green";
+	ctx.save()
+	if(!pattern_title.complete){
+		ctx.fillStyle = "green";
+	}
+	else{
+		ctx.fillStyle = ctx.createPattern(pattern_title,'repeat');
+	}
 	ctx.fillRect(0,0, canvas.width, canvas.height);
-
-	ctx.fillStyle = "darkgreen";
+	ctx.fillStyle = "rgba(0,0,0,0.5)";
 	ctx.fillRect(45,45, canvas.width - 90, canvas.height - 90);
+	ctx.restore();
 	//title
 	ctx.font = '54pt Georgia';
 	ctx.textBaseline = 'middle';
