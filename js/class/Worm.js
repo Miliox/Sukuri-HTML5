@@ -2,7 +2,28 @@
 function Worm(initialBody, direction, color){
 	//Corpo e Direcoes Iniciais
 	this.initialBody = initialBody || [];
-	this.initialDirection = Math.floor(Math.abs(direction) % 4) || 0;
+	//Define direcao em valor numerico
+	if(typeof(direction)== 'number'){
+		direction = Math.floor(Math.abs(direction) % 4);
+	}
+	else if (typeof(direction) == 'string'){
+		switch(direction)
+		{
+			case "up":
+				direction = this.UP;
+			case "down":
+				direction = this.DOWN;
+			case "left":
+				direction = this.LEFT;
+			case "right":
+				direction = this.RIGHT;
+		}
+	}
+	else
+	{
+		direction = 0;
+	}
+	this.initialDirection = direction;
 	this.color = color || "blue";
 	//Inicializa o Corpo
 	this.restart();
@@ -21,16 +42,16 @@ Worm.prototype.newHeadPosition = function (){
 	var vetorUnit;
 	switch (this.desiredDirection)
 	{
-		case 0: /*UP*/
+		case this.UP:
 			vetorUnit = new Vector(0,-1);
 			break;
-		case 2: /*DOWN*/
+		case this.DOWN:
 			vetorUnit = new Vector(0,1);
 			break;
-		case 3: /*LEFT*/
+		case this.LEFT:
 			vetorUnit = new Vector(-1,0);
 			break;
-		case 1: /*RIGHT*/
+		case this.RIGHT:
 			vetorUnit = new Vector(1,0);
 			break;
 		default :
@@ -39,6 +60,11 @@ Worm.prototype.newHeadPosition = function (){
 	}
 	return this.body[0].add(vetorUnit);
 };
+//Constantes de Direcao
+Worm.prototype.UP = 0;
+Worm.prototype.RIGHT = 1;
+Worm.prototype.DOWN = 2;
+Worm.prototype.LEFT = 3;
 //Reinicia a minhoca
 Worm.prototype.restart = function (){
 	this.body = function(initialBody){
@@ -86,23 +112,23 @@ WormHuman.prototype.inputProcess = function (inputList, matriz){
 		switch (inputList[i]){
 			//Player controls
 			case this.teclado.up:
-				if (this.direction != 2) {
-					this.desiredDirection = 0;
+				if (this.direction != this.DOWN) {
+					this.desiredDirection = this.UP;
 				}
 				break;
 			case this.teclado.down:
-				if (this.direction != 0) {
-					this.desiredDirection = 2;
+				if (this.direction != this.UP) {
+					this.desiredDirection = this.DOWN;
 				}
 				break;
 			case this.teclado.left:
-				if (this.direction != 1) {
-					this.desiredDirection = 3;
+				if (this.direction != this.RIGHT) {
+					this.desiredDirection = this.LEFT;
 				}
 				break;
 			case this.teclado.right:
-				if (this.direction != 3) {
-					this.desiredDirection = 1;
+				if (this.direction != this.LEFT) {
+					this.desiredDirection = this.RIGHT;
 				}
 				break;
 		}//switch
@@ -127,17 +153,17 @@ WormBot.prototype.inputProcess = function (inputList, matriz){
 	var validDirection;
 	switch (this.direction )
 	{
-		case 0:
-			validDirection = [0,1,3];
+		case this.UP:
+			validDirection = [this.UP,this.RIGHT,this.LEFT];
 			break;
-		case 1:
-			validDirection = [0,1,2];
+		case this.RIGHT:
+			validDirection = [this.UP,this.RIGHT,this.DOWN];
 			break;
-		case 2:
-			validDirection = [1,2,3];
+		case this.DOWN:
+			validDirection = [this.RIGHT,this.DOWN,this.LEFT];
 			break;
-		case 3:
-			validDirection = [0,2,3];
+		case this.LEFT:
+			validDirection = [this.UP,this.DOWN,this.LEFT];
 			break;
 	}
 	if(Math.random() > 0.9){
