@@ -22,8 +22,8 @@ function Nibbles(canvas, worms) {
 	//Game Objects
 
 	this.map = new Matriz(this.WIDTH, this.HEIGHT);
-	var rand_map = [NIBBLES_MAPS.level1,NIBBLES_MAPS.level2,NIBBLES_MAPS.level3/*,NIBBLES_MAPS.level4*/];
-	var rand_index = Math.floor(3*Math.random());
+	var rand_map = [NIBBLES_MAPS.level1,NIBBLES_MAPS.level2,NIBBLES_MAPS.level3,NIBBLES_MAPS.level4];
+	var rand_index = Math.floor(rand_map.length*Math.random());
 	this.map.setWallPositions(rand_map[rand_index]);
 	/*
 	//----------------Gerar Posicoes Aleatórias---------------------

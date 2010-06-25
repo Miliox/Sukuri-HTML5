@@ -1,40 +1,39 @@
 NIBBLES_MAPS = {
-	level1 : function(){
-		var lv1_arr = [];
-		var i;
+	level1 : function(max_width,max_height){
+		var lv_arr = [];
+		var i, j;
 		/*
 		 *	MAPA
 		 *	.................
 		 *	:____	    ____:
-		 *	:	|	:       :
+		 *	:	|	:
 		 *	:    -------	:
 		 *	:____	|   ____:
-		 *	:		:       :
+		 *	:		:
 		 *	:...............:
 		 */
-		//
-		for(i = 25; i < 71; i++){
-			lv1_arr.push(new Vector(i,23));
+		//barra vertical central
+		for(i = 25; i < max_width - 25; i++){
+			lv_arr.push(new Vector(i,Math.floor(max_height / 2)));
 		}
+		//barra horizontal central
 		for(i = 10; i < 36; i++){
-			lv1_arr.push(new Vector(48,i));
+			lv_arr.push(new Vector(Math.floor(max_width / 2),i));
 		}
+		//barras paralelas da esquerda
 		for(i = 0; i < 25; i++){
-			lv1_arr.push(new Vector(i,10));
+			lv_arr.push(new Vector(i,10));
+			lv_arr.push(new Vector(max_width -1 -i,10));
 		}
+		//barras paralelas da direita
 		for(i = 0; i < 25; i++){
-			lv1_arr.push(new Vector(i,36));
+			lv_arr.push(new Vector(i,max_height - 10));
+			lv_arr.push(new Vector(max_width -1 -i,max_height - 10));
 		}
-		for(i = 0; i < 25; i++){
-			lv1_arr.push(new Vector(95-i,10));
-		}
-		for(i = 0; i < 25; i++){
-			lv1_arr.push(new Vector(95-i,36));
-		}
-		return lv1_arr;
-	}(),
-	level2: function(){
-		var lv2_arr = [];
+		return lv_arr;
+	}(96,46),
+	level2: function(max_width, max_height){
+		var lv_arr = [];
 		var i;
 		/*
 		 *	MAPA
@@ -47,22 +46,20 @@ NIBBLES_MAPS = {
 		 *	-----------------
 		 *
 		 */
-		for(i = 0; i < 96; i++){
-			lv2_arr.push(new Vector(i,0));
+		//barras horizontal superior e inferior
+		for(i = 0; i < max_width; i++){
+			lv_arr.push(new Vector(i,0));
+			lv_arr.push(new Vector(i,max_height-1));
 		}
-		for(i = 0; i < 50; i++){
-			lv2_arr.push(new Vector(0,i));
+		//barras verticais da esquerda e direita
+		for(i = 0; i < max_height; i++){
+			lv_arr.push(new Vector(0,i));
+			lv_arr.push(new Vector(max_width-1,i));
 		}
-		for(i = 0; i < 96; i++){
-			lv2_arr.push(new Vector(i,45));
-		}
-		for(i = 0; i < 46; i++){
-			lv2_arr.push(new Vector(95,i));
-		}
-		return lv2_arr;
-	}(),
-	level3: function(){
-		var lv3_arr = [];
+		return lv_arr;
+	}(96,46),
+	level3: function(max_width, max_height){
+		var lv_arr = [];
 		var i;
 		/*
 		 *	MAPA
@@ -76,16 +73,16 @@ NIBBLES_MAPS = {
 		 *
 		 */
 
-		for(i = 0; i < 96; i++){
-			lv3_arr.push(new Vector(i,23));
+		for(i = 0; i < max_width; i++){
+			lv_arr.push(new Vector(i,Math.floor(max_height / 2)));
 		}
-		for(i = 0; i < 48; i++){
-			lv3_arr.push(new Vector(48,i));
+		for(i = 0; i < max_height; i++){
+			lv_arr.push(new Vector(Math.floor(max_width / 2),i));
 		}
-		return lv3_arr;
-	}()/*,
-	level4: function(){
-		var lv4_arr = [];
+		return lv_arr;
+	}(96,46),
+	level4: function(max_width, max_height){
+		var lv_arr = [];
 		var i;
 		/*
 		 *	MAPA
@@ -97,102 +94,58 @@ NIBBLES_MAPS = {
 		 *	||	|    |  |
 		 *	|____...|...____|
 		 *
-		 * /
-
-		for(i = 0; i < 20; i++){
-			lv4_arr.push(new Vector(0,i));
+		 */
+		//barras verticais das extremidades superior e inferior
+		for(i = 0; i < 18; i++){
+			lv_arr.push(new Vector(0,i));
+			lv_arr.push(new Vector(0,max_height-1-i));
+			lv_arr.push(new Vector(max_width-1,max_height-1-i));
+			lv_arr.push(new Vector(max_width-1,i));
 		}
-		for(i = 0; i < 20; i++){
-			lv4_arr.push(new Vector(0,45-i));
-		}
-		for(i = 0; i < 20; i++){
-			lv4_arr.push(new Vector(95,i));
-		}
-		for(i = 0; i < 20; i++){
-			lv4_arr.push(new Vector(95,45-i));
-		}
-
+		//barras verticais da extremidade superior e inferior
 		for(i = 0; i <= 35; i++){
-			lv4_arr.push(new Vector(i,0));
+			lv_arr.push(new Vector(i,0));
+			lv_arr.push(new Vector(max_width-1-i,0));
+			lv_arr.push(new Vector(i,max_height-1));
+			lv_arr.push(new Vector(max_width-1-i,max_height-1));
 		}
-		for(i = 0; i < 35; i++){
-			lv4_arr.push(new Vector(95-i,0));
+		//barras horizontais centrais
+		for(i = 35;i < (max_width-35);i++){
+			lv_arr.push(new Vector(i,Math.floor(max_height / 3)));
+			lv_arr.push(new Vector(i,Math.floor(max_height * (2 / 3))));
 		}
-		for(i = 0; i < 35; i++){
-			lv4_arr.push(new Vector(95-i,45));
+		//barras verticais centrais
+		for(i = 0;i < Math.floor(max_height / 3);i++){
+			lv_arr.push(new Vector(Math.round((max_width-1) / 2),i));
+			lv_arr.push(new Vector(Math.round((max_width-1)/ 2),max_height-1-i));
+			lv_arr.push(new Vector(Math.floor((max_width-1) / 2),i));
+			lv_arr.push(new Vector(Math.floor((max_width-1)/ 2),max_height-1-i));
 		}
-		for(i = 0; i <= 35; i++){
-			lv4_arr.push(new Vector(i,45));
-		}
-
-		for(i = 35;i < (96-35);i++){
-			lv4_arr.push(new Vector(i,15));
-		}
-		for(i = 35;i < (96-35);i++){
-			lv4_arr.push(new Vector(i,35));
-		}
-
-		for(i = 0;i < 15;i++){
-			lv4_arr.push(new Vector(48,i));
-		}
+		//barras verticais entre o centro e as laterais
 		for(i = 0;i < 12;i++){
-			lv4_arr.push(new Vector(48,45-i));
+			lv_arr.push(new Vector(i+8,17));
+			lv_arr.push(new Vector(i+8,max_height-17-1));
+			lv_arr.push(new Vector(max_width-1-i-8,17));
+			lv_arr.push(new Vector(max_width-1-i-8,max_height-17-1));
 		}
-
-		for(i = 25;i < (96-25);i++){
-			lv4_arr.push(new Vector(i,25));
+		//as 4 barras verticais que formam -_- da lateral
+		for(i = 0; i < max_height - 2 * 17; i++){
+			lv_arr.push(new Vector(20,17+i));
+			lv_arr.push(new Vector(8,29+i));
+			lv_arr.push(new Vector(max_width-1-8,29+i));
+			lv_arr.push(new Vector(8,6+i));
+			lv_arr.push(new Vector(max_width-1-8,6+i));
+			lv_arr.push(new Vector(max_width-20-1,17+i));
 		}
-
-		for(i = 15;i < (45-14);i++){
-			lv4_arr.push(new Vector(25,i));
+		//barra horizontal centralizada
+		for(i = 0; i < Math.floor( max_width / 3);i++){
+			lv_arr.push(new Vector(Math.floor(Math.floor(max_width / 3)+i),Math.floor(max_height / 2)));
 		}
-		for(i = 35;i < (46-16);i++){
-			lv4_arr.push(new Vector(25,i));
+		//barras verticais ligadas no centro a barra hozintal do centro
+		for(i = 0;i < Math.floor(max_height / 2);i++){
+			lv_arr.push(new Vector(Math.floor(max_width / 3),i+Math.floor(max_height / 4)));
+			lv_arr.push(new Vector(Math.floor(2 * (max_width / 3)),i+Math.floor(max_height / 4)));
 		}
-
-		for(i = 15;i < (46-15);i++){
-			lv4_arr.push(new Vector(96-25,i));
-		}
-		for(i = 35;i < (46-16);i++){
-			lv4_arr.push(new Vector(96-25,i));
-		}
-
-		for(i = 10;i < 20;i++){
-			lv4_arr.push(new Vector(5,i));
-		}
-		for(i = 10;i < 16;i++){
-			lv4_arr.push(new Vector(5,45-i));
-		}
-		for(i = 20;i < 29;i++){
-			lv4_arr.push(new Vector(15,i));
-		}
-		for(i = 5;i < 15;i++){
-			lv4_arr.push(new Vector(i,20));
-		}
-		for(i = 5;i < 16;i++){
-			lv4_arr.push(new Vector(i,28));
-		}
-
-
-		for(i = 10;i < 20;i++){
-			lv4_arr.push(new Vector(90,i));
-		}
-		for(i = 10;i < 20;i++){
-			lv4_arr.push(new Vector(90,45-i));
-		}
-		for(i = 20;i < 29;i++){
-			lv4_arr.push(new Vector(96-15,i));
-		}/*
-		for(i = 5;i < 15;i++){
-			lv4_arr.push(new Vector(95-i,45-20));
-		}* /
-		for(i = 5;i < 15;i++){
-			lv4_arr.push(new Vector(95-i,28));
-		}
-		for(i = 5;i < 15;i++){
-			lv4_arr.push(new Vector(95-i,20));
-		}
-
-		return lv4_arr;
-	}()*/
+		return lv_arr;
+	}(96,46)
 };
