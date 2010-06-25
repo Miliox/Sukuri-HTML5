@@ -14,11 +14,14 @@ function gameInit(){
 	}
 	else {
 		//Inicializa Jogo
-		var w0 = new WormHuman([new Vector(4,3),new Vector(3,3),new Vector(2,3),new Vector(1,3)],"left", "red");
-		//var teclado_codes_w1 = {up : 87, down : 83, left : 65, right: 68};
-		var w1 = new WormBot([new Vector(91,43),new Vector(92,43),new Vector(93,43),new Vector(94,43)],"right", "blue");
-		var w2 = new WormBot([new Vector(4,43),new Vector(3,43),new Vector(2,43),new Vector(1,43)],"left", "yellow");
-		var w3 = new WormBot([new Vector(91,3),new Vector(92,3),new Vector(93,3),new Vector(94,3)],"right", "green");
+		var w0body = [new Vector(4,3),new Vector(3,3),new Vector(2,3),new Vector(1,3)];
+		var w1body = [new Vector(91,43),new Vector(92,43),new Vector(93,43),new Vector(94,43)];
+		var w2body = [new Vector(4,43),new Vector(3,43),new Vector(2,43),new Vector(1,43)];
+		var w3body = [new Vector(91,3),new Vector(92,3),new Vector(93,3),new Vector(94,3)];
+		var w0 = new WormHuman(w0body,"left", "red");
+		var w1 = new WormBot(w1body,"right", "blue");
+		var w2 = new WormBot(w2body,"left", "yellow");
+		var w3 = new WormBot(w3body,"right", "green");
 		game = new Nibbles(document.getElementById('nibbles'),[w0,w1,w2,w3]);
 		//Registra Controle
 		window.addEventListener('keydown', keyboardInput, true);
