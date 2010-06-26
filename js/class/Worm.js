@@ -87,7 +87,7 @@ Worm.prototype.dieAndReborn = function (){
 	this.resetScore();
 	return dead;
 };
-Worm.prototype.inputProcess = function (inputList, matriz){
+Worm.prototype.inputProcess = function (inputList, matriz, food){
 	//Implementada nas subclasses
 };
 
@@ -107,7 +107,7 @@ delete WormHuman.prototype.color;
 delete WormHuman.prototype.direction;
 delete WormHuman.prototype.score;
 WormHuman.prototype.constructor = WormHuman;
-WormHuman.prototype.inputProcess = function (inputList, matriz){
+WormHuman.prototype.inputProcess = function (inputList, matriz, food){
 	for(var i = 0;i < inputList.length;i++){
 		switch (inputList[i]){
 			//Player controls
@@ -149,7 +149,7 @@ delete WormBot.prototype.color;
 delete WormBot.prototype.direction;
 delete WormBot.prototype.score;
 WormBot.prototype.constructor = WormBot;
-WormBot.prototype.inputProcess = function (inputList, matriz){
+WormBot.prototype.inputProcess = function (inputList, matriz, food){
 	var validDirection;
 	switch (this.direction )
 	{
