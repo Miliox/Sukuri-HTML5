@@ -89,3 +89,19 @@ Matriz.prototype.circularCorrectCell = function (cell) {
 	cell.y = (this.LINES + cell.y) % this.LINES;
 	*/
 };
+Matriz.prototype.getDistance = function (firstCell, secondCell) {
+	var dx = firstCell.x - secondCell.x;
+	if (Math.abs(dx) > Math.floor(this.LINES / 2)){
+		dx = secondCell.x - firstCell.x;
+	}
+	var dy = firstCell.y - secondCell.y;
+	if (Math.abs(dy) > Math.floor(this.COLUMS / 2)){
+		dy = secondCell.y - firstCell.y;
+	}
+
+	var distance = Math.pow(dx,2);
+	distance += Math.pow(dy,2);
+	distance = Math.sqrt(distance);
+
+	return distance;
+};

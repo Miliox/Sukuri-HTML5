@@ -54,9 +54,11 @@ Worm.prototype.newHeadPosition = function (){
 		case this.RIGHT:
 			vetorUnit = new Vector(1,0);
 			break;
+		/*
 		default :
 			vetorUnit = new Vector(0,0);
 			break;
+		*/
 	}
 	return this.body[0].add(vetorUnit);
 };
@@ -138,6 +140,7 @@ WormHuman.prototype.inputProcess = function (inputList, matriz, food){
 //WormBot: SubClass de Worm
 function WormBot(initialBody, direction, color){
 	Worm.call(this,initialBody, direction,color);
+	this.computedPath = false;
 }
 
 WormBot.prototype = new Worm();
@@ -150,40 +153,7 @@ delete WormBot.prototype.direction;
 delete WormBot.prototype.score;
 WormBot.prototype.constructor = WormBot;
 WormBot.prototype.inputProcess = function (inputList, matriz, food){
-	var validDirection;
-	//TEMPORARIO----------------------
-	switch (this.direction )
-	{
-		case this.UP:
-			validDirection = [this.UP,this.RIGHT,this.LEFT];
-			break;
-		case this.RIGHT:
-			validDirection = [this.UP,this.RIGHT,this.DOWN];
-			break;
-		case this.DOWN:
-			validDirection = [this.RIGHT,this.DOWN,this.LEFT];
-			break;
-		case this.LEFT:
-			validDirection = [this.UP,this.DOWN,this.LEFT];
-			break;
-	}
-	if(Math.random() > 0.8){
-		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))]; 
-	}
-	var nextPosition = this.newHeadPosition();
-	matriz.circularCorrectCell(nextPosition);
-	var cellValue = matriz.getCell(nextPosition);
-	var index;
-	for(var i = 0;(cellValue != 0) && (validDirection.length > 0);i++){
-		index = Math.floor(Math.random() * validDirection.length);
-		this.desiredDirection = validDirection[index];
-		validDirection.splice(index,1);
-		nextPosition = this.newHeadPosition();
-		matriz.circularCorrectCell(nextPosition);
-		cellValue = matriz.getCell(nextPosition);
-	}
 	//---------------------------------
-
 	//IA - ESBOÇO
 	/*
 	 *	FSM - COMPORTAMENTO DO WORM
@@ -217,10 +187,83 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 	 *			}
 	 *	}
 	 *
-	 *
-	 *
-	 *
-	 *
-	 *
 	 * */
+	//FSM
+	var distance = matriz.getDistance(this.body[0],food.getPos());
+	switch (this.defineNewState(food.isVisible(),food.isToxic(),distance)){
+		case 1:
+			//movimenta-se aleatoriamente;
+			this.randomMove(matriz);
+			this.computedPath = false;
+			break;
+		case 2:
+			if(!this.computedPath){
+				this.searchPath();
+			}
+			switch(this.path.length)
+			{
+				case 0:
+					//"nao existe caminho valido";
+					//this.randomMove(matriz);
+					break;
+				default :
+					//"remove uma direcao do path";
+					//"seta direcao no worm";
+					break;
+			}
+			break;
+		case 3:
+			this.randomMove(matriz);
+			this.computedPath = false;
+			break;
+	}
+};
+WormBot.prototype.defineNewState = function (visible, toxic, distance){
+	if(visible && !toxic && distance < 20){
+		return 2;
+	}else if(visible && toxic && distance < 10){
+		return 3;
+	}
+	else{
+		return 1;
+	}
+};
+WormBot.prototype.searchPath = function (matriz, destiny) {
+	this.path = [];
+	this.computedPath = true;
+	//compute path
+};
+WormBot.prototype.randomMove = function (matriz) {
+	var validDirection;
+	switch (this.direction )
+	{
+		case this.UP:
+			validDirection = [this.UP,this.RIGHT,this.LEFT];
+			break;
+		case this.RIGHT:
+			validDirection = [this.UP,this.RIGHT,this.DOWN];
+			break;
+		case this.DOWN:
+			validDirection = [this.RIGHT,this.DOWN,this.LEFT];
+			break;
+		case this.LEFT:
+			validDirection = [this.UP,this.DOWN,this.LEFT];
+			break;
+	}
+	if(Math.random() > 0.8){
+		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))]; 
+	}
+	var nextPosition = this.newHeadPosition();
+	matriz.circularCorrectCell(nextPosition);
+	var cellValue = matriz.getCell(nextPosition);
+	var index;
+	for(var i = 0;(cellValue != 0) && (validDirection.length > 0);i++){
+		index = Math.floor(Math.random() * validDirection.length);
+		this.desiredDirection = validDirection[index];
+		validDirection.splice(index,1);
+		nextPosition = this.newHeadPosition();
+		matriz.circularCorrectCell(nextPosition);
+		cellValue = matriz.getCell(nextPosition);
+	}
+
 };
