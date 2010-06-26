@@ -151,6 +151,7 @@ delete WormBot.prototype.score;
 WormBot.prototype.constructor = WormBot;
 WormBot.prototype.inputProcess = function (inputList, matriz, food){
 	var validDirection;
+	//TEMPORARIO----------------------
 	switch (this.direction )
 	{
 		case this.UP:
@@ -181,4 +182,45 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 		matriz.circularCorrectCell(nextPosition);
 		cellValue = matriz.getCell(nextPosition);
 	}
+	//---------------------------------
+
+	//IA - ESBOÇO
+	/*
+	 *	FSM - COMPORTAMENTO DO WORM
+	 *	1 - MOVIMENTO RANDOMICO (SEM DIAMOND NO MAPA)
+	 *	2 - PERSEGUE O DIAMOND (DIAMOND EXISTE E ESTA PROXIMO)
+	 *	3 - EVITA O DIAMOND (DIAMOND É ENVENENADO)
+	 *
+	 *	switch (define_novo_estado()){
+	 *		case "1":
+	 *			movimenta-se aleatoriamente;
+	 *			break;
+	 *		case "2":
+	 *			if(path_fiding_not_computed){
+	 *				path = find_path();
+	 *			}
+	 *			switch(path.length){
+	 *				case 0:
+	 *					"nao existe caminho valido";
+	 *					break;
+	 *				default:
+	 *					"remove uma direcao do path";
+	 *					"seta direcao no worm";
+	 *					break;
+	 *			}
+	 *		case "3":
+	 *			if (distance(food) < min_distance){
+	 *				"foge";
+	 *			}
+	 *			else{
+	 *				"move-se aleatoriamente";
+	 *			}
+	 *	}
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 * */
 };
