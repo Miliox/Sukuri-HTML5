@@ -153,41 +153,6 @@ delete WormBot.prototype.direction;
 delete WormBot.prototype.score;
 WormBot.prototype.constructor = WormBot;
 WormBot.prototype.inputProcess = function (inputList, matriz, food){
-	//---------------------------------
-	//IA - ESBOÇO
-	/*
-	 *	FSM - COMPORTAMENTO DO WORM
-	 *	1 - MOVIMENTO RANDOMICO (SEM DIAMOND NO MAPA)
-	 *	2 - PERSEGUE O DIAMOND (DIAMOND EXISTE E ESTA PROXIMO)
-	 *	3 - EVITA O DIAMOND (DIAMOND É ENVENENADO)
-	 *
-	 *	switch (define_novo_estado()){
-	 *		case "1":
-	 *			movimenta-se aleatoriamente;
-	 *			break;
-	 *		case "2":
-	 *			if(path_fiding_not_computed){
-	 *				path = find_path();
-	 *			}
-	 *			switch(path.length){
-	 *				case 0:
-	 *					"nao existe caminho valido";
-	 *					break;
-	 *				default:
-	 *					"remove uma direcao do path";
-	 *					"seta direcao no worm";
-	 *					break;
-	 *			}
-	 *		case "3":
-	 *			if (distance(food) < min_distance){
-	 *				"foge";
-	 *			}
-	 *			else{
-	 *				"move-se aleatoriamente";
-	 *			}
-	 *	}
-	 *
-	 * */
 	//FSM
 	var distance = matriz.getDistance(this.body[0],food.getPos());
 	switch (this.defineNewState(food.isVisible(),food.isToxic(),distance)){
@@ -197,6 +162,33 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 			this.computedPath = false;
 			break;
 		case 2:
+			//DUMMY MOVE
+			var dx = food.getPos().x - this.body[0].x;
+			var dy = food.getPos().y - this.body[0].y;
+			if(Math.abs(dx) > Math.abs(dy)){
+				if (dx > 0) {
+					this.desiredDirection = this.RIGHT;
+				}
+				else if (dx < 0){
+					this.desiredDirection = this.LEFT;
+				}
+			}
+			else {
+				if (dy > 0) {
+					this.desiredDirection = this.DOWN;
+				}
+				else if (dy < 0) {
+					this.desiredDirection = this.UP;
+				}
+			}
+			//verifica se nao esta bloqueado
+			var nextPosition = this.newHeadPosition();
+			matriz.circularCorrectCell(nextPosition);
+			var cellValue = matriz.getCell(nextPosition);
+			if (cellValue != 0){
+				this.randomMove(matriz);
+			}
+			/*Comentado para futura implementacao
 			if(!this.computedPath){
 				this.searchPath();
 			}
@@ -211,6 +203,7 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 					//"seta direcao no worm";
 					break;
 			}
+			*/
 			break;
 		case 3:
 			this.randomMove(matriz);
@@ -265,5 +258,4 @@ WormBot.prototype.randomMove = function (matriz) {
 		matriz.circularCorrectCell(nextPosition);
 		cellValue = matriz.getCell(nextPosition);
 	}
-
 };
