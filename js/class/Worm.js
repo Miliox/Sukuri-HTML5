@@ -212,7 +212,7 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 	}
 };
 WormBot.prototype.defineNewState = function (visible, toxic, distance){
-	if(visible && !toxic && distance < 20){
+	if(visible && !toxic && distance < 50){
 		return 2;
 	}else if(visible && toxic && distance < 10){
 		return 3;
