@@ -67,6 +67,18 @@ Worm.prototype.UP = 0;
 Worm.prototype.RIGHT = 1;
 Worm.prototype.DOWN = 2;
 Worm.prototype.LEFT = 3;
+Worm.prototype.getValidDirections = function (){
+	switch (this.direction){
+		case this.UP:
+			return [this.UP,this.RIGHT,this.LEFT];
+		case this.RIGHT:
+			return [this.UP,this.RIGHT,this.DOWN];
+		case this.DOWN:
+			return [this.RIGHT,this.DOWN,this.LEFT];
+		case this.LEFT:
+			return [this.UP,this.DOWN,this.LEFT];
+	}
+};
 //Reinicia a minhoca
 Worm.prototype.restart = function (){
 	this.body = function(initialBody){
@@ -110,26 +122,27 @@ delete WormHuman.prototype.direction;
 delete WormHuman.prototype.score;
 WormHuman.prototype.constructor = WormHuman;
 WormHuman.prototype.inputProcess = function (inputList, matriz, food){
+	var directions = this.getValidDirections();
 	for(var i = 0;i < inputList.length;i++){
 		switch (inputList[i]){
 			//Player controls
 			case this.teclado.up:
-				if (this.direction != this.DOWN) {
+				if (this.UP in directions) {
 					this.desiredDirection = this.UP;
 				}
 				break;
 			case this.teclado.down:
-				if (this.direction != this.UP) {
+				if (this.DOWN in directions) {
 					this.desiredDirection = this.DOWN;
 				}
 				break;
 			case this.teclado.left:
-				if (this.direction != this.RIGHT) {
+				if (this.RIGHT in directions) {
 					this.desiredDirection = this.LEFT;
 				}
 				break;
 			case this.teclado.right:
-				if (this.direction != this.LEFT) {
+				if (this.LEFT in direction) {
 					this.desiredDirection = this.RIGHT;
 				}
 				break;
@@ -163,7 +176,13 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 		case 2: /*Persegue o Diamond*/
 			//DUMMY MOVE
 			var dx = food.getPos().x - this.body[0].x;
+			if(dx > 48){
+				dx =  this.body[0].x - food.getPos().x;
+			}
 			var dy = food.getPos().y - this.body[0].y;
+			if(dy > 23){
+				dy =  this.body[0].y - food.getPos().y;
+			}
 			if(Math.abs(dx) > Math.abs(dy)){
 				if (dx > 0) {
 					this.desiredDirection = this.RIGHT;
@@ -202,8 +221,15 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 			*/
 			break;
 		case 3: /*Foge do Diamond envenenado*/
+			//DUMMY MOVE
 			var dx = food.getPos().x - this.body[0].x;
+			if(dx > 48){
+				dx =  this.body[0].x - food.getPos().x;
+			}
 			var dy = food.getPos().y - this.body[0].y;
+			if(dy > 23){
+				dx =  this.body[0].y - food.getPos().y;
+			}
 			if(Math.abs(dx) > Math.abs(dy)){
 				if (dx < 0) {
 					this.desiredDirection = this.RIGHT;
@@ -227,14 +253,9 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 	}
 };
 WormBot.prototype.defineNewState = function (visible, toxic, distance){
-	if(visible && !toxic && distance < 50){
-		return 2;
-	}else if(visible && toxic && distance < 10){
-		return 3;
-	}
-	else{
-		return 1;
-	}
+	if(visible && !toxic && distance < 50){	return 2; }
+	else if(visible && toxic && distance < 10){ return 3; }
+	else{ return 1;	}
 };
 WormBot.prototype.searchPath = function (matriz, destiny) {
 	this.path = [];
@@ -248,14 +269,11 @@ WormBot.prototype.randomMove = function (matriz) {
 		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))]; 
 	}
 
-	//Verificar se existe colisao, mudar de direcao se houver
+	//Verificar se existe colisao, muda de direcao se houver
 	var count = 0;
 	var index;
 	do {
-		if (!this.willCollide(matriz)) {
-			//Se estiver livre continue neste caminho
-			break;
-		}
+		if (!this.willCollide(matriz)) { return; }
 		else if(validDirection.length > 0) {
 			//Tente outra direcao aleatoria
 			index = Math.floor(Math.random() * validDirection.length);
@@ -274,17 +292,4 @@ WormBot.prototype.willCollide = function (matriz) {
 		return false;
 	}
 	return true;
-};
-WormBot.prototype.getValidDirections = function (){
-	switch (this.direction)
-	{
-		case this.UP:
-			return [this.UP,this.RIGHT,this.LEFT];
-		case this.RIGHT:
-			return [this.UP,this.RIGHT,this.DOWN];
-		case this.DOWN:
-			return [this.RIGHT,this.DOWN,this.LEFT];
-		case this.LEFT:
-			return [this.UP,this.DOWN,this.LEFT];
-	}
 };
