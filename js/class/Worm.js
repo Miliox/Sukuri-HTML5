@@ -180,11 +180,8 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 					this.desiredDirection = this.UP;
 				}
 			}
-			//verifica se nao esta bloqueado
-			var nextPosition = this.newHeadPosition();
-			matriz.circularCorrectCell(nextPosition);
-			var cellValue = matriz.getCell(nextPosition);
-			if (cellValue != 0){
+			//verifica colisao
+			if (this.willCollide(matriz)){
 				this.randomMove(matriz);
 			}
 			/*Comentado para futura implementacao
@@ -223,12 +220,8 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 					this.desiredDirection = this.UP;
 				}
 			}
-			//verifica se nao esta bloqueado
-			var nextPosition = this.newHeadPosition();
-			matriz.circularCorrectCell(nextPosition);
-			var cellValue = matriz.getCell(nextPosition);
-			if (cellValue != 0) { this.randomMove(matriz); }
-			//
+			//verifica se existe colisao
+			if (this.willCollide(matriz)) { this.randomMove(matriz); }
 			this.computedPath = false;
 			break;
 	}
@@ -249,23 +242,7 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 	//compute path
 };
 WormBot.prototype.randomMove = function (matriz) {
-	var validDirection;
-	//Define direcoes validas para evitar colisao
-	switch (this.direction)
-	{
-		case this.UP:
-			validDirection = [this.UP,this.RIGHT,this.LEFT];
-			break;
-		case this.RIGHT:
-			validDirection = [this.UP,this.RIGHT,this.DOWN];
-			break;
-		case this.DOWN:
-			validDirection = [this.RIGHT,this.DOWN,this.LEFT];
-			break;
-		case this.LEFT:
-			validDirection = [this.UP,this.DOWN,this.LEFT];
-			break;
-	}
+	var validDirection = this.getValidDirections();
 	//aleatoriamente muda direcao do Worm
 	if(Math.random() < 0.1){
 		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))]; 
@@ -273,14 +250,9 @@ WormBot.prototype.randomMove = function (matriz) {
 
 	//Verificar se existe colisao, mudar de direcao se houver
 	var count = 0;
-	var index, cellValue;
-	var headNextPosition;
+	var index;
 	do {
-		//Obtem proxima posicao
-		headNextPosition = this.newHeadPosition();
-		matriz.circularCorrectCell(headNextPosition);
-		cellValue = matriz.getCell(headNextPosition);
-		if (cellValue == 0) {
+		if (!this.willCollide(matriz)) {
 			//Se estiver livre continue neste caminho
 			break;
 		}
@@ -293,4 +265,26 @@ WormBot.prototype.randomMove = function (matriz) {
 		}
 		count++;
 	} while(count < 4);
+};
+WormBot.prototype.willCollide = function (matriz) {
+	var headNextPosition = this.newHeadPosition();
+	matriz.circularCorrectCell(headNextPosition);
+	var cellValue =  matriz.getCell(headNextPosition);
+	if (cellValue == 0) {
+		return false;
+	}
+	return true;
+};
+WormBot.prototype.getValidDirections = function (){
+	switch (this.direction)
+	{
+		case this.UP:
+			return [this.UP,this.RIGHT,this.LEFT];
+		case this.RIGHT:
+			return [this.UP,this.RIGHT,this.DOWN];
+		case this.DOWN:
+			return [this.RIGHT,this.DOWN,this.LEFT];
+		case this.LEFT:
+			return [this.UP,this.DOWN,this.LEFT];
+	}
 };
