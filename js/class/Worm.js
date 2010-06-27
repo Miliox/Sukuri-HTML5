@@ -156,12 +156,11 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 	//FSM
 	var distance = matriz.getDistance(this.body[0],food.getPos());
 	switch (this.defineNewState(food.isVisible(),food.isToxic(),distance)){
-		case 1:
-			//movimenta-se aleatoriamente;
+		case 1: /*Move-se aleatoriamente*/
 			this.randomMove(matriz);
 			this.computedPath = false;
 			break;
-		case 2:
+		case 2: /*Persegue o Diamond*/
 			//DUMMY MOVE
 			var dx = food.getPos().x - this.body[0].x;
 			var dy = food.getPos().y - this.body[0].y;
@@ -205,8 +204,31 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 			}
 			*/
 			break;
-		case 3:
-			this.randomMove(matriz);
+		case 3: /*Foge do Diamond envenenado*/
+			var dx = food.getPos().x - this.body[0].x;
+			var dy = food.getPos().y - this.body[0].y;
+			if(Math.abs(dx) > Math.abs(dy)){
+				if (dx < 0) {
+					this.desiredDirection = this.RIGHT;
+				}
+				else if (dx > 0){
+					this.desiredDirection = this.LEFT;
+				}
+			}
+			else {
+				if (dy < 0) {
+					this.desiredDirection = this.DOWN;
+				}
+				else if (dy > 0) {
+					this.desiredDirection = this.UP;
+				}
+			}
+			//verifica se nao esta bloqueado
+			var nextPosition = this.newHeadPosition();
+			matriz.circularCorrectCell(nextPosition);
+			var cellValue = matriz.getCell(nextPosition);
+			if (cellValue != 0) { this.randomMove(matriz); }
+			//
 			this.computedPath = false;
 			break;
 	}
@@ -228,7 +250,8 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 };
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection;
-	switch (this.direction )
+	//Define direcoes validas para evitar colisao
+	switch (this.direction)
 	{
 		case this.UP:
 			validDirection = [this.UP,this.RIGHT,this.LEFT];
@@ -243,19 +266,31 @@ WormBot.prototype.randomMove = function (matriz) {
 			validDirection = [this.UP,this.DOWN,this.LEFT];
 			break;
 	}
-	if(Math.random() > 0.8){
+	//aleatoriamente muda direcao do Worm
+	if(Math.random() < 0.1){
 		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))]; 
 	}
-	var nextPosition = this.newHeadPosition();
-	matriz.circularCorrectCell(nextPosition);
-	var cellValue = matriz.getCell(nextPosition);
-	var index;
-	for(var i = 0;(cellValue != 0) && (validDirection.length > 0);i++){
-		index = Math.floor(Math.random() * validDirection.length);
-		this.desiredDirection = validDirection[index];
-		validDirection.splice(index,1);
-		nextPosition = this.newHeadPosition();
-		matriz.circularCorrectCell(nextPosition);
-		cellValue = matriz.getCell(nextPosition);
-	}
+
+	//Verificar se existe colisao, mudar de direcao se houver
+	var count = 0;
+	var index, cellValue;
+	var headNextPosition;
+	do {
+		//Obtem proxima posicao
+		headNextPosition = this.newHeadPosition();
+		matriz.circularCorrectCell(headNextPosition);
+		cellValue = matriz.getCell(headNextPosition);
+		if (cellValue == 0) {
+			//Se estiver livre continue neste caminho
+			break;
+		}
+		else if(validDirection.length > 0) {
+			//Tente outra direcao aleatoria
+			index = Math.floor(Math.random() * validDirection.length);
+			this.desiredDirection = validDirection[index];
+			//remove direcao aleatoria das possibilidades
+			validDirection.splice(index,1);
+		}
+		count++;
+	} while(count < 4);
 };
