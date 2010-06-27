@@ -17,6 +17,8 @@ WALL = new Image();
 WALL.src = 'img/wall.gif';
 BACKGROUND_IMG = new Image();
 BACKGROUND_IMG.src = 'img/patter.gif';
+WORMTILE = new Image();
+WORMTILE.src = 'img/worm_tile.gif';
 
 function Graphic(canvas, tileX, tileY, matriz){
 	//Buffer Principal
@@ -132,18 +134,23 @@ Graphic.prototype.renderBufferWorm = function (worm) {
 
 	this.ctxBuffer.save();
 	this.ctxBuffer.beginPath();
+	var style = this.ctxBuffer.createPattern(WORMTILE,'repeat');
 	for(var i = 0;i <  worm.body.length; i++) {
 		x = worm.body[i].x * this.TILEWIDTH;
+		x += this.TILEWIDTH / 2;
 		y = worm.body[i].y * this.TILEHEIGHT + this.HEADERHEIGHT;
-		this.ctxBuffer.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
+		y += this.TILEHEIGHT / 2;
+		this.ctxBuffer.arc(x, y, this.TILEWIDTH / 2, 0, 2*Math.PI+0.01,false);
+		this.ctxBuffer.fillStyle = style;
+		this.ctxBuffer.fill();
+		this.ctxBuffer.globalAlpha = 0.8;
+		this.ctxBuffer.fillStyle = worm.color;
+		this.ctxBuffer.fill();
+		this.ctxBuffer.globalAlpha = 0.3;
+		this.ctxBuffer.stroke();
+		this.ctxBuffer.globalAlpha = 1;
+		this.ctxBuffer.beginPath();
 	}
-	this.ctxBuffer.fillStyle = worm.color;
-	this.ctxBuffer.fill();
-	this.ctxBuffer.beginPath();
-	this.ctxBuffer.fillStyle = 'rgba(0,0,0,0.25)';
-	x = worm.body[0].x * this.TILEWIDTH;
-	y = worm.body[0].y * this.TILEHEIGHT + this.HEADERHEIGHT;
-	this.ctxBuffer.fillRect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferDiamond = function (food) {

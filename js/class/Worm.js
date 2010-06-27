@@ -127,22 +127,22 @@ WormHuman.prototype.inputProcess = function (inputList, matriz, food){
 		switch (inputList[i]){
 			//Player controls
 			case this.teclado.up:
-				if (this.UP in directions) {
+				if (this.direction != this.DOWN) {
 					this.desiredDirection = this.UP;
 				}
 				break;
 			case this.teclado.down:
-				if (this.DOWN in directions) {
+				if (this.direction != this.UP) {
 					this.desiredDirection = this.DOWN;
 				}
 				break;
 			case this.teclado.left:
-				if (this.RIGHT in directions) {
+				if (this.direction != this.RIGHT) {
 					this.desiredDirection = this.LEFT;
 				}
 				break;
 			case this.teclado.right:
-				if (this.LEFT in direction) {
+				if (this.direction != this.LEFT) {
 					this.desiredDirection = this.RIGHT;
 				}
 				break;
