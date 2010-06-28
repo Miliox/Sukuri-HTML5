@@ -154,6 +154,7 @@ WormHuman.prototype.inputProcess = function (inputList, matriz, food){
 function WormBot(initialBody, direction, color){
 	Worm.call(this,initialBody, direction,color);
 	this.computedPath = false;
+	this.wait = 0;
 }
 
 WormBot.prototype = new Worm();
@@ -175,33 +176,40 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 			break;
 		case 2: /*Persegue o Diamond*/
 			//DUMMY MOVE
-			var dx = food.getPos().x - this.body[0].x;
-			if(dx > 48){
-				dx =  this.body[0].x - food.getPos().x;
-			}
-			var dy = food.getPos().y - this.body[0].y;
-			if(dy > 23){
-				dy =  this.body[0].y - food.getPos().y;
-			}
-			if(Math.abs(dx) > Math.abs(dy)){
-				if (dx > 0) {
-					this.desiredDirection = this.RIGHT;
-				}
-				else if (dx < 0){
-					this.desiredDirection = this.LEFT;
-				}
+			if (this.wait > 0) {
+				this.wait--;
+				this.randomMove(matriz);
 			}
 			else {
-				if (dy > 0) {
-					this.desiredDirection = this.DOWN;
+				var dx = food.getPos().x - this.body[0].x;
+				if(dx > 48){
+					dx =  this.body[0].x - food.getPos().x;
 				}
-				else if (dy < 0) {
-					this.desiredDirection = this.UP;
+				var dy = food.getPos().y - this.body[0].y;
+					if(dy > 23){
+					dy =  this.body[0].y - food.getPos().y;
 				}
-			}
-			//verifica colisao
-			if (this.willCollide(matriz)){
-				this.randomMove(matriz);
+				if(Math.abs(dx) > Math.abs(dy)){
+					if (dx > 0) {
+						this.desiredDirection = this.RIGHT;
+					}
+					else if (dx < 0){
+						this.desiredDirection = this.LEFT;
+					}
+				}
+				else {
+					if (dy > 0) {
+						this.desiredDirection = this.DOWN;
+					}
+					else if (dy < 0) {
+						this.desiredDirection = this.UP;
+					}
+				}
+				//verifica colisao
+				if (this.willCollide(matriz)){
+					this.wait = Math.round(Math.random() * 15);
+					this.randomMove(matriz);
+				}
 			}
 			/*Comentado para futura implementacao
 			if(!this.computedPath){
@@ -253,14 +261,72 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 	}
 };
 WormBot.prototype.defineNewState = function (visible, toxic, distance){
-	if(visible && !toxic && distance < 50){	return 2; }
+	if(visible && !toxic && distance < 25){	return 2; }
 	else if(visible && toxic && distance < 10){ return 3; }
 	else{ return 1;	}
 };
 WormBot.prototype.searchPath = function (matriz, destiny) {
+	//path armazena-ra as decisoes
 	this.path = [];
 	this.computedPath = true;
-	//compute path
+
+	var old_node = []; //array de nodos encontrados
+	var new_node = []; //array de novos nodos, preenchido durante o processamento dos old
+
+	var relative_map = new Array(51);
+
+	var i, j;
+	//cria matriz
+	for(i = 0; i < relative_map.length; i++){
+		relative_map[i] = new Array(51);
+	}
+
+	//inicializa matriz
+	for(i = 0; i < relative_map.length; i++){
+		for(j = 0; j < relative_map[i].length; j++){
+			relative_map[i][j] = null;
+		}
+	}
+
+	//fator de correcao
+	var fator = new Vector(25,25);
+
+	//referencia
+	var root = this.body[0];
+	var root_refer = new Vector(25,25);
+
+	//
+	var deep = 0;
+	var max_deep = 25;
+	var vd = [-1,new Vector()];
+
+	//inicia busca em largura
+	old_node = [root_refer];
+	relative_map[old_node[0].y][old_node[0].x] = [null,null];
+	//continua busca
+	for (deep = 1; deep < max_deep; deep++){
+		new_node = [];
+		//percorre os nodes ja encontrados
+		for(j = 0; j < old_node.length; j++){
+			//encontra novos nodos
+			for(i = 0; i < old_node[j].length; i++){
+				//se nodo estiver livre
+				if(true /*LookUp in matriz*/){
+					//registra
+					new_node.push();
+					if( true /*Encontrou ?*/){
+						//obtem caminho
+						//path = function () {} ();
+						//return;
+					}
+				}
+				else{
+					//marca como vazio
+				}
+			}
+		}
+		old_node = new_node;
+	}
 };
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getValidDirections();
