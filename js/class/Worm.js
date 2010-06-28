@@ -275,7 +275,7 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 
 	var relative_map = new Array(51);
 
-	var i, j;
+	var i, j, k;
 	//cria matriz
 	for(i = 0; i < relative_map.length; i++){
 		relative_map[i] = new Array(51);
@@ -289,7 +289,7 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 	}
 
 	//fator de correcao
-	var fator = new Vector(25,25);
+	var fator = new Vector(-25,-25);
 
 	//referencia
 	var root = this.body[0];
@@ -298,8 +298,9 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 	//
 	var deep = 0;
 	var max_deep = 25;
-	var vd = [-1,new Vector()];
-
+	var vecDir = [new Vectori(0,-1),new Vector(1,0),new Vector(0,1),new Vector(-1,0)];
+	var vazio = [-1,new Vector()];
+	var node_refer, node;
 	//inicia busca em largura
 	old_node = [root_refer];
 	relative_map[old_node[0].y][old_node[0].x] = [null,null];
@@ -309,19 +310,26 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 		//percorre os nodes ja encontrados
 		for(j = 0; j < old_node.length; j++){
 			//encontra novos nodos
-			for(i = 0; i < old_node[j].length; i++){
+			for(i = 0; i < vecDir[i].length; i++){
+				node_refer = old_node[j].add(vecDir[i]);
+				node = root.add(node_refer);
+				node.addUpdate(fator);
+				matriz.circularCorrectCell(node);
 				//se nodo estiver livre
-				if(true /*LookUp in matriz*/){
+				if(matriz.getCell(node) === 0 &&
+					relative_map[node_refer.y][node_refer.x] === null
+					){
 					//registra
-					new_node.push();
-					if( true /*Encontrou ?*/){
+					new_node.push(node_refer);
+					relative_map[node_refer.y][node_refer.x] = [i, old_node[j]];
+					if(node.equals(destiny)){
 						//obtem caminho
-						//path = function () {} ();
 						//return;
 					}
 				}
 				else{
 					//marca como vazio
+					relative_map[node_refer.y][node_refer.x] = vazio;
 				}
 			}
 		}
@@ -331,7 +339,7 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getValidDirections();
 	//aleatoriamente muda direcao do Worm
-	if(Math.random() < 0.1){
+	if(Math.random() < 0.1 && Math.random() > 0.8){
 		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))]; 
 	}
 
