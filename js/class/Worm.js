@@ -221,6 +221,9 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 				case 0:
 					//"nao existe caminho valido";
 					this.randomMove(matriz);
+					if (Math.random() > 0.6){
+						this.computedPath = false;
+					}
 					break;
 				default :
 					//"remove uma direcao do path";
@@ -274,12 +277,12 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 	var old_node = []; //array de nodos encontrados
 	var new_node = []; //array de novos nodos, preenchido durante o processamento dos old
 
-	var relative_map = new Array(51);
+	var relative_map = new Array(70);
 
 	var i, j, k;
 	//cria matriz
 	for(i = 0; i < relative_map.length; i++){
-		relative_map[i] = new Array(51);
+		relative_map[i] = new Array(70);
 	}
 
 	//inicializa matriz
@@ -293,14 +296,14 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 	for(i = 0; i < relative_map[0].length; i++){
 		relative_map[0][i] = 1;
 	}
-	for(i = 0; i < relative_map[50].length; i++){
+	for(i = 0; i < relative_map[69].length; i++){
 		relative_map[0][i] = 1;
 	}
 	for(i = 0; i < relative_map.length; i++){
-		relative_map[50][0] = 1;
+		relative_map[69][0] = 1;
 	}
 	for(i = 0; i < relative_map.length; i++){
-		relative_map[i][50] = 1;
+		relative_map[i][69] = 1;
 	}
 
 
@@ -311,9 +314,10 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 	var root_refer = this.body[0];
 	var root = new Vector(Math.floor(relative_map.length / 2), Math.floor(relative_map[0].length / 2));
 	var refer = root_refer.subtract(root);
+	matriz.circularCorrectCell(refer);
 	//
 	var deep = 0;
-	var max_deep = 11;
+	var max_deep = 30;
 	var vecDir = [new Vector(0,-1),new Vector(1,0),new Vector(0,1),new Vector(-1,0)];
 	//var vazio = -1;
 	var node_refer, node;
