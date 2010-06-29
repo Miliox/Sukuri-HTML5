@@ -175,7 +175,8 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 			this.computedPath = false;
 			break;
 		case 2: /*Persegue o Diamond*/
-			//DUMMY MOVE
+			/*DUMMY MOVE*/
+			/*
 			if (this.wait > 0) {
 				this.wait--;
 				this.randomMove(matriz);
@@ -210,23 +211,23 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 					this.wait = Math.round(Math.random() * 15);
 					this.randomMove(matriz);
 				}
-			}
-			/*Comentado para futura implementacao
+			}*/
+			/*Comentado para futura implementacao*/
 			if(!this.computedPath){
-				this.searchPath();
+				this.searchPath(matriz,food.getPos());
 			}
 			switch(this.path.length)
 			{
 				case 0:
 					//"nao existe caminho valido";
-					//this.randomMove(matriz);
+					this.randomMove(matriz);
 					break;
 				default :
 					//"remove uma direcao do path";
 					//"seta direcao no worm";
+					this.desiredDirection = this.path.shift();
 					break;
 			}
-			*/
 			break;
 		case 3: /*Foge do Diamond envenenado*/
 			//DUMMY MOVE
@@ -288,51 +289,66 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 		}
 	}
 
+	//
+	for(i = 0; i < relative_map[0].length; i++){
+		relative_map[0][i] = 1;
+	}
+	for(i = 0; i < relative_map[50].length; i++){
+		relative_map[0][i] = 1;
+	}
+	for(i = 0; i < relative_map.length; i++){
+		relative_map[50][0] = 1;
+	}
+	for(i = 0; i < relative_map.length; i++){
+		relative_map[i][50] = 1;
+	}
+
+
 	//fator de correcao
-	var fator = new Vector(-25,-25);
+	//var fator = new Vector(-13,-13);
 
 	//referencia
-	var root = this.body[0];
-	var root_refer = new Vector(25,25);
-
+	var root_refer = this.body[0];
+	var root = new Vector(Math.floor(relative_map.length / 2), Math.floor(relative_map[0].length / 2));
+	var refer = root_refer.subtract(root);
 	//
 	var deep = 0;
-	var max_deep = 25;
-	var vecDir = [new Vectori(0,-1),new Vector(1,0),new Vector(0,1),new Vector(-1,0)];
-	var vazio = [-1,new Vector()];
+	var max_deep = 11;
+	var vecDir = [new Vector(0,-1),new Vector(1,0),new Vector(0,1),new Vector(-1,0)];
+	//var vazio = -1;
 	var node_refer, node;
 	//inicia busca em largura
-	old_node = [root_refer];
-	relative_map[old_node[0].y][old_node[0].x] = [null,null];
+	old_node = [];
+	old_node.push(root);
+	relative_map[root.y][root.x] = [null,null];
 	//continua busca
-	for (deep = 1; deep < max_deep; deep++){
+	for (deep = 1; deep < max_deep; deep++) {
 		new_node = [];
 		//percorre os nodes ja encontrados
 		for(j = 0; j < old_node.length; j++){
 			//encontra novos nodos
-			for(i = 0; i < vecDir[i].length; i++){
-				node_refer = old_node[j].add(vecDir[i]);
-				node = root.add(node_refer);
-				node.addUpdate(fator);
-				matriz.circularCorrectCell(node);
+			for(i = 0; i < vecDir.length; i++){
+				node = old_node[j].add(vecDir[i]);
+				node_refer = refer.add(node);
+
+				matriz.circularCorrectCell(node_refer);
 				//se nodo estiver livre
-				if(matriz.getCell(node) === 0 &&
-					relative_map[node_refer.y][node_refer.x] === null
-					){
+				if( (relative_map[node.y][node.x] === null) &&
+					(matriz.getCell(node_refer) === 0)){
 					//registra
-					new_node.push(node_refer);
-					relative_map[node_refer.y][node_refer.x] = [i, old_node[j]];
-					if(node.equals(destiny)){
+					new_node.push(node);
+					relative_map[node.y][node.x] = [i, old_node[j]];
+					if(node_refer.equals(destiny)){
 						//obtem caminho
-						//return;
-					}
-				}
-				else{
-					//marca como vazio
-					relative_map[node_refer.y][node_refer.x] = vazio;
-				}
-			}
-		}
+						while((relative_map[node.y][node.x][0] !== null) && (relative_map[node.y][node.x][1] !== null)){
+							this.path.unshift(relative_map[node.y][node.x][0]);
+							node = relative_map[node.y][node.x][1];
+						}
+						return;
+					}//if equals
+				}//if node null
+			}//next direction
+		}//para cada nodo encontrado
 		old_node = new_node;
 	}
 };

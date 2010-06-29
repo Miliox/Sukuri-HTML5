@@ -23,3 +23,6 @@ Vector.prototype.addUpdate = function(vec) {
 	this.x += vec.x;
 	this.y += vec.y;
 };
+Vector.prototype.subtract = function (vec) {
+	return new Vector(this.x-vec.x,this.y-vec.y);
+};

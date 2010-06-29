@@ -163,7 +163,6 @@ Nibbles.prototype.loopGame = function () {
 		}
 	}//for in worms
 	this.inputs = [];
-
 	//Renderiza a Tela
 	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };
