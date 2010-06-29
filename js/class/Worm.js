@@ -229,6 +229,9 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 					//"remove uma direcao do path";
 					//"seta direcao no worm";
 					this.desiredDirection = this.path.shift();
+					if(this.willCollide(matriz)){
+						this.randomMove(matriz);
+					}
 					break;
 			}
 			break;
@@ -259,7 +262,9 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 				}
 			}
 			//verifica se existe colisao
-			if (this.willCollide(matriz)) { this.randomMove(matriz); }
+			if (this.willCollide(matriz)) {
+				this.randomMove(matriz);
+			}
 			this.computedPath = false;
 			break;
 	}
@@ -359,7 +364,7 @@ WormBot.prototype.searchPath = function (matriz, destiny) {
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getValidDirections();
 	//aleatoriamente muda direcao do Worm
-	if(Math.random() < 0.1 && Math.random() > 0.8){
+	if(Math.random() < 0.1 && Math.random() > 0.9){
 		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))]; 
 	}
 
