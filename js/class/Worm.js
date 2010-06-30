@@ -180,7 +180,7 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 				case 0:
 					//"nao existe caminho valido";
 					this.randomMove(matriz);
-					if ( Math.random() < 0.2) {
+					if (Math.random() < 0.2) {
 						//busca novo caminho apos um tempo aleatorio
 						this.computedPath = false;
 					}
@@ -227,7 +227,7 @@ WormBot.prototype.searchPath = function (map, destiny) {
 			sandbox_map[col][lin] = null;
 		}
 	}
-	//cerca matriz
+	//cerca matriz, simplifica verificacao de limites
 	for(var n = 0; n < order; n++){
 		sandbox_map[0][n] = -1;
 		sandbox_map[n][0] = -1;
@@ -237,7 +237,8 @@ WormBot.prototype.searchPath = function (map, destiny) {
 
 	//referencias
 	var root_map = this.body[0];
-	var root_sandbox = new Vector(Math.floor(order / 2), Math.floor(order / 2));
+	var center = Math.floor(order / 2);
+	var root_sandbox = new Vector(center, center);
 	var reference_map = root_map.subtract(root_sandbox);
 	map.circularCorrectCell(reference_map);
 	//direcoes
@@ -265,11 +266,12 @@ WormBot.prototype.searchPath = function (map, destiny) {
 		for(i = 0; i < old_nodes.length; i++){
 			//encontra novos nodos
 			for(direcao = 0; direcao < vec_unit.length; direcao++){
+				//calcula posicao do novo nodo
 				node_sandbox = old_nodes[i].add(vec_unit[direcao]);
+				//converte a posicao do nodo para nodo no mapa
 				node_map = reference_map.add(node_sandbox);
-
 				map.circularCorrectCell(node_map);
-				if ( //verifica se a posicao esta livre
+				if ( //verifica se o nodo é valido
 					(sandbox_map[node_sandbox.y][node_sandbox.x] === null) &&
 					(map.getCell(node_map) === 0)
 				){
@@ -277,7 +279,7 @@ WormBot.prototype.searchPath = function (map, destiny) {
 					new_nodes.push(node_sandbox);
 					sandbox_map[node_sandbox.y][node_sandbox.x] = {sentido : direcao, origem : old_nodes[i]};
 					if (node_map.equals(destiny)) {
-						//encontrou, preenche o path para o food
+						//encontrou o destino entao preenche o path
 						while(
 							(sandbox_map[node_sandbox.y][node_sandbox.x].sentido !== null) &&
 							(sandbox_map[node_sandbox.y][node_sandbox.x].origem !== null)
@@ -296,8 +298,9 @@ WormBot.prototype.searchPath = function (map, destiny) {
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getValidDirections();
 	//aleatoriamente muda direcao do Worm
-	if(Math.random() < 0.1 && Math.random() > 0.9){
-		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))];
+	var valor = Math.random();
+	if(valor > 0.45 && valor < 0.5){
+			this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))];
 	}
 	//Verificar se existe colisao, muda de direcao se houver
 	var count = 0;
@@ -318,13 +321,6 @@ WormBot.prototype.runAway = function (position) {
 	var dx = position.x - this.body[0].x;
 	var dy = position.y - this.body[0].y;
 	//corrige matriz circular
-	if(dx > 48){
-		dx =  this.body[0].x - position.x;
-	}
-	if(dy > 23){
-		dx =  this.body[0].y - position.y;
-	}
-
 	var opposite_direction;
 	if(Math.abs(dx) > Math.abs(dy)){
 		if (dx < 0) {
