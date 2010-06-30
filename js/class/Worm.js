@@ -221,9 +221,9 @@ WormBot.prototype.searchPath = function (map, destiny) {
 	var lin, col;
 	var order = Math.round(this.radius * 2) + 3;
 	var sandbox_map = new Array(order);
-	for(col = 0; col < sandbox_map.length; col++){
+	for(col = 0; col < order; col++){
 		sandbox_map[col] = new Array(order);
-		for(lin = 0; lin < sandbox_map[col].length; lin++){
+		for(lin = 0; lin < order; lin++){
 			sandbox_map[col][lin] = null;
 		}
 	}

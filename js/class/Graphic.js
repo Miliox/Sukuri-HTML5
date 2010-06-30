@@ -42,7 +42,8 @@ function Graphic(canvas, tileX, tileY, matriz){
 	this.TILEWIDTH = this.canvas.width/ tileX;
 	this.TILEHEIGHT = (this.canvas.height - this.HEADERHEIGHT - this.FOOTERHEIGHT) / tileY;
 
-	this.BACKGROUNDS = ["white","green","yellow","DarkSlategray", "orange"];
+	this.BACKGROUNDS = ["white","green","yellow","DarkSlategray", "orange",
+		"red", "brown", "darkgreen", "gold", "maroon", "olive", "lightgreen"];
 	this.DIAMOND = DIAMOND || [new Image(), new Image()];
 	this.WALL = WALL || new Image();
 	if(!DIAMOND){
