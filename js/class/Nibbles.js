@@ -20,27 +20,20 @@ function Nibbles(canvas, worms) {
 	this.INCFPS = 3;
 
 	//Game Objects
-
-	this.map = new Matriz(this.WIDTH, this.HEIGHT);
+	//Mapa
 	var rand_map = [NIBBLES_MAPS.level1,NIBBLES_MAPS.level2,NIBBLES_MAPS.level3,NIBBLES_MAPS.level4];
 	var rand_index = Math.floor(rand_map.length*Math.random());
+	this.map = new Matriz(this.WIDTH, this.HEIGHT);
 	this.map.setWallPositions(rand_map[rand_index]);
-	/*
-	//----------------Gerar Posicoes Aleatórias---------------------
-	var x, y;
-	for(var i = 0; i < 30; i++) {
-		x = Math.floor(Math.random() * this.WIDTH);
-		y = Math.floor(Math.random() * this.HEIGHT);
-		this.map.setCell(new Vector(x, y), -1);
-	}
-	//----------------------------------------
-	*/
+	//Grafico
 	this.display = new Graphic(canvas, this.WIDTH, this.HEIGHT, this.map);
+	//Worm
 	this.worms = worms;	//Array de Worms
+	//Diamond
 	this.food = new Diamond(5, this.WIDTH, this.HEIGHT);
 
 	//Registra posicoes no map
-	for(line = 0; line < this.worms.length; line++){
+	for(var line = 0; line < this.worms.length; line++){
 		this.map.setPositions(worms[line].body, line + 1);
 	}
 

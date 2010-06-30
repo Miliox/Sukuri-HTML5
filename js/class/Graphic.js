@@ -107,25 +107,16 @@ Graphic.prototype.renderBufferWalls = function(matriz){
 	ctx.beginPath();
 	var x, y;
 	var i, j;
-	if(matriz === undefined){
-		return;
-	};
+	if(matriz === undefined){ return; };
 	for(j = 0; j < this.TILESY; j++){
 		for(i = 0; i < this.TILESX; i++) {
 			if(matriz.getCell(new Vector(i, j)) < 0){
 				x = i * this.TILEWIDTH;
 				y = j * this.TILEHEIGHT + this.HEADERHEIGHT;
-				if(this.WALL.complete){
-					ctx.drawImage(this.WALL, x, y,this.TILEWIDTH,this.TILEHEIGHT);
-				}
-				else{
-					ctx.rect(x, y, this.TILEWIDTH, this.TILEHEIGHT);
-				}
+				ctx.drawImage(this.WALL, x, y,this.TILEWIDTH,this.TILEHEIGHT);
 			}
 		}
 	}
-	ctx.fillStyle = 'gray';
-	ctx.fill();
 };
 Graphic.prototype.renderBufferWorm = function (worm) {
 	var x, y;
@@ -150,13 +141,11 @@ Graphic.prototype.renderBufferWorm = function (worm) {
 Graphic.prototype.renderBufferDiamond = function (food) {
 	var x = food.getPos().x * this.TILEWIDTH;
 	var y = food.getPos().y * this.TILEHEIGHT + this.HEADERHEIGHT;
-	if(this.DIAMOND[0].complete && this.DIAMOND[1].complete){
-		if(food.isToxic()){
-			this.ctxBuffer.drawImage(this.DIAMOND[1], x, y,this.TILEWIDTH,this.TILEHEIGHT);
-		}
-		else{
-			this.ctxBuffer.drawImage(this.DIAMOND[0], x, y, this.TILEWIDTH,this.TILEHEIGHT);
-		}
+	if(food.isToxic()){
+		this.ctxBuffer.drawImage(this.DIAMOND[1], x, y,this.TILEWIDTH,this.TILEHEIGHT);
+	}
+	else{
+		this.ctxBuffer.drawImage(this.DIAMOND[0], x, y, this.TILEWIDTH,this.TILEHEIGHT);
 	}
 };
 Graphic.prototype.renderBufferScore = function (i, score, color, position) {
@@ -166,7 +155,6 @@ Graphic.prototype.renderBufferScore = function (i, score, color, position) {
 	this.setBufferTextFormat('start','alphabetic','bold 8pt Verdana');
 	this.ctxBuffer.fillStyle = color;
 	this.ctxBuffer.fillText(text_score, position, this.canvasBuffer.height - 5);
-	//this.ctxBuffer.strokeText(text_score, position, this.canvasBuffer.height - 5);
 	this.ctxBuffer.restore();
 };
 Graphic.prototype.renderBufferTitle = function (text) {

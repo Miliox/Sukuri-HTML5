@@ -149,7 +149,7 @@ function WormBot(initialBody, direction, color){
 	Worm.call(this,initialBody, direction,color);
 	//WormBot variaveis de controle
 	this.computedPath = false;
-	this.radius = 25;
+	this.radius = 18;
 }
 
 WormBot.prototype = new Worm();
@@ -264,7 +264,7 @@ WormBot.prototype.searchPath = function (map, destiny) {
 		//percorre os nodes ja encontrados
 		for(i = 0; i < old_nodes.length; i++){
 			//encontra novos nodos
-			for(direcao = 0; direcao < vecDir.length; direcao++){
+			for(direcao = 0; direcao < vec_unit.length; direcao++){
 				node_sandbox = old_nodes[i].add(vec_unit[direcao]);
 				node_map = reference_map.add(node_sandbox);
 
