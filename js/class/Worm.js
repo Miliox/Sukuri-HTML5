@@ -54,11 +54,6 @@ Worm.prototype.newHeadPosition = function (){
 		case this.RIGHT:
 			vetorUnit = new Vector(1,0);
 			break;
-		/*
-		default :
-			vetorUnit = new Vector(0,0);
-			break;
-		*/
 	}
 	return this.body[0].add(vetorUnit);
 };
@@ -93,9 +88,7 @@ Worm.prototype.restart = function (){
 	this.direction = this.initialDirection;
 };
 Worm.prototype.dieAndReborn = function (){
-	var dead;
-	//Restaura Velocidade Inicial
-	dead = this.body;
+	var dead = this.body;
 	//Revive
 	this.restart();
 	this.resetScore();
@@ -108,11 +101,10 @@ Worm.prototype.inputProcess = function (inputList, matriz, food){
 //WormHuman: SubClass de Worm
 function WormHuman(initialBody, direction, color, teclado){
 	Worm.call(this,initialBody, direction,color);
-	//Teclado Input
 	this.teclado = teclado || {up:38, down: 40, left: 37, right: 39};
 }
-
 WormHuman.prototype = new Worm();
+//remove atributos indesejados
 delete WormHuman.prototype.initialBody;
 delete WormHuman.prototype.initialDirection;
 delete WormHuman.prototype.desiredDirection;
@@ -120,7 +112,9 @@ delete WormHuman.prototype.body;
 delete WormHuman.prototype.color;
 delete WormHuman.prototype.direction;
 delete WormHuman.prototype.score;
+//redireciona construtor
 WormHuman.prototype.constructor = WormHuman;
+//controles de direcao
 WormHuman.prototype.inputProcess = function (inputList, matriz, food){
 	var directions = this.getValidDirections();
 	for(var i = 0;i < inputList.length;i++){
@@ -153,11 +147,13 @@ WormHuman.prototype.inputProcess = function (inputList, matriz, food){
 //WormBot: SubClass de Worm
 function WormBot(initialBody, direction, color){
 	Worm.call(this,initialBody, direction,color);
+	//WormBot variaveis de controle
 	this.computedPath = false;
-	this.wait = 0;
+	this.radius = 25;
 }
 
 WormBot.prototype = new Worm();
+//remove atributos indesejaveis
 delete WormBot.prototype.initialBody;
 delete WormBot.prototype.initialDirection;
 delete WormBot.prototype.desiredDirection;
@@ -165,54 +161,17 @@ delete WormBot.prototype.body;
 delete WormBot.prototype.color;
 delete WormBot.prototype.direction;
 delete WormBot.prototype.score;
+//redireciona construtor
 WormBot.prototype.constructor = WormBot;
 WormBot.prototype.inputProcess = function (inputList, matriz, food){
-	//FSM
 	var distance = matriz.getDistance(this.body[0],food.getPos());
+	//FSM
 	switch (this.defineNewState(food.isVisible(),food.isToxic(),distance)){
 		case 1: /*Move-se aleatoriamente*/
 			this.randomMove(matriz);
 			this.computedPath = false;
 			break;
 		case 2: /*Persegue o Diamond*/
-			/*DUMMY MOVE*/
-			/*
-			if (this.wait > 0) {
-				this.wait--;
-				this.randomMove(matriz);
-			}
-			else {
-				var dx = food.getPos().x - this.body[0].x;
-				if(dx > 48){
-					dx =  this.body[0].x - food.getPos().x;
-				}
-				var dy = food.getPos().y - this.body[0].y;
-					if(dy > 23){
-					dy =  this.body[0].y - food.getPos().y;
-				}
-				if(Math.abs(dx) > Math.abs(dy)){
-					if (dx > 0) {
-						this.desiredDirection = this.RIGHT;
-					}
-					else if (dx < 0){
-						this.desiredDirection = this.LEFT;
-					}
-				}
-				else {
-					if (dy > 0) {
-						this.desiredDirection = this.DOWN;
-					}
-					else if (dy < 0) {
-						this.desiredDirection = this.UP;
-					}
-				}
-				//verifica colisao
-				if (this.willCollide(matriz)){
-					this.wait = Math.round(Math.random() * 15);
-					this.randomMove(matriz);
-				}
-			}*/
-			/*Comentado para futura implementacao*/
 			if(!this.computedPath){
 				this.searchPath(matriz,food.getPos());
 			}
@@ -221,46 +180,26 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 				case 0:
 					//"nao existe caminho valido";
 					this.randomMove(matriz);
-					if (Math.random() > 0.6){
+					if ( Math.random() < 0.2) {
+						//busca novo caminho apos um tempo aleatorio
 						this.computedPath = false;
 					}
 					break;
 				default :
-					//"remove uma direcao do path";
-					//"seta direcao no worm";
+					//consome um item do path encontrado
 					this.desiredDirection = this.path.shift();
-					if(this.willCollide(matriz)){
+					//verifica possibilidade de colisao
+					if(this.willCollide(matriz)) {
+						//muda de direcao
 						this.randomMove(matriz);
+						//calcula novo caminho
+						this.computedPath = false;
 					}
 					break;
 			}
 			break;
 		case 3: /*Foge do Diamond envenenado*/
-			//DUMMY MOVE
-			var dx = food.getPos().x - this.body[0].x;
-			if(dx > 48){
-				dx =  this.body[0].x - food.getPos().x;
-			}
-			var dy = food.getPos().y - this.body[0].y;
-			if(dy > 23){
-				dx =  this.body[0].y - food.getPos().y;
-			}
-			if(Math.abs(dx) > Math.abs(dy)){
-				if (dx < 0) {
-					this.desiredDirection = this.RIGHT;
-				}
-				else if (dx > 0){
-					this.desiredDirection = this.LEFT;
-				}
-			}
-			else {
-				if (dy < 0) {
-					this.desiredDirection = this.DOWN;
-				}
-				else if (dy > 0) {
-					this.desiredDirection = this.UP;
-				}
-			}
+			this.runAway(food.getPos());
 			//verifica se existe colisao
 			if (this.willCollide(matriz)) {
 				this.randomMove(matriz);
@@ -270,104 +209,96 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 	}
 };
 WormBot.prototype.defineNewState = function (visible, toxic, distance){
-	if(visible && !toxic && distance < 25){	return 2; }
+	if(visible && !toxic && distance < this.radius){ return 2; }
 	else if(visible && toxic && distance < 10){ return 3; }
 	else{ return 1;	}
 };
-WormBot.prototype.searchPath = function (matriz, destiny) {
-	//path armazena-ra as decisoes
+WormBot.prototype.searchPath = function (map, destiny) {
 	this.path = [];
 	this.computedPath = true;
 
-	var old_node = []; //array de nodos encontrados
-	var new_node = []; //array de novos nodos, preenchido durante o processamento dos old
-
-	var relative_map = new Array(70);
-
-	var i, j, k;
-	//cria matriz
-	for(i = 0; i < relative_map.length; i++){
-		relative_map[i] = new Array(70);
-	}
-
-	//inicializa matriz
-	for(i = 0; i < relative_map.length; i++){
-		for(j = 0; j < relative_map[i].length; j++){
-			relative_map[i][j] = null;
+	//Matriz
+	var lin, col;
+	var order = Math.round(this.radius * 2) + 3;
+	var sandbox_map = new Array(order);
+	for(col = 0; col < sandbox_map.length; col++){
+		sandbox_map[col] = new Array(order);
+		for(lin = 0; lin < sandbox_map[col].length; lin++){
+			sandbox_map[col][lin] = null;
 		}
 	}
-
-	//
-	for(i = 0; i < relative_map[0].length; i++){
-		relative_map[0][i] = 1;
-	}
-	for(i = 0; i < relative_map[69].length; i++){
-		relative_map[0][i] = 1;
-	}
-	for(i = 0; i < relative_map.length; i++){
-		relative_map[69][0] = 1;
-	}
-	for(i = 0; i < relative_map.length; i++){
-		relative_map[i][69] = 1;
+	//cerca matriz
+	for(var n = 0; n < order; n++){
+		sandbox_map[0][n] = -1;
+		sandbox_map[n][0] = -1;
+		sandbox_map[order-1][n] = -1;
+		sandbox_map[n][order-1] = -1;
 	}
 
+	//referencias
+	var root_map = this.body[0];
+	var root_sandbox = new Vector(Math.floor(order / 2), Math.floor(order / 2));
+	var reference_map = root_map.subtract(root_sandbox);
+	map.circularCorrectCell(reference_map);
+	//direcoes
+	var vec_unit =	[
+			new Vector( 0,-1), /*UP   - 0*/
+			new Vector( 1, 0), /*RIGHT- 1*/
+			new Vector( 0, 1), /*DOWN - 2*/
+			new Vector(-1, 0)  /*LEFT - 3*/
+			];
 
-	//fator de correcao
-	//var fator = new Vector(-13,-13);
+	var node_map;		//posicao do nodo no mapa
+	var node_sandbox;	//posicao do mesmo nodo mas no sandbox
+	var old_nodes = [];	//lista de nodos a processar
+	var new_nodes = [];	//lista de nodos encontrados
 
-	//referencia
-	var root_refer = this.body[0];
-	var root = new Vector(Math.floor(relative_map.length / 2), Math.floor(relative_map[0].length / 2));
-	var refer = root_refer.subtract(root);
-	matriz.circularCorrectCell(refer);
-	//
-	var deep = 0;
-	var max_deep = 30;
-	var vecDir = [new Vector(0,-1),new Vector(1,0),new Vector(0,1),new Vector(-1,0)];
-	//var vazio = -1;
-	var node_refer, node;
-	//inicia busca em largura
-	old_node = [];
-	old_node.push(root);
-	relative_map[root.y][root.x] = [null,null];
-	//continua busca
-	for (deep = 1; deep < max_deep; deep++) {
-		new_node = [];
+	//registra nodo root para iniciar BFS
+	old_nodes.push(root_sandbox);
+	sandbox_map[root_sandbox.y][root_sandbox.x] = {sentido : null, origem : null};
+
+	//Breadth First Search
+	var i, direcao;
+	while (old_nodes.length > 0) {
+		new_nodes = [];
 		//percorre os nodes ja encontrados
-		for(j = 0; j < old_node.length; j++){
+		for(i = 0; i < old_nodes.length; i++){
 			//encontra novos nodos
-			for(i = 0; i < vecDir.length; i++){
-				node = old_node[j].add(vecDir[i]);
-				node_refer = refer.add(node);
+			for(direcao = 0; direcao < vecDir.length; direcao++){
+				node_sandbox = old_nodes[i].add(vec_unit[direcao]);
+				node_map = reference_map.add(node_sandbox);
 
-				matriz.circularCorrectCell(node_refer);
-				//se nodo estiver livre
-				if( (relative_map[node.y][node.x] === null) &&
-					(matriz.getCell(node_refer) === 0)){
-					//registra
-					new_node.push(node);
-					relative_map[node.y][node.x] = [i, old_node[j]];
-					if(node_refer.equals(destiny)){
-						//obtem caminho
-						while((relative_map[node.y][node.x][0] !== null) && (relative_map[node.y][node.x][1] !== null)){
-							this.path.unshift(relative_map[node.y][node.x][0]);
-							node = relative_map[node.y][node.x][1];
+				map.circularCorrectCell(node_map);
+				if ( //verifica se a posicao esta livre
+					(sandbox_map[node_sandbox.y][node_sandbox.x] === null) &&
+					(map.getCell(node_map) === 0)
+				){
+					//registra como nodo encontrado
+					new_nodes.push(node_sandbox);
+					sandbox_map[node_sandbox.y][node_sandbox.x] = {sentido : direcao, origem : old_nodes[i]};
+					if (node_map.equals(destiny)) {
+						//encontrou, preenche o path para o food
+						while(
+							(sandbox_map[node_sandbox.y][node_sandbox.x].sentido !== null) &&
+							(sandbox_map[node_sandbox.y][node_sandbox.x].origem !== null)
+						){
+							this.path.unshift(sandbox_map[node_sandbox.y][node_sandbox.x].sentido);
+							node_sandbox = sandbox_map[node_sandbox.y][node_sandbox.x].origem;
 						}
 						return;
-					}//if equals
-				}//if node null
-			}//next direction
-		}//para cada nodo encontrado
-		old_node = new_node;
-	}
+					}//if encontrou food?
+				}//if node nao visitado
+			}//for cada direcao
+		}//for para cada nodo encontrado
+		old_nodes = new_nodes;
+	}//while existe nodo a processar
 };
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getValidDirections();
 	//aleatoriamente muda direcao do Worm
 	if(Math.random() < 0.1 && Math.random() > 0.9){
-		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))]; 
+		this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))];
 	}
-
 	//Verificar se existe colisao, muda de direcao se houver
 	var count = 0;
 	var index;
@@ -382,6 +313,34 @@ WormBot.prototype.randomMove = function (matriz) {
 		}
 		count++;
 	} while(count < 4);
+};
+WormBot.prototype.runAway = function (position) {
+	var dx = position.x - this.body[0].x;
+	var dy = position.y - this.body[0].y;
+	//corrige matriz circular
+	if(dx > 48){
+		dx =  this.body[0].x - position.x;
+	}
+	if(dy > 23){
+		dx =  this.body[0].y - position.y;
+	}
+
+	var opposite_direction;
+	if(Math.abs(dx) > Math.abs(dy)){
+		if (dx < 0) {
+			opposite_direction = this.RIGHT;
+		} else if (dx > 0){
+			opposite_direction = this.LEFT;
+		}
+	} else {
+		if (dy < 0) {
+			opposite_direction = this.DOWN;
+		} else if (dy > 0) {
+			opposite_direction = this.UP;
+		}
+	}
+
+	this.desiredDirection = opposite_direction;
 };
 WormBot.prototype.willCollide = function (matriz) {
 	var headNextPosition = this.newHeadPosition();
