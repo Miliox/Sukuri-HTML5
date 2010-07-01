@@ -44,15 +44,8 @@ function Graphic(canvas, tileX, tileY, matriz){
 
 	this.BACKGROUNDS = ["white","green","yellow","DarkSlategray", "orange",
 		"red", "brown", "darkgreen", "gold", "maroon", "olive", "lightgreen"];
-	this.DIAMOND = DIAMOND || [new Image(), new Image()];
-	this.WALL = WALL || new Image();
-	if(!DIAMOND){
-		this.DIAMOND[0].src = 'img/fruit.gif';
-		this.DIAMOND[1].src = 'img/fruit_venom.gif';
-	}
-	if(!WALL){
-		this.WALL.src = 'img/wall.gif';
-	}
+	this.DIAMOND = DIAMOND;
+	this.WALL = WALL;
 	this.renderBufferWalls(matriz);
 }
 Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
@@ -86,7 +79,7 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	//renderiza propaganda
 	this.renderBufferTitle("SUKURI");
 	this.renderBufferCopyright();
-	this.renderBufferVersion("0.04");
+	this.renderBufferVersion("0.05");
 
 	//aplica no canvas principal
 	this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
@@ -94,10 +87,12 @@ Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 };
 Graphic.prototype.renderBufferBackground = function (value) {
 	this.ctxBuffer.save();
+
 	this.ctxBuffer.save();
 	this.ctxBuffer.fillStyle = this.ctxBuffer.createPattern(BACKGROUND_IMG,'repeat');
 	this.ctxBuffer.fillRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);
 	this.ctxBuffer.restore();
+
 	this.ctxBuffer.globalAlpha = 0.2;
 	this.ctxBuffer.fillStyle = this.BACKGROUNDS[ value % this.BACKGROUNDS.length];
 	this.ctxBuffer.fillRect(0,0,this.canvasBuffer.width,this.canvasBuffer.height);

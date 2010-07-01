@@ -42,7 +42,7 @@ function menu() {
 
 	//versao
 	ctx.textAlign = 'end';
-	ctx.fillText('v.0.04', canvas.width - 5, canvas.height -5);
+	ctx.fillText('v.0.05', canvas.width - 10, canvas.height -10);
 	ctx.restore();
 
 	//aguarda o apertar o enter

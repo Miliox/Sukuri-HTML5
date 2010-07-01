@@ -74,6 +74,18 @@ Worm.prototype.getValidDirections = function (){
 			return [this.UP,this.DOWN,this.LEFT];
 	}
 };
+Worm.prototype.getOtherValidDirections = function (){
+	switch (this.direction){
+		case this.UP:
+			return [this.RIGHT,this.LEFT];
+		case this.RIGHT:
+			return [this.UP,this.RIGHT];
+		case this.DOWN:
+			return [this.RIGHT,this.LEFT];
+		case this.LEFT:
+			return [this.UP,this.DOWN];
+	}
+};
 //Reinicia a minhoca
 Worm.prototype.restart = function (){
 	this.body = function(initialBody){
@@ -180,7 +192,7 @@ WormBot.prototype.inputProcess = function (inputList, matriz, food){
 				case 0:
 					//"nao existe caminho valido";
 					this.randomMove(matriz);
-					if (Math.random() < 0.2) {
+					if (Math.random() < 0.35) {
 						//busca novo caminho apos um tempo aleatorio
 						this.computedPath = false;
 					}
@@ -296,15 +308,17 @@ WormBot.prototype.searchPath = function (map, destiny) {
 	}//while existe nodo a processar
 };
 WormBot.prototype.randomMove = function (matriz) {
-	var validDirection = this.getValidDirections();
+	var validDirection = this.getOtherValidDirections();
 	//aleatoriamente muda direcao do Worm
 	var valor = Math.random();
-	if(valor > 0.45 && valor < 0.5){
-			this.desiredDirection = validDirection[Math.floor(Math.random()*(validDirection.length))];
+	if ((valor > 0.45 && valor < 0.5)){
+		this.desiredDirection = validDirection[Math.floor(Math.random() * (validDirection.length))];
 	}
+
 	//Verificar se existe colisao, muda de direcao se houver
 	var count = 0;
 	var index;
+	var validDirection = this.getValidDirections();
 	do {
 		if (!this.willCollide(matriz)) { return; }
 		else if(validDirection.length > 0) {
@@ -322,7 +336,7 @@ WormBot.prototype.runAway = function (position) {
 	var dy = position.y - this.body[0].y;
 	//corrige matriz circular
 	var opposite_direction;
-	if(Math.abs(dx) > Math.abs(dy)){
+	if (Math.abs(dx) > Math.abs(dy)) {
 		if (dx < 0) {
 			opposite_direction = this.RIGHT;
 		} else if (dx > 0){
@@ -342,8 +356,6 @@ WormBot.prototype.willCollide = function (matriz) {
 	var headNextPosition = this.newHeadPosition();
 	matriz.circularCorrectCell(headNextPosition);
 	var cellValue =  matriz.getCell(headNextPosition);
-	if (cellValue == 0) {
-		return false;
-	}
+	if (cellValue == 0) { return false; }
 	return true;
 };
