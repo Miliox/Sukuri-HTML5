@@ -1,4 +1,5 @@
-NIBBLES_MAPS = {
+//mapas implementados
+var NIBBLES_MAPS = {
 	level1 : function(max_width,max_height){
 		var lv_arr = [];
 		var i, j;

@@ -1,10 +1,19 @@
 "use strict";
 /*
-	Classe Vector:
-		Number x,y: coordenadas Espaciais
-	Metodo:
-		Construtor Vector (Number x,Number y);
-		equals(Vector vec): Verifica dois vetores São Iguais 
+Classe Vector:
+ Atributos:
+	Number x,y: coordenadas Espaciais 2D
+
+ Metodo:
+	Construtor Vector (Number x,Number y):
+	
+	--comparação--
+	bool equals(Vector vec): Verifica se o vec representa o mesmo vetor
+	
+	--operacoes--
+	Vector add(Vector vec): soma vec e o vetor atual, retorna o novo Vector
+	Vector subtract(Vector vec): subtrai vec ao vetor atual, retorna o novo Vector
+	null addUpdate(Vector vec): soma vec ao vetor atual
 */
 function Vector(x, y) {
 	this.x = x || 0;
