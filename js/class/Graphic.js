@@ -48,7 +48,6 @@ function Graphic(canvas, tileX, tileY, matriz){
 		"red", "brown", "darkgreen", "gold", "maroon", "olive", "lightgreen"];
 	this.DIAMOND = DIAMOND;
 	this.WALL = WALL;
-	this.renderBufferWalls(matriz);
 }
 Graphic.prototype.render = function (worms, food, MAX_SCORE, level) {
 	this.ctxBuffer.save();

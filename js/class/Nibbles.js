@@ -21,29 +21,14 @@ function Nibbles(canvas, worms) {
 
 	//Game Objects
 	//Mapa
-	var rand_map = [NIBBLES_MAPS.level1,NIBBLES_MAPS.level2,NIBBLES_MAPS.level3,NIBBLES_MAPS.level4];
-	var rand_index = Math.floor(rand_map.length*Math.random());
-	this.map = new Matriz(this.WIDTH, this.HEIGHT);
-	this.map.setWallPositions(rand_map[rand_index]);
+	this.maps = [NIBBLES_MAPS.level1,NIBBLES_MAPS.level2,NIBBLES_MAPS.level3,NIBBLES_MAPS.level4];
 	//Grafico
-	this.display = new Graphic(canvas, this.WIDTH, this.HEIGHT, this.map);
+	this.display = new Graphic(canvas, this.WIDTH, this.HEIGHT);
 	//Worm
 	this.worms = worms;	//Array de Worms
 	//Diamond
 	this.food = new Diamond(5, this.WIDTH, this.HEIGHT);
 
-	//Registra posicoes no map
-	for(var line = 0; line < this.worms.length; line++){
-		this.map.setPositions(worms[line].body, line + 1);
-	}
-
-	//Game Variables
-	this.ate = 0;
-	this.level = 1;
-	this.maxScore = 0;
-	this.getMaxScore();
-	this.fps = this.DEFAULTFPS;
-	this.inputs = [];
 	//Sound Effect - only Firefox and maybe Chrome
 	this.sound = DATA.SOUNDS || [new Audio('audio/eat.ogg'), new Audio('audio/die.ogg')];
 
@@ -56,14 +41,34 @@ Nibbles.prototype.menu = function () {
 Nibbles.prototype.about = function () {
 	this.display.renderGameAbout();
 };
-Nibbles.prototype.start = function () {	this.registerLoopGame(); };
+Nibbles.prototype.start = function () {
+	//escolhe aleatoriamente um mapa
+	var i = Math.floor(this.maps.length*Math.random());
+	this.map = new Matriz(this.WIDTH, this.HEIGHT);
+	this.map.setWallPositions(this.maps[i]);
+	//Registra posicoes no map
+	for(var line = 0; line < this.worms.length; line++){
+		this.map.setPositions(this.worms[line].body, line + 1);
+	}
+	//Pre-renderiza mapa
+	this.display.renderBufferWalls(this.map);
+	//Game Variables
+	this.ate = 0;
+	this.level = 1;
+	this.maxScore = 0;
+	this.getMaxScore();
+	this.fps = this.DEFAULTFPS;
+	this.inputs = [];
+
+	this.registerLoopGame();
+};
 Nibbles.prototype.end = function () {
 	//restaura velocidade inicial
-	this.level = 0;
-	this.ate = 0;
-	this.fps = this.DEFAULTFPS;
+	//this.level = 0;
+	//this.ate = 0;
+	//this.fps = this.DEFAULTFPS;
 	this.unregisterLoopGame();
-	this.registerLoopGame();
+	//this.registerLoopGame();
 	//reinicia todas as minhocas
 	for(var i = 0; i< worms.length; i++){
 		this.worms[i].restart();
