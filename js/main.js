@@ -8,7 +8,7 @@ function gameInit(){
 	var w2body = [new Vector(4,43),new Vector(3,43),new Vector(2,43),new Vector(1,43)];
 	var w3body = [new Vector(91,3),new Vector(92,3),new Vector(93,3),new Vector(94,3)];
 
-	var w0 = new WormBot(w0body,1, "red");
+	var w0 = new WormHuman(w0body,1, "red");
 	var w1 = new WormBot(w1body,3, "blue");
 	var w2 = new WormBot(w2body,1, "orange");
 	var w3 = new WormBot(w3body,3, "green");
@@ -17,18 +17,24 @@ function gameInit(){
 	game.menu();
 
 	window.addEventListener('keydown', waitEnter, true);
-}
+};
+function keyboardInput (event) {
+	game.inputRegister(event.keyCode);
+};
 function waitEnter (event) {
 	switch (event.keyCode){
 		//player controls
 		case 13: //enter
 			window.removeEventListener('keydown', waitEnter, true);
-			game.inputRegister(event.keyCode);
+			window.addEventListener('keydown', keyboardInput, true);
 			game.start();
 			break;
 		case 32: //space
 			game.about();
 			break;
+		case 27: //escape
+			game.menu();
+			break;
 		}
-}
+};
 window.onload = gameInit;
