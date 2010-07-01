@@ -17,6 +17,8 @@ WALL = new Image();
 WALL.src = 'img/wall.gif';
 BACKGROUND_IMG = new Image();
 BACKGROUND_IMG.src = 'img/patter.gif';
+PATTERNTITLE = new Image();
+PATTERNTITLE.src = "img/title.png";
 
 function Graphic(canvas, tileX, tileY, matriz){
 	//Buffer Principal
@@ -208,3 +210,81 @@ Graphic.prototype.renderBufferHeader = function (){
 	this.ctxBuffer.beginPath();
 	this.ctxBuffer.restore();
 };
+
+Graphic.prototype.renderGameMenu = function () {
+	this.ctx.save();
+	//background
+	this.ctx.save()
+	if(!PATTERNTITLE.complete){
+		this.ctx.fillStyle = "green";
+	}
+	else{
+		this.ctx.fillStyle = this.ctx.createPattern(PATTERNTITLE,'repeat');
+	}
+	this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
+	this.ctx.restore();
+	//title
+	this.ctx.font = '54pt Georgia';
+	this.ctx.textBaseline = 'middle';
+	this.ctx.textAlign = 'center';
+	this.ctx.fillStyle = 'white';
+	this.ctx.fillText('SUKURI', this.canvas.width / 2, this.canvas.height / 2);
+	this.ctx.strokeStyle = 'black';
+	this.ctx.strokeText('SUKURI', this.canvas.width / 2, this.canvas.height / 2);
+
+	//start button
+	this.ctx.font = 'bold 16pt Tahoma';
+	this.ctx.fillText('START', this.canvas.width / 2, (this.canvas.height / 2) + 110);
+	this.ctx.font = '12pt Tahoma';
+	this.ctx.fillText('- Press Enter -', this.canvas.width / 2, (this.canvas.height / 2) + 130);
+
+	//about button
+	this.ctx.font = 'bold 12pt Tahoma';
+	this.ctx.fillText('ABOUT', this.canvas.width / 2, (this.canvas.height / 2) + 170);
+	this.ctx.font = '10pt Tahoma';
+	this.ctx.fillText('- Press Space -', this.canvas.width / 2, (this.canvas.height / 2) + 190);
+	//creditos
+	this.ctx.font = '10pt Times New Roman';
+	this.ctx.fillText('\u00A9 Laboratorio de Pós Graduação', this.canvas.width / 2, (this.canvas.height / 2) + 230);
+
+	//versao
+	this.ctx.textAlign = 'end';
+	this.ctx.fillText('v.0.05', this.canvas.width - 10, this.canvas.height -10);
+	this.ctx.restore();
+};
+
+Graphic.prototype.renderGameAbout = function () {
+	this.ctx.save();
+	//background
+	this.ctx.save()
+	if(!PATTERNTITLE.complete){
+		this.ctx.fillStyle = "green";
+	}
+	else{
+		this.ctx.fillStyle = this.ctx.createPattern(PATTERNTITLE,'repeat');
+	}
+	this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
+	this.ctx.fillStyle = "rgba(0,0,0,0.5)";
+	this.ctx.fillRect(45,45, this.canvas.width - 90, this.canvas.height - 90);
+	this.ctx.restore();
+	//title
+	this.ctx.font = '54pt Georgia';
+	this.ctx.textBaseline = 'middle';
+	this.ctx.textAlign = 'center';
+	this.ctx.fillStyle = 'white';
+	this.ctx.fillText('SUKURI', this.canvas.width / 2, this.canvas.height / 4);
+	this.ctx.strokeStyle = 'black';
+	this.ctx.strokeText('SUKURI', this.canvas.width / 2, this.canvas.height / 4);
+
+	//message
+	this.ctx.font = 'bold 14pt Courier';
+	this.ctx.fillText('Autor: Emiliano Carlos de Moraes Firmino', this.canvas.width/2, this.canvas.height * (3 / 4) - 60);
+	this.ctx.fillText('Orientador: Jucimar Maia Junior', this.canvas.width / 2, this.canvas.height * (3/ 4) - 20);
+	this.ctx.fillText('Projeto: Desenvolvimento de Interface WEB em HTML5 para MMOG.', this.canvas.width / 2, this.canvas.height * (3 / 4) + 27);
+	this.ctx.fillText('\u00A9 Laboratorio de Pós Graduação', this.canvas.width /2, this.canvas.height * (3 / 4) + 60);
+
+	this.ctx.font = 'sans-serif 12pt';
+	this.ctx.fillText('- Press Enter -', this.canvas.width / 2, (this.canvas.height / 2));
+
+	this.ctx.restore();
+}

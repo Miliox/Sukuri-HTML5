@@ -2,7 +2,7 @@
 var game;
 
 function gameInit(){
-		//Inicializa Jogo
+	//Inicializa Jogo
 	var w0body = [new Vector(4,3),new Vector(3,3),new Vector(2,3),new Vector(1,3)];
 	var w1body = [new Vector(91,43),new Vector(92,43),new Vector(93,43),new Vector(94,43)];
 	var w2body = [new Vector(4,43),new Vector(3,43),new Vector(2,43),new Vector(1,43)];
