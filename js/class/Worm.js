@@ -18,7 +18,25 @@
  * 	--outros--
  *	String color: Cor do Worm definido no padrao css
  *	Number score: pontuacao atual
+ * 
  * Métodos
+ * 	Construtor Worm(Array<Vector> initialBody, Number direction, String color)
+ *	--scores--
+ *	null resetScore(): retorna score a zero
+ *	null addScore(Number point): adiciona pontos ao score
+ *	--Worm actions--
+ *	null restart(): worm volta ao estado inicial
+ *	Array<Vector> dieAndReborn(): apaga status antigos, reinicia worm e retorna o cadaver
+ *	Vector newHeadPosition(): retorna proxima posicao do Worm
+ *	null movesHead(Vector head): move a cabeca para posicao indicada
+ *	Vector removeTail(): remove a cauda, retorna a posicao
+ *
+ *	--outros--
+ *	Array<Vector> getValidDirections(): retorna um array com vetores direcao validos para a direcao atual
+ *	Array<Vector> getOtherValidDirections(): retorna um array com vetores direcao validos, exceto o da direcao atual
+ *	
+ *	--decisoes--
+ *	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): decide nova direcao a partir dos inputs (implementado nas subclasses) 
  *
  */
 function Worm(initialBody, direction, color){
@@ -51,14 +69,32 @@ function Worm(initialBody, direction, color){
 	this.restart();
 	this.resetScore();
 }
+Worm.prototype.UP = 0;
+Worm.prototype.RIGHT = 1;
+Worm.prototype.DOWN = 2;
+Worm.prototype.LEFT = 3;
+Worm.prototype.resetScore = function () { this.score = 0; };
 Worm.prototype.addScore = function (point) {
 	this.score += point;
 };
-Worm.prototype.resetScore = function () { this.score = 0; };
-Worm.prototype.removeTail = function (){ return this.body.pop(); };
-Worm.prototype.movesHead = function (head){
-	this.direction = this.desiredDirection;
-	this.body.unshift(head);
+Worm.prototype.restart = function (){
+	this.body = function(initialBody){
+		var body = [];
+		//Produz um novo vetor que representa o corpo
+		for(var i = 0; i < initialBody.length;i++){
+			body.push(new Vector(initialBody[i].x,initialBody[i].y));
+		};
+		return body;
+	}(this.initialBody);
+	this.desiredDirection = this.initialDirection;
+	this.direction = this.initialDirection;
+};
+Worm.prototype.dieAndReborn = function (){
+	var dead = this.body;
+	//Revive
+	this.restart();
+	this.resetScore();
+	return dead;
 };
 Worm.prototype.newHeadPosition = function (){
 	var vetorUnit;
@@ -79,11 +115,12 @@ Worm.prototype.newHeadPosition = function (){
 	}
 	return this.body[0].add(vetorUnit);
 };
+Worm.prototype.movesHead = function (head){
+	this.direction = this.desiredDirection;
+	this.body.unshift(head);
+};
+Worm.prototype.removeTail = function (){ return this.body.pop(); };
 //Constantes de Direcao
-Worm.prototype.UP = 0;
-Worm.prototype.RIGHT = 1;
-Worm.prototype.DOWN = 2;
-Worm.prototype.LEFT = 3;
 Worm.prototype.getValidDirections = function (){
 	switch (this.direction){
 		case this.UP:
@@ -109,30 +146,18 @@ Worm.prototype.getOtherValidDirections = function (){
 	}
 };
 //Reinicia a minhoca
-Worm.prototype.restart = function (){
-	this.body = function(initialBody){
-		var body = [];
-		//Produz um novo vetor que representa o corpo
-		for(var i = 0; i < initialBody.length;i++){
-			body.push(new Vector(initialBody[i].x,initialBody[i].y));
-		};
-		return body;
-	}(this.initialBody);
-	this.desiredDirection = this.initialDirection;
-	this.direction = this.initialDirection;
-};
-Worm.prototype.dieAndReborn = function (){
-	var dead = this.body;
-	//Revive
-	this.restart();
-	this.resetScore();
-	return dead;
-};
 Worm.prototype.inputProcess = function (inputList, matriz, food){
 	//Implementada nas subclasses
 };
 
-//WormHuman: SubClass de Worm
+/*Class WormHuman (especializacao de Worm)
+ * Atributos:
+ * 	Object teclado: descreve os keyCode para cada movimento
+ *
+ * Métodos:
+ *	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): implementacao para controle por teclado
+ *
+*/
 function WormHuman(initialBody, direction, color, teclado){
 	Worm.call(this,initialBody, direction,color);
 	this.teclado = teclado || {up:38, down: 40, left: 37, right: 39};
@@ -179,6 +204,16 @@ WormHuman.prototype.inputProcess = function (inputList, matriz, food){
 };
 
 //WormBot: SubClass de Worm
+/*Class WormBot (especializacao de Worm)
+ * Atributos:
+ *	bool computedPath: indica se um caminho existe
+ *	Number radius: alcance minimo para iniciar perseguicao ao Diamond
+ * Métodos:
+ *	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): implementacao de controle pela IA
+ *	Number defineNewState(bool visible, bool toxic, Number distance): define transicao de estado do FSM
+ *	null searchPath(Matriz map, Vector destiny): Através de BFS procura um caminho para o destino
+ *	
+ * */
 function WormBot(initialBody, direction, color){
 	Worm.call(this,initialBody, direction,color);
 	//WormBot variaveis de controle
