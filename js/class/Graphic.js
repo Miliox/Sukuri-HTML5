@@ -101,6 +101,7 @@ Graphic.prototype.renderBufferBackground = function (value) {
 };
 Graphic.prototype.renderBufferWalls = function(matriz){
 	var ctx = this.canvasBufferWalls.getContext('2d');
+	ctx.clearRect(0,0,this.canvasBufferWalls.width,this.canvasBufferWalls.height);
 	ctx.beginPath();
 	var x, y;
 	var i, j;

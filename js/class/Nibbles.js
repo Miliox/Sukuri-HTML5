@@ -1,16 +1,59 @@
-/*
- *Classe Nibbles:
- *	Nibbles(canvas, worms): Construtor
- *	start(): Inicia o jogo
- *	end(): Encerra o jogo retorna a tela inicial
- *	loopGame(): Loop de execucao do jogo
- *	registerLoopGame(): adiciona o loopGame no event listener
- *	inputRegister(code): registra o valor de caracter do teclado
+/*Classe Nibbles:
+ * Atributos:
+ * 	--constantes--
+ *	Number WIDTH: Largura do Mapa
+ *	Number HEIGHT: Altura do Mapa
+ *	Number POINT: Incremento na Pontuacao por comer um Diamond
+ *	Number DEFAULTFPS: Numero de frames iniciais
+ *	Number INCFPS:	Numero de frames a mais ao passar de level
+ * 	
+ * 	--outros--
+ *	Array<HTMLAudioElement> sound: Lista de sons do jogo
+ *	Number loopCode: ID do Evento loopGame para manipulacao
+ *
+ * 	--game objects--
+ *	Array<Matriz> maps: Lista de Mapas 
+ *	Matriz map: Mapa Atual
+ *	Graphic display: Objeto que manipula o Canvas
+ *	Array<Worm> worms: Lista de Jogadores
+ *	Diamond food: Comida do Jogo
+ *
+ *	--game variables--
+ *	Number ate: Numero do Diamonds consumidos
+ *	Number level: Level atual
+ *	Number maxScore: Record Atual
+ *	Number fps: numero de frames atual
+ *	Array<Number> inputs: lista de inputs do teclado para processar
+ * 	
+ * Métodos:
+ *	Contrutor Nibbles(HTMLCanvasElement canvas, Array<Worm> worms): Construtor
+ *	--initial screens--
+ *	null menu(): tela inicial
+ *	null about(): informacoes sobre o autor
+ *	
+ *	--game states--
+ *	null start(): inicia o jogo
+ *	null pause(): pausa o jogo
+ *	null end(): encerra o jogo
+ *	
+ *	--worms actions--
+ *	null reviveWorm(): worm morto é revivido na posicao inicial
+ *	null foundDiamond(): verifica colisao com a comida
+ *	
+ *	--event processes--
+ *	null loopGame(): Loop de execucao do jogo
+ *	null registerLoopGame(): adiciona o loopGame no event listener
+ *	nulll unregisterLoopGame(): remove loopGame do event listener
+ *	null inputRegister(code): registra o valor de caracter do teclado
+ *	
+ *	--score--
+ *	null getMaxScore(): obtem de um servidor remoto o maior score alcancado
+ *	null setMaxScore(): envia ao servidor seu score alcancado
  */
-//Game Nibbles
 var DATA = {
-	SOUNDS : [new Audio('audio/eat.ogg'), new Audio('audio/die.ogg')] 
+	SOUNDS : [new Audio('audio/eat.ogg'), new Audio('audio/die.ogg')]
 };
+//Game Nibbles
 function Nibbles(canvas, worms) {
 	//Game Constants
 	this.WIDTH = 96;
@@ -62,23 +105,26 @@ Nibbles.prototype.start = function () {
 
 	this.registerLoopGame();
 };
+Nibbles.prototype.pause = function () {
+	if (this.loopCode === null) {
+		this.registerLoopGame();
+	}
+	else {
+		this.unregisterLoopGame();
+	}
+};
 Nibbles.prototype.end = function () {
-	//restaura velocidade inicial
-	//this.level = 0;
-	//this.ate = 0;
-	//this.fps = this.DEFAULTFPS;
 	this.unregisterLoopGame();
-	//this.registerLoopGame();
 	//reinicia todas as minhocas
-	for(var i = 0; i< worms.length; i++){
+	for(var i = 0; i< this.worms.length; i++){
 		this.worms[i].restart();
 	}
 };
-Nibbles.prototype.reviveWorm = function (worm, valor){
+Nibbles.prototype.reviveWorm = function (worm, i){
 	var body = worm.dieAndReborn();
 	this.sound[1].play();
 	this.map.clearPositions(body);
-	this.map.setPositions(worm.body, valor+1);
+	this.map.setPositions(worm.body, i+1);
 };
 Nibbles.prototype.foundDiamond = function(head){
 	if (this.food.isVisible() && head.equals(this.food.getPos())) {
@@ -170,11 +216,14 @@ Nibbles.prototype.loopGame = function () {
 	//Renderiza a Tela
 	this.display.render(this.worms, this.food, this.maxScore, this.level);
 };
-Nibbles.prototype.getMaxScore = function () { loadRemoteScore(); };
-Nibbles.prototype.setMaxScore = function (value) { loadRemoteScore(value); };
 Nibbles.prototype.registerLoopGame = function () {
 	var self = this;
 	this.loopCode = window.setInterval(function () { self.loopGame(); }, 1000 / this.fps);
 };
-Nibbles.prototype.unregisterLoopGame = function (){ window.clearInterval(this.loopCode); };
+Nibbles.prototype.unregisterLoopGame = function (){
+	window.clearInterval(this.loopCode);
+	this.loopCode = null;
+};
 Nibbles.prototype.inputRegister = function (code) { this.inputs.push(code); };
+Nibbles.prototype.getMaxScore = function () { loadRemoteScore(); };
+Nibbles.prototype.setMaxScore = function (value) { loadRemoteScore(value); };

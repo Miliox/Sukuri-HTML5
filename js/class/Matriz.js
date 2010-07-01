@@ -20,13 +20,7 @@ function Matriz (width, height, startValue, wallValue){
 	this.matriz = new Array(this.LINES);
 
 	//Inicializa Matriz
-	var lin, col;
-	for(lin = 0; lin < this.matriz.length; lin++) {
-		this.matriz[lin] = new Array(this.COLUMS);
-		for(col = 0; col < this.matriz[lin].length; col++){
-			this.matriz[lin][col] = this.DEFAULTVALUE;
-		}
-	}
+	this.clearMatriz();
 };
 Matriz.prototype.getCell = function (cell) {
 	if(this.isValidPos(cell)) {
@@ -34,6 +28,15 @@ Matriz.prototype.getCell = function (cell) {
 	}
 	else {
 		return this.WALLVALUE;
+	}
+};
+Matriz.prototype.clearMatriz = function () {
+	var lin, col;
+	for(lin = 0; lin < this.matriz.length; lin++) {
+		this.matriz[lin] = new Array(this.COLUMS);
+		for(col = 0; col < this.matriz[lin].length; col++){
+			this.matriz[lin][col] = this.DEFAULTVALUE;
+		}
 	}
 };
 Matriz.prototype.clearPositions = function (lista) {

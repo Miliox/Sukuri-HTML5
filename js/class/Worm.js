@@ -1,4 +1,26 @@
-//Classe Worm: SuperClasse das Classes Worms
+/*Classe Worm:
+ * Atributos
+ * 	--constantes--
+ * 	Number UP(0)
+ * 	Number RIGHT(1)
+ * 	Number DOWN(2)
+ * 	Number LEFT(3)
+ *	
+ *	--estados iniciais--
+ *	Array<Vector> initialBody: Corpo inicial do worm
+ *	Number initialDirection: Direcao inicial
+ *
+ * 	--estado atual--
+ *	Array<Vector> body:
+ *	Number direction: Direcao atual do worm
+ *	Number desiredDirection: direcao pretendida
+ *
+ * 	--outros--
+ *	String color: Cor do Worm definido no padrao css
+ *	Number score: pontuacao atual
+ * Métodos
+ *
+ */
 function Worm(initialBody, direction, color){
 	//Corpo e Direcoes Iniciais
 	this.initialBody = initialBody || [];

@@ -19,7 +19,20 @@ function gameInit(){
 	window.addEventListener('keydown', waitEnter, true);
 };
 function keyboardInput (event) {
-	game.inputRegister(event.keyCode);
+	var input = event.keyCode;
+	switch (input) {
+		case 13: //pause
+			game.pause();
+			break;
+		case 27: //reset
+			game.end();
+			game.menu();
+			window.removeEventListener('keydown', keyboardInput, true);
+			window.addEventListener('keydown', waitEnter, true);
+			break;
+		default :
+			game.inputRegister(event.keyCode);
+	}
 };
 function waitEnter (event) {
 	switch (event.keyCode){
