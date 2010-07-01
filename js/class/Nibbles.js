@@ -1,55 +1,56 @@
-/*Classe Nibbles:
- * Atributos:
- * 	--constantes--
- *	Number WIDTH: Largura do Mapa
- *	Number HEIGHT: Altura do Mapa
- *	Number POINT: Incremento na Pontuacao por comer um Diamond
- *	Number DEFAULTFPS: Numero de frames iniciais
- *	Number INCFPS:	Numero de frames a mais ao passar de level
- * 	
- * 	--outros--
- *	Array<HTMLAudioElement> sound: Lista de sons do jogo
- *	Number loopCode: ID do Evento loopGame para manipulacao
- *
- * 	--game objects--
- *	Array<Matriz> maps: Lista de Mapas 
- *	Matriz map: Mapa Atual
- *	Graphic display: Objeto que manipula o Canvas
- *	Array<Worm> worms: Lista de Jogadores
- *	Diamond food: Comida do Jogo
- *
- *	--game variables--
- *	Number ate: Numero do Diamonds consumidos
- *	Number level: Level atual
- *	Number maxScore: Record Atual
- *	Number fps: numero de frames atual
- *	Array<Number> inputs: lista de inputs do teclado para processar
- * 	
- * Métodos:
- *	Contrutor Nibbles(HTMLCanvasElement canvas, Array<Worm> worms): Construtor
- *	--initial screens--
- *	null menu(): tela inicial
- *	null about(): informacoes sobre o autor
- *	
- *	--game states--
- *	null start(): inicia o jogo
- *	null pause(): pausa o jogo
- *	null end(): encerra o jogo
- *	
- *	--worms actions--
- *	null reviveWorm(): worm morto é revivido na posicao inicial
- *	null foundDiamond(): verifica colisao com a comida
- *	
- *	--event processes--
- *	null loopGame(): Loop de execucao do jogo
- *	null registerLoopGame(): adiciona o loopGame no event listener
- *	nulll unregisterLoopGame(): remove loopGame do event listener
- *	null inputRegister(code): registra o valor de caracter do teclado
- *	
- *	--score--
- *	null getMaxScore(): obtem de um servidor remoto o maior score alcancado
- *	null setMaxScore(): envia ao servidor seu score alcancado
- */
+/*
+Classe Nibbles:
+ Atributos:
+	--constantes--
+	Number WIDTH: Largura do Mapa
+	Number HEIGHT: Altura do Mapa
+	Number POINT: Incremento na Pontuacao por comer um Diamond
+	Number DEFAULTFPS: Numero de frames iniciais
+	Number INCFPS:	Numero de frames a mais ao passar de level
+ 	
+ 	--outros--
+	Array<HTMLAudioElement> sound: Lista de sons do jogo
+	Number loopCode: ID do Evento loopGame para manipulacao
+
+ 	--game objects--
+	Array<Matriz> maps: Lista de Mapas 
+	Matriz map: Mapa Atual
+	Graphic display: Objeto que manipula o Canvas
+	Array<Worm> worms: Lista de Jogadores
+	Diamond food: Comida do Jogo
+
+	--game variables--
+	Number ate: Numero do Diamonds consumidos
+	Number level: Level atual
+	Number maxScore: Record Atual
+	Number fps: numero de frames atual
+	Array<Number> inputs: lista de inputs do teclado para processar
+ 	
+ Métodos:
+	Contrutor Nibbles(HTMLCanvasElement canvas, Array<Worm> worms): Construtor
+	--initial screens--
+	null menu(): tela inicial
+	null about(): informacoes sobre o autor
+	
+	--game states--
+	null start(): inicia o jogo
+	null pause(): pausa o jogo
+	null end(): encerra o jogo
+	
+	--worms actions--
+	null reviveWorm(): worm morto é revivido na posicao inicial
+	null foundDiamond(): verifica colisao com a comida
+	
+	--event processes--
+	null loopGame(): Loop de execucao do jogo
+	null registerLoopGame(): adiciona o loopGame no event listener
+	nulll unregisterLoopGame(): remove loopGame do event listener
+	null inputRegister(code): registra o valor de caracter do teclado
+	
+	--score--
+	null getMaxScore(): obtem de um servidor remoto o maior score alcancado
+	null setMaxScore(): envia ao servidor seu score alcancado
+*/
 var DATA = {
 	SOUNDS : [new Audio('audio/eat.ogg'), new Audio('audio/die.ogg')]
 };

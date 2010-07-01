@@ -1,14 +1,16 @@
-/*	Atributos:
- *		HTMLCanvasElement canvas:
- *		CanvasRenderingContext2D ctx:
- *		HTMLCanvasElement canvasBuffer: 
- *		CanvasRenderingContext2D ctxBuffer:
- *		TILEWIDTH:	dimensao horizontal base
- *		TILEHEIGHT:	dimensao vertical base
- *	Classe Graphic:
- *		Graphic(HTMLCanvasElement canvas, Number tileX, Number tileY):
- *		render(Array<Worm> worms,Diamond food, Number MAX_SCORE, Number level);
- *
+/*
+Classe Graphic:
+ Atributos:
+	HTMLCanvasElement canvas:
+	CanvasRenderingContext2D ctx:
+	HTMLCanvasElement canvasBuffer: 
+	CanvasRenderingContext2D ctxBuffer:
+	TILEWIDTH:	dimensao horizontal base
+	TILEHEIGHT:	dimensao vertical base
+ Métodos:
+	Graphic(HTMLCanvasElement canvas, Number tileX, Number tileY):
+	render(Array<Worm> worms,Diamond food, Number MAX_SCORE, Number level);
+
  */
 DIAMOND = [new Image(), new Image()];
 DIAMOND[0].src = 'img/fruit.gif';

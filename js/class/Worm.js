@@ -1,44 +1,45 @@
-/*Classe Worm:
- * Atributos
- * 	--constantes--
- * 	Number UP(0)
- * 	Number RIGHT(1)
- * 	Number DOWN(2)
- * 	Number LEFT(3)
- *	
- *	--estados iniciais--
- *	Array<Vector> initialBody: Corpo inicial do worm
- *	Number initialDirection: Direcao inicial
- *
- * 	--estado atual--
- *	Array<Vector> body:
- *	Number direction: Direcao atual do worm
- *	Number desiredDirection: direcao pretendida
- *
- * 	--outros--
- *	String color: Cor do Worm definido no padrao css
- *	Number score: pontuacao atual
- * 
- * Métodos
- * 	Construtor Worm(Array<Vector> initialBody, Number direction, String color)
- *	--scores--
- *	null resetScore(): retorna score a zero
- *	null addScore(Number point): adiciona pontos ao score
- *	--Worm actions--
- *	null restart(): worm volta ao estado inicial
- *	Array<Vector> dieAndReborn(): apaga status antigos, reinicia worm e retorna o cadaver
- *	Vector newHeadPosition(): retorna proxima posicao do Worm
- *	null movesHead(Vector head): move a cabeca para posicao indicada
- *	Vector removeTail(): remove a cauda, retorna a posicao
- *
- *	--outros--
- *	Array<Vector> getValidDirections(): retorna um array com vetores direcao validos para a direcao atual
- *	Array<Vector> getOtherValidDirections(): retorna um array com vetores direcao validos, exceto o da direcao atual
- *	
- *	--decisoes--
- *	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): decide nova direcao a partir dos inputs (implementado nas subclasses) 
- *
- */
+/*
+Classe Worm:
+ Atributos
+ 	--constantes--
+ 	Number UP(0)
+ 	Number RIGHT(1)
+ 	Number DOWN(2)
+ 	Number LEFT(3)
+	
+	--estados iniciais--
+	Array<Vector> initialBody: Corpo inicial do worm
+	Number initialDirection: Direcao inicial
+
+ 	--estado atual--
+	Array<Vector> body:
+	Number direction: Direcao atual do worm
+	Number desiredDirection: direcao pretendida
+
+ 	--outros--
+	String color: Cor do Worm definido no padrao css
+	Number score: pontuacao atual
+ 
+ Métodos
+ 	Construtor Worm(Array<Vector> initialBody, Number direction, String color)
+	--scores--
+	null resetScore(): retorna score a zero
+	null addScore(Number point): adiciona pontos ao score
+	--Worm actions--
+	null restart(): worm volta ao estado inicial
+	Array<Vector> dieAndReborn(): apaga status antigos, reinicia worm e retorna o cadaver
+	Vector newHeadPosition(): retorna proxima posicao do Worm
+	null movesHead(Vector head): move a cabeca para posicao indicada
+	Vector removeTail(): remove a cauda, retorna a posicao
+
+	--outros--
+	Array<Vector> getValidDirections(): retorna um array com vetores direcao validos para a direcao atual
+	Array<Vector> getOtherValidDirections(): retorna um array com vetores direcao validos, exceto o da direcao atual
+	
+	--decisoes--
+	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): decide nova direcao a partir dos inputs (implementado nas subclasses) 
+
+*/
 function Worm(initialBody, direction, color){
 	//Corpo e Direcoes Iniciais
 	this.initialBody = initialBody || [];
@@ -150,13 +151,14 @@ Worm.prototype.inputProcess = function (inputList, matriz, food){
 	//Implementada nas subclasses
 };
 
-/*Class WormHuman (especializacao de Worm)
- * Atributos:
- * 	Object teclado: descreve os keyCode para cada movimento
- *
- * Métodos:
- *	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): implementacao para controle por teclado
- *
+/*
+Class WormHuman (especializacao de Worm)
+ Atributos:
+ 	Object teclado: descreve os keyCode para cada movimento
+
+ Métodos:
+	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): implementacao para controle por teclado
+
 */
 function WormHuman(initialBody, direction, color, teclado){
 	Worm.call(this,initialBody, direction,color);
@@ -203,17 +205,29 @@ WormHuman.prototype.inputProcess = function (inputList, matriz, food){
 	}//for
 };
 
-//WormBot: SubClass de Worm
-/*Class WormBot (especializacao de Worm)
- * Atributos:
- *	bool computedPath: indica se um caminho existe
- *	Number radius: alcance minimo para iniciar perseguicao ao Diamond
- * Métodos:
- *	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): implementacao de controle pela IA
- *	Number defineNewState(bool visible, bool toxic, Number distance): define transicao de estado do FSM
- *	null searchPath(Matriz map, Vector destiny): Através de BFS procura um caminho para o destino
- *	
- * */
+/*
+Class WormBot (especializacao de Worm)
+ Atributos:
+	bool computedPath: indica se um caminho existe
+	Number radius: alcance minimo para iniciar perseguicao ao Diamond
+ Métodos:
+ 	--IA--
+	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): implementacao de controle pela IA
+	
+	--FSM transicao de estado--
+	Number defineNewState(bool visible, bool toxic, Number distance): define transicao de estado do FSM
+	
+	--path find--
+	null searchPath(Matriz map, Vector destiny): Através de BFS procura um caminho para o destino
+	
+	--movimentacao--
+	null randomMove(Matriz matriz): movimenta arbitrariamente, preferencialmente mantendo a direcao atual
+	null runAway(Vector position): move-se em direcao oposta a indicada
+	
+	--deteccao de colisao--
+	bool willCollide(Matriz matriz): indica se dada a direcaoDesejada colidiram no proximo movimento
+	
+*/
 function WormBot(initialBody, direction, color){
 	Worm.call(this,initialBody, direction,color);
 	//WormBot variaveis de controle
