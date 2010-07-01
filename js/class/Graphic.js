@@ -2,28 +2,47 @@
 Classe Graphic:
  Atributos:
  	--Canvas primário--
-	HTMLCanvasElement canvas: canvas no documento
-	CanvasRenderingContext2D ctx: contexto de manipulcao
+	HTMLCanvasElement canvas: canvas de saida
+	CanvasRenderingContext2D ctx: contexto para manipulcao
 
-	--Canvas Secundário--
-	HTMLCanvasElement canvasBuffer: 
-	CanvasRenderingContext2D ctxBuffer:
+	--Canvas(Buffer) Secundário--
+	HTMLCanvasElement canvasBuffer: canvas para Double Buffering
+	CanvasRenderingContext2D ctxBuffer: contexto para manipulacao
 
 	--métricas--
 	Number TILEWIDTH:	dimensao horizontal base
 	Number TILEHEIGHT:	dimensao vertical base
 	Number TILESX: numero de quadros na horizontal
-	Number TILESY numero de quadros na vertical
+	Number TILESY: numero de quadros na vertical
 	Number HEADERHEIGHT: altura do cabecalho
 	Number FOOTERHEIGHT: altura do rodape
 
 	--texturas--
-	Array<> BACKGROUNDS: texturas do fundo (por enquanto apenas a cor)
+	Array<String> BACKGROUNDS: texturas do fundo (por enquanto a cor em CSS)
 	Array<image> DIAMOND: textura dos diamantes
 	
  Métodos:
-	Graphic(HTMLCanvasElement canvas, Number tileX, Number tileY):
-	render(Array<Worm> worms,Diamond food, Number MAX_SCORE, Number level);
+	Construtor Graphic(HTMLCanvasElement canvas, Number tileX, Number tileY):
+	--renderiza jogo--	
+	null render(Array<Worm> worms,Diamond food, Number MAX_SCORE, Number level): renderiza um frame
+	
+	--subdivisões de render, processamento no buffer secundário--
+	null renderBufferBackground(Number value): renderiza o fundo, cor definida pelo value
+	null renderBufferWalls(Matriz matriz): pre-renderiza paredes
+	null renderBufferWorm(Worm worm): renderiza o worm
+	null renderBufferDiamond(Diamond food): renderiza Diamond
+	null renderBufferScore(Number i, Number score, String color, Number position): renderiza o score
+	null renderBufferTitle(String text): renderiza o titulo na parte superior central
+	null renderBufferCopyright(): renderiza ©
+	null renderBufferLevel(Number level): renderiza level
+	null renderBufferRecord(Number recorde): renderiza record atual
+	null renderBufferFooter(): renderiza rodape
+	null renderBufferHeader(): renderiza cabecalho
+	null setBufferTextFormat(String aling, String baseline, String font): formata caracteristica do texto
+
+	--renderizacao das telas iniciais--
+	null renderGameMenu(): tela inicial
+	null renderGameAbout(): tela de informacoes
 
  */
 DIAMOND = [new Image(), new Image()];
@@ -229,8 +248,10 @@ Graphic.prototype.renderBufferHeader = function (){
 
 Graphic.prototype.renderGameMenu = function () {
 	this.ctx.save();
+	var centerX = this.canvas.width / 2;
+	var centerY = this.canvas.height / 2;
 	//background
-	this.ctx.save()
+	this.ctx.save();
 	if(!PATTERNTITLE.complete){
 		this.ctx.fillStyle = "green";
 	}
@@ -244,24 +265,24 @@ Graphic.prototype.renderGameMenu = function () {
 	this.ctx.textBaseline = 'middle';
 	this.ctx.textAlign = 'center';
 	this.ctx.fillStyle = 'white';
-	this.ctx.fillText('SUKURI', this.canvas.width / 2, this.canvas.height / 2);
+	this.ctx.fillText('SUKURI', centerX, centerY);
 	this.ctx.strokeStyle = 'black';
-	this.ctx.strokeText('SUKURI', this.canvas.width / 2, this.canvas.height / 2);
+	this.ctx.strokeText('SUKURI', centerX, centerY);
 
 	//start button
 	this.ctx.font = 'bold 16pt Tahoma';
-	this.ctx.fillText('START', this.canvas.width / 2, (this.canvas.height / 2) + 110);
+	this.ctx.fillText('START', centerX, centerY + 110);
 	this.ctx.font = '12pt Tahoma';
-	this.ctx.fillText('- Press Enter -', this.canvas.width / 2, (this.canvas.height / 2) + 130);
+	this.ctx.fillText('- Press Enter -', centerX, centerY + 130);
 
 	//about button
 	this.ctx.font = 'bold 12pt Tahoma';
-	this.ctx.fillText('ABOUT', this.canvas.width / 2, (this.canvas.height / 2) + 170);
+	this.ctx.fillText('ABOUT', centerX, centerY + 170);
 	this.ctx.font = '10pt Tahoma';
-	this.ctx.fillText('- Press Space -', this.canvas.width / 2, (this.canvas.height / 2) + 190);
+	this.ctx.fillText('- Press Space -', centerX, centerY + 190);
 	//creditos
 	this.ctx.font = '10pt Times New Roman';
-	this.ctx.fillText('\u00A9 Laboratorio de Pós Graduação', this.canvas.width / 2, (this.canvas.height / 2) + 230);
+	this.ctx.fillText('\u00A9 Laboratorio de Pós Graduação', centerX, centerY + 230);
 
 	//versao
 	this.ctx.textAlign = 'end';
@@ -271,6 +292,8 @@ Graphic.prototype.renderGameMenu = function () {
 
 Graphic.prototype.renderGameAbout = function () {
 	this.ctx.save();
+	var centerX = this.canvas.width / 2;
+	var quarterY = this.canvas.height / 4;
 	//background
 	this.ctx.save()
 	if(!PATTERNTITLE.complete){
@@ -288,19 +311,19 @@ Graphic.prototype.renderGameAbout = function () {
 	this.ctx.textBaseline = 'middle';
 	this.ctx.textAlign = 'center';
 	this.ctx.fillStyle = 'white';
-	this.ctx.fillText('SUKURI', this.canvas.width / 2, this.canvas.height / 4);
+	this.ctx.fillText('SUKURI', centerX, quarterY);
 	this.ctx.strokeStyle = 'black';
-	this.ctx.strokeText('SUKURI', this.canvas.width / 2, this.canvas.height / 4);
+	this.ctx.strokeText('SUKURI', centerX, quarterY);
 
 	//message
 	this.ctx.font = 'bold 14pt Courier';
-	this.ctx.fillText('Autor: Emiliano Carlos de Moraes Firmino', this.canvas.width/2, this.canvas.height * (3 / 4) - 60);
-	this.ctx.fillText('Orientador: Jucimar Maia Junior', this.canvas.width / 2, this.canvas.height * (3/ 4) - 20);
-	this.ctx.fillText('Projeto: Desenvolvimento de Interface WEB em HTML5 para MMOG.', this.canvas.width / 2, this.canvas.height * (3 / 4) + 27);
-	this.ctx.fillText('\u00A9 Laboratorio de Pós Graduação', this.canvas.width /2, this.canvas.height * (3 / 4) + 60);
+	this.ctx.fillText('Autor: Emiliano Carlos de Moraes Firmino', centerX, (3 * quarterY) - 60);
+	this.ctx.fillText('Orientador: Jucimar Maia Junior', centerX, (3 * quarterY) - 20);
+	this.ctx.fillText('Projeto: Desenvolvimento de Interface WEB em HTML5 para MMOG.', centerX, (3 * quarterY) + 27);
+	this.ctx.fillText('\u00A9 Laboratorio de Pós Graduação', centerX, (3 * quarterY) + 60);
 
 	this.ctx.font = 'sans-serif 12pt';
-	this.ctx.fillText('- Press Enter -', this.canvas.width / 2, (this.canvas.height / 2));
+	this.ctx.fillText('- Press Enter -', centerX, 2 * quarterY);
 
 	this.ctx.restore();
 }
