@@ -1,12 +1,26 @@
 /*
 Classe Graphic:
  Atributos:
-	HTMLCanvasElement canvas:
-	CanvasRenderingContext2D ctx:
+ 	--Canvas primário--
+	HTMLCanvasElement canvas: canvas no documento
+	CanvasRenderingContext2D ctx: contexto de manipulcao
+
+	--Canvas Secundário--
 	HTMLCanvasElement canvasBuffer: 
 	CanvasRenderingContext2D ctxBuffer:
-	TILEWIDTH:	dimensao horizontal base
-	TILEHEIGHT:	dimensao vertical base
+
+	--métricas--
+	Number TILEWIDTH:	dimensao horizontal base
+	Number TILEHEIGHT:	dimensao vertical base
+	Number TILESX: numero de quadros na horizontal
+	Number TILESY numero de quadros na vertical
+	Number HEADERHEIGHT: altura do cabecalho
+	Number FOOTERHEIGHT: altura do rodape
+
+	--texturas--
+	Array<> BACKGROUNDS: texturas do fundo (por enquanto apenas a cor)
+	Array<image> DIAMOND: textura dos diamantes
+	
  Métodos:
 	Graphic(HTMLCanvasElement canvas, Number tileX, Number tileY):
 	render(Array<Worm> worms,Diamond food, Number MAX_SCORE, Number level);
