@@ -50,6 +50,12 @@ function Nibbles(canvas, worms) {
 	//ID do Evento
 	this.loopCode = null;
 }
+Nibbles.prototype.menu = function () {
+	this.display.renderGameMenu();
+};
+Nibbles.prototype.about = function () {
+	this.display.renderGameAbout();
+};
 Nibbles.prototype.start = function () {	this.registerLoopGame(); };
 Nibbles.prototype.end = function () {
 	//restaura velocidade inicial
