@@ -27,7 +27,7 @@ Classe Nibbles:
 	Array<Number> inputs: lista de inputs do teclado para processar
  	
  Métodos:
-	Contrutor Nibbles(HTMLCanvasElement canvas, Array<Worm> worms): Construtor
+	Construtor Nibbles(HTMLCanvasElement canvas, Array<Worm> worms): Construtor
 	--initial screens--
 	null menu(): tela inicial
 	null about(): informacoes sobre o autor
@@ -39,7 +39,7 @@ Classe Nibbles:
 	
 	--worms actions--
 	null reviveWorm(): worm morto é revivido na posicao inicial
-	null foundDiamond(): verifica colisao com a comida
+	Number foundDiamond(): verifica colisao com a comida
 	
 	--event processes--
 	null loopGame(): Loop de execucao do jogo

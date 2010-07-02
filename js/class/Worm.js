@@ -157,6 +157,8 @@ Class WormHuman (especializacao de Worm)
  	Object teclado: descreve os keyCode para cada movimento
 
  Métodos:
+	Construtor WormHuman(Array<Vector> initialBody, Number direction, String color, Object teclado)
+
 	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): implementacao para controle por teclado
 
 */
@@ -211,6 +213,8 @@ Class WormBot (especializacao de Worm)
 	bool computedPath: indica se um caminho existe
 	Number radius: alcance minimo para iniciar perseguicao ao Diamond
  Métodos:
+	Construtor WormBot(Array<Vector> initialBody, Number direction, String color)
+
  	--IA--
 	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): implementacao de controle pela IA
 	
@@ -218,7 +222,8 @@ Class WormBot (especializacao de Worm)
 	Number defineNewState(bool visible, bool toxic, Number distance): define transicao de estado do FSM
 	
 	--path find--
-	null searchPath(Matriz map, Vector destiny): Através de BFS procura um caminho para o destino
+	null searchPath(Matriz map, Vector destiny): Executa o pathfind
+	null bfsPathFind(Matriz map, Array< Array<Object> > sandbox_map, Vector destiny): implementacao do pathfind em BFS
 	
 	--movimentacao--
 	null randomMove(Matriz matriz): movimenta arbitrariamente, preferencialmente mantendo a direcao atual
@@ -317,21 +322,23 @@ WormBot.prototype.searchPath = function (map, destiny) {
 		sandbox_map[order-1][n] = -1;
 		sandbox_map[n][order-1] = -1;
 	}
-
+	this.bfsPathFind(map, sandbox_map, destiny);
+	/*
 	//referencias
 	var root_map = this.body[0];
 	var center = Math.floor(order / 2);
 	var root_sandbox = new Vector(center, center);
 	var reference_map = root_map.subtract(root_sandbox);
 	map.circularCorrectCell(reference_map);
+	*/
 	//direcoes
-	var vec_unit =	[
-			new Vector( 0,-1), /*UP   - 0*/
-			new Vector( 1, 0), /*RIGHT- 1*/
-			new Vector( 0, 1), /*DOWN - 2*/
-			new Vector(-1, 0)  /*LEFT - 3*/
-			];
-
+	//var vec_unit =	[
+	//		new Vector( 0,-1), /*UP   - 0*/
+	//		new Vector( 1, 0), /*RIGHT- 1*/
+	//		new Vector( 0, 1), /*DOWN - 2*/
+	//		new Vector(-1, 0)  /*LEFT - 3*/
+	//		];
+	/*
 	var node_map;		//posicao do nodo no mapa
 	var node_sandbox;	//posicao do mesmo nodo mas no sandbox
 	var old_nodes = [];	//lista de nodos a processar
@@ -340,7 +347,8 @@ WormBot.prototype.searchPath = function (map, destiny) {
 	//registra nodo root para iniciar BFS
 	old_nodes.push(root_sandbox);
 	sandbox_map[root_sandbox.y][root_sandbox.x] = {sentido : null, origem : null};
-
+	*/
+	/*
 	//Breadth First Search
 	var i, direcao;
 	while (old_nodes.length > 0) {
@@ -377,6 +385,7 @@ WormBot.prototype.searchPath = function (map, destiny) {
 		}//for para cada nodo encontrado
 		old_nodes = new_nodes;
 	}//while existe nodo a processar
+	*/
 };
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getOtherValidDirections();
@@ -429,4 +438,130 @@ WormBot.prototype.willCollide = function (matriz) {
 	var cellValue =  matriz.getCell(headNextPosition);
 	if (cellValue == 0) { return false; }
 	return true;
+};
+WormBot.prototype.bfsPathFind = function (map, sandbox_map, destiny){
+	//referencias
+	var order = sandbox_map.length;
+
+	var root_map = this.body[0];
+	var center = Math.floor(order / 2);
+	var root_sandbox = new Vector(center, center);
+
+	var reference_map = root_map.subtract(root_sandbox);
+	map.circularCorrectCell(reference_map);
+
+	//direcoes
+	var vec_unit =	[
+			new Vector( 0,-1), /*UP   - 0*/
+			new Vector( 1, 0), /*RIGHT- 1*/
+			new Vector( 0, 1), /*DOWN - 2*/
+			new Vector(-1, 0)  /*LEFT - 3*/
+			];
+
+	var node_map;		//posicao do nodo no mapa
+	var node_sandbox;	//posicao do mesmo nodo mas no sandbox
+	var old_nodes = [];	//lista de nodos a processar
+	var new_nodes = [];	//lista de nodos encontrados
+
+	old_nodes.push(root_sandbox);
+	sandbox_map[root_sandbox.y][root_sandbox.x] = {sentido : null, origem : null};
+	//Breadth First Search
+	var i, direcao;
+	while (old_nodes.length > 0) {
+		new_nodes = [];
+		//percorre os nodes ja encontrados
+		for(i = 0; i < old_nodes.length; i++){
+			//encontra novos nodos
+			for(direcao = 0; direcao < vec_unit.length; direcao++){
+				//calcula posicao do novo nodo
+				node_sandbox = old_nodes[i].add(vec_unit[direcao]);
+				//converte a posicao do nodo para nodo no mapa
+				node_map = reference_map.add(node_sandbox);
+				map.circularCorrectCell(node_map);
+				if ( //verifica se o nodo é valido
+					(sandbox_map[node_sandbox.y][node_sandbox.x] === null) &&
+					(map.getCell(node_map) === 0)
+				){
+					//registra como nodo encontrado
+					new_nodes.push(node_sandbox);
+					sandbox_map[node_sandbox.y][node_sandbox.x] = {sentido : direcao, origem : old_nodes[i]};
+					if (node_map.equals(destiny)) {
+						//encontrou o destino entao preenche o path
+						while(
+							(sandbox_map[node_sandbox.y][node_sandbox.x].sentido !== null) &&
+							(sandbox_map[node_sandbox.y][node_sandbox.x].origem !== null)
+						){
+							this.path.unshift(sandbox_map[node_sandbox.y][node_sandbox.x].sentido);
+							node_sandbox = sandbox_map[node_sandbox.y][node_sandbox.x].origem;
+						}
+						return;
+					}//if encontrou food?
+				}//if node nao visitado
+			}//for cada direcao
+		}//for para cada nodo encontrado
+		old_nodes = new_nodes;
+	}
+};
+WormBot.prototype.AstarPathFind = function (map, sandbox_map, destiny){
+	//referencias
+	var order = sandbox_map.length;
+
+	var root_map = this.body[0];
+	var center = Math.floor(order / 2);
+	var root_sandbox = new Vector(center, center);
+
+	var reference_map = root_map.subtract(root_sandbox);
+	map.circularCorrectCell(reference_map);
+
+	//direcoes
+	var vec_unit =	[
+			new Vector( 0,-1), /*UP   - 0*/
+			new Vector( 1, 0), /*RIGHT- 1*/
+			new Vector( 0, 1), /*DOWN - 2*/
+			new Vector(-1, 0)  /*LEFT - 3*/
+			];
+
+	var node_map;		//posicao do nodo no mapa
+	var node_sandbox;	//posicao do mesmo nodo mas no sandbox
+	var old_nodes = [];	//lista de nodos a processar
+	var new_nodes = [];	//lista de nodos encontrados
+
+	old_nodes.push(root_sandbox);
+	sandbox_map[root_sandbox.y][root_sandbox.x] = {sentido : null, origem : null};
+	//A star pathfind
+	var i, direcao;
+	while (old_nodes.length > 0) {
+		new_nodes = [];
+		//percorre os nodes ja encontrados
+		for(i = 0; i < old_nodes.length; i++){
+			//encontra novos nodos
+			for(direcao = 0; direcao < vec_unit.length; direcao++){
+				//calcula posicao do novo nodo
+				node_sandbox = old_nodes[i].add(vec_unit[direcao]);
+				//converte a posicao do nodo para nodo no mapa
+				node_map = reference_map.add(node_sandbox);
+				map.circularCorrectCell(node_map);
+				if ( //verifica se o nodo é valido
+					(sandbox_map[node_sandbox.y][node_sandbox.x] === null) &&
+					(map.getCell(node_map) === 0)
+				){
+					//registra como nodo encontrado
+					new_nodes.push(node_sandbox);
+					sandbox_map[node_sandbox.y][node_sandbox.x] = {sentido : direcao, origem : old_nodes[i]};
+					if (node_map.equals(destiny)) {
+						//encontrou o destino entao preenche o path
+						while(
+							(sandbox_map[node_sandbox.y][node_sandbox.x].sentido !== null) &&
+							(sandbox_map[node_sandbox.y][node_sandbox.x].origem !== null)
+						){
+							this.path.unshift(sandbox_map[node_sandbox.y][node_sandbox.x].sentido);
+							node_sandbox = sandbox_map[node_sandbox.y][node_sandbox.x].origem;
+						}
+						return;
+					}//if encontrou food?
+				}//if node nao visitado
+			}//for cada direcao
+		}//for para cada nodo encontrado
+		old_nodes = new_nodes;
+	}
 };

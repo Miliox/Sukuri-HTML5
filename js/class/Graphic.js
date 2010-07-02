@@ -3,7 +3,7 @@ Classe Graphic:
  Atributos:
  	--Canvas primário--
 	HTMLCanvasElement canvas: canvas de saida
-	CanvasRenderingContext2D ctx: contexto para manipulcao
+	CanvasRenderingContext2D ctx: contexto para manipulacao
 
 	--Canvas(Buffer) Secundário--
 	HTMLCanvasElement canvasBuffer: canvas para Double Buffering
@@ -45,6 +45,8 @@ Classe Graphic:
 	null renderGameAbout(): tela de informacoes
 
  */
+
+//texturas
 DIAMOND = [new Image(), new Image()];
 DIAMOND[0].src = 'img/fruit.gif';
 DIAMOND[1].src = 'img/fruit_venom.gif';

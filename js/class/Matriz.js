@@ -1,35 +1,36 @@
-/* Classe que representa matricialmente a fase
- * Atributos:
- * 	--constantes--
- * 	Number LINES
- * 	Number COLUMS
- * 	Number DEFAULTVALUE: valor inicial que representa um espaco vazio
- * 	Number WALLVALUE: valor que define uma parede
- *
- * 	--representacao da matriz--
- * 	Array< Array<Number> > matriz:
- *
- * Métodos:
- * 	Construtor Matriz(Number width, Number height, Number valorInicial):
- *	
- *	--metodos de limpeza--
- * 	null clearMatriz(): todos os itens da matriz com valor inicial
- * 	null clearPositions(Array<Vector> lista): aplica o valor padrao as celulas presentes no Array lista
- * 	null clearCell(Vector cell): aplica o valor padrao a uma unica celula na matriz
- * 	
- *	--metodos de atribuicao--
- * 	null setPositions(Array<Vector> lista, Number value): aplica as celulas indicadas na lista, o valor indicado
- * 	nulll setCell(Vector cell, Number value): aplica na celula da matriz o valor indicado em value
- *	null setWallCell(Vector cell): atribui na area indicada pelo cell como parede
- *	
- *	--metodo de acesso--
- *	Number getDistance(Vector firstCell, Vector secondCell):
- * 	Number getCell(Vector cell): Obtem o valor na posicao da matriz indicada pelo vetor cell
- *
- *	--outros--
- *	bool isValidPos(Vector cell): verifica limites da entrada na matriz
- *	null circularCorrectCell(cell): corrige cell para um valor dentro da matriz
- */
+/* 
+Classe Matriz:
+ Atributos:
+ 	--constantes--
+ 	Number LINES
+ 	Number COLUMS
+ 	Number DEFAULTVALUE: valor inicial que representa um espaco vazio
+ 	Number WALLVALUE: valor que define uma parede
+
+ 	--representacao da matriz--
+ 	Array< Array<Number> > matriz:
+
+ Métodos:
+ 	Construtor Matriz(Number width, Number height, Number valorInicial):
+	
+	--metodos de limpeza--
+ 	null clearMatriz(): todos os itens da matriz com valor inicial
+ 	null clearPositions(Array<Vector> lista): aplica o valor padrao as celulas presentes no Array lista
+ 	null clearCell(Vector cell): aplica o valor padrao a uma unica celula na matriz
+ 	
+	--metodos de atribuicao--
+ 	null setPositions(Array<Vector> lista, Number value): aplica as celulas indicadas na lista, o valor indicado
+ 	null setCell(Vector cell, Number value): aplica na celula da matriz o valor indicado em value
+	null setWallCell(Vector cell): atribui na area indicada pelo cell como parede
+	
+	--metodo de acesso--
+	Number getDistance(Vector firstCell, Vector secondCell): determina distancia entre dois pontos, considerando o fator circular
+ 	Number getCell(Vector cell): Obtem o valor na posicao da matriz indicada pelo vetor cell
+
+	--outros--
+	bool isValidPos(Vector cell): verifica limites da entrada na matriz
+	null circularCorrectCell(cell): corrige cell para um valor dentro da matriz
+*/
 
 function Matriz (width, height, startValue, wallValue){
 	//Metricas	
