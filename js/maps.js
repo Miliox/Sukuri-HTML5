@@ -21,13 +21,11 @@ var NIBBLES_MAPS = {
 		for(i = 10; i < 36; i++){
 			lv_arr.push(new Vector(Math.floor(max_width / 2),i));
 		}
-		//barras paralelas da esquerda
 		for(i = 0; i < 25; i++){
+			//barras paralelas da esquerda
 			lv_arr.push(new Vector(i,10));
 			lv_arr.push(new Vector(max_width -1 -i,10));
-		}
-		//barras paralelas da direita
-		for(i = 0; i < 25; i++){
+			//barras paralelas da direita
 			lv_arr.push(new Vector(i,max_height - 10));
 			lv_arr.push(new Vector(max_width -1 -i,max_height - 10));
 		}

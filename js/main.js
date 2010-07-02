@@ -18,7 +18,8 @@ function gameInit(){
 
 	window.addEventListener('keydown', waitEnter, true);
 };
-function keyboardInput (event) {
+//controle pelo teclado durante o jogo
+function keyboardGameInput (event) {
 	var input = event.keyCode;
 	switch (input) {
 		case 13: //pause
@@ -27,19 +28,20 @@ function keyboardInput (event) {
 		case 27: //reset
 			game.end();
 			game.menu();
-			window.removeEventListener('keydown', keyboardInput, true);
+			window.removeEventListener('keydown', keyboardGameInput, true);
 			window.addEventListener('keydown', waitEnter, true);
 			break;
 		default :
 			game.inputRegister(event.keyCode);
 	}
 };
+//controle pelo teclado nas telas inicias
 function waitEnter (event) {
 	switch (event.keyCode){
 		//player controls
 		case 13: //enter
 			window.removeEventListener('keydown', waitEnter, true);
-			window.addEventListener('keydown', keyboardInput, true);
+			window.addEventListener('keydown', keyboardGameInput, true);
 			game.start();
 			break;
 		case 32: //space
