@@ -439,3 +439,41 @@ WormBot.prototype.bfsPathFind = function (map, sandbox_map, destiny){
 		old_nodes = new_nodes;
 	}
 };
+WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny){
+	//referencias
+	var order = sandbox_map.length;
+
+	var root_map = this.body[0];
+	var center = Math.floor(order / 2);
+	var root_sandbox = new Vector(center, center);
+
+	var reference_map = root_map.subtract(root_sandbox);
+	map.circularCorrectCell(reference_map);
+
+	//funcoes
+	var new_node = function (_sentido, _origem, _custo, _estimado){
+		return {
+			sentido : _sentido,
+			origem : _origem,
+			custo : _custo,
+			estimado : _estimado
+			};
+	};
+	var quanto_custa = function (){
+
+	};
+	//direcoes
+	var vec_unit =	[
+			new Vector( 0,-1), /*UP   - 0*/
+			new Vector( 1, 0), /*RIGHT- 1*/
+			new Vector( 0, 1), /*DOWN - 2*/
+			new Vector(-1, 0)  /*LEFT - 3*/
+			];
+
+	var node_map;		//posicao do nodo no mapa
+	var node_sandbox;	//posicao do mesmo nodo mas no sandbox
+	var nodes_pqueue = [];	//lista de nodos a processar
+
+	nodes_pqueue.push(root_sandbox);
+	sandbox_map[root_sandbox.y][root_sandbox.x] = new_node(null, null, 0,"estimado?");
+};
