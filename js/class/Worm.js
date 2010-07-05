@@ -322,7 +322,8 @@ WormBot.prototype.searchPath = function (map, destiny) {
 		sandbox_map[order-1][n] = -1;
 		sandbox_map[n][order-1] = -1;
 	}
-	this.bfsPathFind(map, sandbox_map, destiny);
+	//this.bfsPathFind(map, sandbox_map, destiny);
+	this.aStarPathFind(map, sandbox_map, destiny);
 };
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getOtherValidDirections();
@@ -439,7 +440,7 @@ WormBot.prototype.bfsPathFind = function (map, sandbox_map, destiny){
 		old_nodes = new_nodes;
 	}
 };
-WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny){
+WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny_map){
 	//referencias
 	var order = sandbox_map.length;
 
@@ -450,6 +451,9 @@ WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny){
 	var reference_map = root_map.subtract(root_sandbox);
 	map.circularCorrectCell(reference_map);
 
+	var destiny_sandbox = destiny_map.subtract(reference_map);
+	map.circularCorrectCell(destiny_sandbox);
+
 	//funcoes
 	var new_node = function (_sentido, _origem, _custo, _estimado){
 		return {
@@ -459,8 +463,37 @@ WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny){
 			estimado : _estimado
 			};
 	};
-	var quanto_custa = function (){
+	var estima_custo = function (node1, node2) {
+		var dx = node1.x - node2.x;
+		var dy = node1.y - node2.y;
 
+		var d = Math.abs(dx) + Math.abs(dy);
+		return d;
+
+	};
+	var define_acao = function (cell_map, cell_sandbox, destiny_map, destiny_sandbox, map, map_sandbox) {
+		if (cell_map.equals(destiny_map)) {
+			return 0;
+		}
+		else if (map[cell_map.y][cell_map.x] === 0){
+			var conteudo = sandbox_map[cell_sandbox.y][cell_sandbox.x];
+			if (conteudo === null){
+				return 1;
+			}
+			else {
+				return 2;
+			}
+		}
+		else{
+			return 3;
+		}
+	};
+	var insert_node = function (prior_queue, sandbox, node) {
+		var node_pq;
+		for(var i = 0; i < prior_queue.length; i++){
+			node_pq = prior_queue[i];
+			//fazer
+		}
 	};
 	//direcoes
 	var vec_unit =	[
@@ -470,10 +503,43 @@ WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny){
 			new Vector(-1, 0)  /*LEFT - 3*/
 			];
 
+	var node;
 	var node_map;		//posicao do nodo no mapa
 	var node_sandbox;	//posicao do mesmo nodo mas no sandbox
 	var nodes_pqueue = [];	//lista de nodos a processar
 
 	nodes_pqueue.push(root_sandbox);
-	sandbox_map[root_sandbox.y][root_sandbox.x] = new_node(null, null, 0,"estimado?");
+	sandbox_map[root_sandbox.y][root_sandbox.x] = new_node(null, null, 0, estima_custo(root_sandbox, destiny_sandbox));
+
+	while(nodes_pqueue.length > 0){
+		node = nodes_pqueue.shift();
+		for(var i = 0; i < vec_unit.length; i++){
+			node_sandbox = node.add(vec_unit[i]);
+			node_map = reference_map.add(node_sandbox);
+			map.circularCorrectCell(node_map);
+
+			switch(define_acao(node_map, node_sandbox, destiny_map, destiny_sandbox, map, map_sandbox)){
+				case 0:
+					while(
+						(sandbox_map[node_sandbox.y][node_sandbox.x].sentido !== null) &&
+						(sandbox_map[node_sandbox.y][node_sandbox.x].origem !== null)
+					){
+						this.path.unshift(sandbox_map[node_sandbox.y][node_sandbox.x].sentido);
+						node_sandbox = sandbox_map[node_sandbox.y][node_sandbox.x].origem;
+					}
+					return;
+				case 1:
+					new_nodes.push(node_sandbox);
+					sandbox_map[node_sandbox.y][node_sandbox.x] =
+						new_node(direcao, node, node.custo+1,
+								estima_custo(node_sandbox, destiny_sandbox));
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+			}
+		}
+	}
+
 };
