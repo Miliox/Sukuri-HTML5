@@ -211,6 +211,7 @@ WormHuman.prototype.inputProcess = function (inputList, matriz, food){
 Class WormBot (especializacao de Worm)
  Atributos:
 	bool computedPath: indica se um caminho existe
+	Array<Number> path: comandos necessario para seguir o path
 	Number radius: alcance minimo para iniciar perseguicao ao Diamond
  Métodos:
 	Construtor WormBot(Array<Vector> initialBody, Number direction, String color)
@@ -322,8 +323,8 @@ WormBot.prototype.searchPath = function (map, destiny) {
 		sandbox_map[order-1][n] = -1;
 		sandbox_map[n][order-1] = -1;
 	}
-	//this.bfsPathFind(map, sandbox_map, destiny);
-	this.aStarPathFind(map, sandbox_map, destiny);
+	this.bfsPathFind(map, sandbox_map, destiny);
+	//this.aStarPathFind(map, sandbox_map, destiny);
 };
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getOtherValidDirections();
@@ -518,7 +519,7 @@ WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny_map){
 			node_map = reference_map.add(node_sandbox);
 			map.circularCorrectCell(node_map);
 
-			switch(define_acao(node_map, node_sandbox, destiny_map, destiny_sandbox, map, map_sandbox)){
+			switch(define_acao(node_map, node_sandbox, destiny_map, destiny_sandbox, map, sandbox_map)){
 				case 0:
 					while(
 						(sandbox_map[node_sandbox.y][node_sandbox.x].sentido !== null) &&

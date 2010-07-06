@@ -136,8 +136,6 @@ Nibbles.prototype.foundDiamond = function(head){
 };
 Nibbles.prototype.loopGame = function () {
 	var worm, head, tail;
-	var i;
-
 	//processa a comida
 	this.food.duration--;
 	if(this.food.duration < 0){
@@ -160,7 +158,7 @@ Nibbles.prototype.loopGame = function () {
 	}//if food
 
 	//processa os worms
-	for (i=0;i < this.worms.length;i++) {
+	for (var i=0;i < this.worms.length;i++) {
 		worm = this.worms[i];
 		worm.inputProcess(this.inputs, this.map,this.food);
 		head = worm.newHeadPosition();

@@ -3,7 +3,7 @@ Classe Matriz:
  Atributos:
  	--constantes--
  	Number LINES
- 	Number COLUMS
+ 	Number COLUMNS
  	Number DEFAULTVALUE: valor inicial que representa um espaco vazio
  	Number WALLVALUE: valor que define uma parede
 
@@ -11,7 +11,7 @@ Classe Matriz:
  	Array< Array<Number> > matriz:
 
  Métodos:
- 	Construtor Matriz(Number width, Number height, Number valorInicial):
+ 	Construtor Matriz(Number width, Number height, Number startValue, Number wallValue):
 	
 	--metodos de limpeza--
  	null clearMatriz(): todos os itens da matriz com valor inicial
@@ -35,7 +35,7 @@ Classe Matriz:
 function Matriz (width, height, startValue, wallValue){
 	//Metricas	
 	this.LINES = height;
-	this.COLUMS = width;
+	this.COLUMNS = width;
 
 	//Valor
 	this.DEFAULTVALUE = startValue || 0;
@@ -56,7 +56,7 @@ Matriz.prototype.getCell = function (cell) {
 Matriz.prototype.clearMatriz = function () {
 	var lin, col;
 	for(lin = 0; lin < this.matriz.length; lin++) {
-		this.matriz[lin] = new Array(this.COLUMS);
+		this.matriz[lin] = new Array(this.COLUMNS);
 		for(col = 0; col < this.matriz[lin].length; col++){
 			this.matriz[lin][col] = this.DEFAULTVALUE;
 		}
@@ -99,7 +99,7 @@ Matriz.prototype.setWallCell = function (cell){
 	}
 };
 Matriz.prototype.isValidPos = function (cell) {
-	if(cell.x >= this.COLUMS || cell.x < 0 ||
+	if(cell.x >= this.COLUMNS || cell.x < 0 ||
 		cell.y >= this.LINES || cell.y < 0) {
 			return false;
 	}
@@ -107,7 +107,7 @@ Matriz.prototype.isValidPos = function (cell) {
 };
 Matriz.prototype.circularCorrectCell = function (cell) {
 	cell.addUpdate(new Vector(this.COLUMS,this.LINES));
-	cell.x %= this.COLUMS;
+	cell.x %= this.COLUMNS;
 	cell.y %= this.LINES;
 };
 Matriz.prototype.getDistance = function (firstCell, secondCell) {
@@ -116,7 +116,7 @@ Matriz.prototype.getDistance = function (firstCell, secondCell) {
 		dx = secondCell.x - firstCell.x;
 	}
 	var dy = firstCell.y - secondCell.y;
-	if (Math.abs(dy) > Math.floor(this.COLUMS / 2)){
+	if (Math.abs(dy) > Math.floor(this.COLUMNS / 2)){
 		dy = secondCell.y - firstCell.y;
 	}
 
