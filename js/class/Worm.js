@@ -536,12 +536,9 @@ WormBot.prototype.aStarPathFind = function (map, limitedMap, destinyInMap){
 						createNodeContent(direcao, nodeToEvaluate, nodeToEvaluateContent.custo+1,
 								estimatedCost(nodeInLimitedMap, destinyInLimitedMap));
 					insertNodeInPQ(nodesPriorityQueue,limitedMap,nodeInLimitedMap);
-					while(
-						(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].sentido !== null) &&
-						(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].origem !== null)
-					){
-						this.path.unshift(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].sentido);
-						nodeInLimitedMap = limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].origem;
+					for(var i = 0; i < 70 && !nodeInLimitedMap.equals(rootInLimitedMap);i++){
+							this.path.unshift(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].sentido);
+							nodeInLimitedMap = limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].origem;
 					}
 					return;
 				case 1://nao visitado
