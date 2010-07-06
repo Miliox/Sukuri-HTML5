@@ -323,8 +323,8 @@ WormBot.prototype.searchPath = function (map, destiny) {
 		sandbox_map[order-1][n] = -1;
 		sandbox_map[n][order-1] = -1;
 	}
-	this.bfsPathFind(map, sandbox_map, destiny);
-	//this.aStarPathFind(map, sandbox_map, destiny);
+	//this.bfsPathFind(map, sandbox_map, destiny);
+	this.aStarPathFind(map, sandbox_map, destiny);
 };
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getOtherValidDirections();
@@ -441,22 +441,21 @@ WormBot.prototype.bfsPathFind = function (map, sandbox_map, destiny){
 		old_nodes = new_nodes;
 	}
 };
-WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny_map){
-	//referencias
-	var order = sandbox_map.length;
+WormBot.prototype.aStarPathFind = function (map, limitedMap, destinyInMap){
+	var order = limitedMap.length;
 
-	var root_map = this.body[0];
+	var rootInMap = this.body[0];
 	var center = Math.floor(order / 2);
-	var root_sandbox = new Vector(center, center);
+	var rootInLimitedMap = new Vector(center, center);
 
-	var reference_map = root_map.subtract(root_sandbox);
-	map.circularCorrectCell(reference_map);
+	var referenceNodeInMap = rootInMap.subtract(rootInLimitedMap);
+	map.circularCorrectCell(referenceNodeInMap);
 
-	var destiny_sandbox = destiny_map.subtract(reference_map);
-	map.circularCorrectCell(destiny_sandbox);
+	var destinyInLimitedMap = destinyInMap.subtract(referenceNodeInMap);
+	map.circularCorrectCell(destinyInLimitedMap);
 
 	//funcoes
-	var new_node = function (_sentido, _origem, _custo, _estimado){
+	var createNodeContent = function (_sentido, _origem, _custo, _estimado){
 		return {
 			sentido : _sentido,
 			origem : _origem,
@@ -464,36 +463,42 @@ WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny_map){
 			estimado : _estimado
 			};
 	};
-	var estima_custo = function (node1, node2) {
-		var dx = node1.x - node2.x;
-		var dy = node1.y - node2.y;
+	var estimatedCost = function (nodeStart, nodeEnd) {
+		var dx = nodeStart.x - nodeEnd.x;
+		var dy = nodeStart.y - nodeEnd.y;
 
 		var d = Math.abs(dx) + Math.abs(dy);
 		return d;
 
 	};
-	var define_acao = function (cell_map, cell_sandbox, destiny_map, destiny_sandbox, map, map_sandbox) {
-		if (cell_map.equals(destiny_map)) {
-			return 0;
+	var typeOfNode = function (nodeInMap, nodeInLimitedMap, destinyInMap, destinyInLimitedMap, map, limitedMap) {
+		if (nodeInMap.equals(destinyInMap)) { return 0; } //destino
+		else if (map.getCell(nodeInMap) === 0){
+			var conteudo = limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x];
+			if (conteudo === null){ return 1; } //não visitado
+			else { return 2; }//visitado
 		}
-		else if (map[cell_map.y][cell_map.x] === 0){
-			var conteudo = sandbox_map[cell_sandbox.y][cell_sandbox.x];
-			if (conteudo === null){
-				return 1;
-			}
-			else {
-				return 2;
-			}
+		else{ return 3; } //invalido(parede, corpo, etc)
+	};
+	var insertNodeInPQ = function (priorQueue, limitedMap, nodeToInsertPos) {
+		var nodePos, nodeContent;
+		var nodeToInsertContent = limitedMap[nodeToInsertPos.y][nodeToInsertPos.x];
+		var nodeToInsertTotal = nodeToInsertContent.custo + nodeToInsertContent.estimado;
+		if(priorQueue.length === 0){
+			priorQueue.unshift(nodeToInsertPos);
+			return;
 		}
 		else{
-			return 3;
-		}
-	};
-	var insert_node = function (prior_queue, sandbox, node) {
-		var node_pq;
-		for(var i = 0; i < prior_queue.length; i++){
-			node_pq = prior_queue[i];
-			//fazer
+			for(var i = 0; i < priorQueue.length; i++){
+				nodePos = priorQueue[i];
+				nodeContent = limitedMap[nodePos.y][nodePos.x];
+				if(nodeContent.custo + nodeContent.estimado > nodeToInsertTotal){
+					priorQueue.splice(i,0,nodeToInsertPos);
+					return;
+				}
+			}
+			priorQueue.push(nodeToInsertPos);
+			return;
 		}
 	};
 	//direcoes
@@ -504,40 +509,51 @@ WormBot.prototype.aStarPathFind = function (map, sandbox_map, destiny_map){
 			new Vector(-1, 0)  /*LEFT - 3*/
 			];
 
-	var node;
-	var node_map;		//posicao do nodo no mapa
-	var node_sandbox;	//posicao do mesmo nodo mas no sandbox
-	var nodes_pqueue = [];	//lista de nodos a processar
+	var nodeToEvaluate;
+	var nodeToEvaluateContent;
+	var nodeInMap;		//posicao do nodo no mapa
+	var nodeInLimitedMap;	//posicao do mesmo nodo mas no sandbox
+	var nodesPriorityQueue = [];	//lista de nodos a processar
 
-	nodes_pqueue.push(root_sandbox);
-	sandbox_map[root_sandbox.y][root_sandbox.x] = new_node(null, null, 0, estima_custo(root_sandbox, destiny_sandbox));
+	nodesPriorityQueue.push(rootInLimitedMap);
+	limitedMap[rootInLimitedMap.y][rootInLimitedMap.x] = createNodeContent(null, null, 0, estimatedCost(rootInLimitedMap, destinyInLimitedMap));
 
-	while(nodes_pqueue.length > 0){
-		node = nodes_pqueue.shift();
-		for(var i = 0; i < vec_unit.length; i++){
-			node_sandbox = node.add(vec_unit[i]);
-			node_map = reference_map.add(node_sandbox);
-			map.circularCorrectCell(node_map);
+	while(nodesPriorityQueue.length > 0){
+		nodeToEvaluate = nodesPriorityQueue.shift();
+		nodeToEvaluateContent = limitedMap[nodeToEvaluate.y][nodeToEvaluate.x];
+		for(var direcao = 0; direcao < vec_unit.length; direcao++){
+			nodeInLimitedMap = nodeToEvaluate.add(vec_unit[direcao]);
+			nodeInMap = referenceNodeInMap.add(nodeInLimitedMap);
+			map.circularCorrectCell(nodeInMap);
 
-			switch(define_acao(node_map, node_sandbox, destiny_map, destiny_sandbox, map, sandbox_map)){
-				case 0:
+			switch(typeOfNode(
+					nodeInMap, nodeInLimitedMap,
+					destinyInMap, destinyInLimitedMap,
+					map, limitedMap
+				)){
+				case 0://destino
+					limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] =
+						createNodeContent(direcao, nodeToEvaluate, nodeToEvaluateContent.custo+1,
+								estimatedCost(nodeInLimitedMap, destinyInLimitedMap));
+					insertNodeInPQ(nodesPriorityQueue,limitedMap,nodeInLimitedMap);
 					while(
-						(sandbox_map[node_sandbox.y][node_sandbox.x].sentido !== null) &&
-						(sandbox_map[node_sandbox.y][node_sandbox.x].origem !== null)
+						(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].sentido !== null) &&
+						(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].origem !== null)
 					){
-						this.path.unshift(sandbox_map[node_sandbox.y][node_sandbox.x].sentido);
-						node_sandbox = sandbox_map[node_sandbox.y][node_sandbox.x].origem;
+						this.path.unshift(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].sentido);
+						nodeInLimitedMap = limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].origem;
 					}
 					return;
-				case 1:
-					new_nodes.push(node_sandbox);
-					sandbox_map[node_sandbox.y][node_sandbox.x] =
-						new_node(direcao, node, node.custo+1,
-								estima_custo(node_sandbox, destiny_sandbox));
+				case 1://nao visitado
+					limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] =
+						createNodeContent(direcao, nodeToEvaluate, nodeToEvaluateContent.custo+1,
+							estimatedCost(nodeInLimitedMap, destinyInLimitedMap));
+					insertNodeInPQ(nodesPriorityQueue,limitedMap,nodeInLimitedMap);
 					break;
-				case 2:
+				case 2://visitado
 					break;
-				case 3:
+				case 3://invalido
+					limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] = -1;
 					break;
 			}
 		}
