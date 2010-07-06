@@ -302,18 +302,36 @@ WormBot.prototype.defineNewState = function (visible, toxic, distance){
 	else if(visible && toxic && distance < 10){ return 3; }
 	else{ return 1;	}
 };
-WormBot.prototype.searchPath = function (map, destiny) {
+WormBot.prototype.searchPath = function (map, destinyInMap) {
 	this.path = [];
 	this.computedPath = true;
+	var order = Math.round(this.radius * 2) + 3;
+
+	var center = Math.floor(order / 2);
+	var rootInMap = this.body[0];
+	var rootInLimitedMap = new Vector(center, center);
+	var referenceNodeInMap = rootInMap.subtract(rootInLimitedMap);
+	map.circularCorrectCell(referenceNodeInMap);
+	var destinyInLimitedMap = destinyInMap.subtract(referenceNodeInMap);
+	map.circularCorrectCell(destinyInLimitedMap);
 
 	//Matriz
+	var nodeInMap, nodeInLimitedMap, nodeInMapContent;
 	var lin, col;
-	var order = Math.round(this.radius * 2) + 3;
 	var sandbox_map = new Array(order);
-	for(col = 0; col < order; col++){
-		sandbox_map[col] = new Array(order);
-		for(lin = 0; lin < order; lin++){
-			sandbox_map[col][lin] = null;
+	for(lin = 0; lin < order; lin++){
+		sandbox_map[lin] = new Array(order);
+		for(col = 0; col < order; col++){
+			nodeInLimitedMap = new Vector(col, lin);
+			nodeInMap = nodeInLimitedMap.add(referenceNodeInMap);
+			map.circularCorrectCell(nodeInMap);
+			nodeInMapContent = map.getCell(nodeInMap);
+			if (nodeInMapContent !== 0) {
+				sandbox_map[lin][col] = -1;
+			}
+			else {
+				sandbox_map[lin][col] = null;
+			}
 		}
 	}
 	//cerca matriz, simplifica verificacao de limites
