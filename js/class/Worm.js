@@ -224,7 +224,7 @@ Class WormBot (especializacao de Worm)
 	
 	--path find--
 	null searchPath(Matriz map, Vector destiny): Executa o pathfind
-	null bfsPathFind(Matriz map, Array< Array<Object> > sandbox_map, Vector destiny): implementacao do pathfind em BFS
+	null bfsPathFind(Matriz map, Array< Array<Object> > limitedMap, Vector destiny): implementacao do pathfind em BFS
 	
 	--movimentacao--
 	null randomMove(Matriz matriz): movimenta arbitrariamente, preferencialmente mantendo a direcao atual
@@ -378,15 +378,15 @@ WormBot.prototype.willCollide = function (matriz) {
 	if (cellValue == 0) { return false; }
 	return true;
 };
-WormBot.prototype.bfsPathFind = function (map, sandbox_map, destiny){
+WormBot.prototype.bfsPathFind = function (map, limitedMap, destiny){
 	//referencias
-	var order = sandbox_map.length;
+	var order = limitedMap.length;
 
-	var root_map = this.body[0];
+	var rootInMap = this.body[0];
 	var center = Math.floor(order / 2);
-	var root_sandbox = new Vector(center, center);
+	var rootInLimitedMap = new Vector(center, center);
 
-	var reference_map = root_map.subtract(root_sandbox);
+	var reference_map = rootInMap.subtract(rootInLimitedMap);
 	map.circularCorrectCell(reference_map);
 
 	//direcoes
@@ -397,48 +397,48 @@ WormBot.prototype.bfsPathFind = function (map, sandbox_map, destiny){
 			new Vector(-1, 0)  /*LEFT - 3*/
 			];
 
-	var node_map;		//posicao do nodo no mapa
-	var node_sandbox;	//posicao do mesmo nodo mas no sandbox
-	var old_nodes = [];	//lista de nodos a processar
-	var new_nodes = [];	//lista de nodos encontrados
+	var nodeInMap;		//posicao do nodo no mapa
+	var nodeInLimitedMap;	//posicao do mesmo nodo mas no sandbox
+	var nodesToEvaluate = [];	//lista de nodos a processar
+	var nodesFounded = [];	//lista de nodos encontrados
 
-	old_nodes.push(root_sandbox);
-	sandbox_map[root_sandbox.y][root_sandbox.x] = {sentido : null, origem : null};
+	nodesToEvaluate.push(rootInLimitedMap);
+	limitedMap[rootInLimitedMap.y][rootInLimitedMap.x] = {sentido : null, origem : null};
 	//Breadth First Search
 	var i, direcao;
-	while (old_nodes.length > 0) {
-		new_nodes = [];
+	while (nodesToEvaluate.length > 0) {
+		nodesFounded = [];
 		//percorre os nodes ja encontrados
-		for(i = 0; i < old_nodes.length; i++){
+		for(i = 0; i < nodesToEvaluate.length; i++){
 			//encontra novos nodos
 			for(direcao = 0; direcao < vec_unit.length; direcao++){
 				//calcula posicao do novo nodo
-				node_sandbox = old_nodes[i].add(vec_unit[direcao]);
+				nodeInLimitedMap = nodesToEvaluate[i].add(vec_unit[direcao]);
 				//converte a posicao do nodo para nodo no mapa
-				node_map = reference_map.add(node_sandbox);
-				map.circularCorrectCell(node_map);
+				nodeInMap = reference_map.add(nodeInLimitedMap);
+				map.circularCorrectCell(nodeInMap);
 				if ( //verifica se o nodo é valido
-					(sandbox_map[node_sandbox.y][node_sandbox.x] === null) &&
-					(map.getCell(node_map) === 0)
+					(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] === null) &&
+					(map.getCell(nodeInMap) === 0)
 				){
 					//registra como nodo encontrado
-					new_nodes.push(node_sandbox);
-					sandbox_map[node_sandbox.y][node_sandbox.x] = {sentido : direcao, origem : old_nodes[i]};
-					if (node_map.equals(destiny)) {
+					nodesFounded.push(nodeInLimitedMap);
+					limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] = {sentido : direcao, origem : nodesToEvaluate[i]};
+					if (nodeInMap.equals(destiny)) {
 						//encontrou o destino entao preenche o path
 						while(
-							(sandbox_map[node_sandbox.y][node_sandbox.x].sentido !== null) &&
-							(sandbox_map[node_sandbox.y][node_sandbox.x].origem !== null)
+							(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].sentido !== null) &&
+							(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].origem !== null)
 						){
-							this.path.unshift(sandbox_map[node_sandbox.y][node_sandbox.x].sentido);
-							node_sandbox = sandbox_map[node_sandbox.y][node_sandbox.x].origem;
+							this.path.unshift(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].sentido);
+							nodeInLimitedMap = limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].origem;
 						}
 						return;
 					}//if encontrou food?
 				}//if node nao visitado
 			}//for cada direcao
 		}//for para cada nodo encontrado
-		old_nodes = new_nodes;
+		nodesToEvaluate = nodesFounded;
 	}
 };
 WormBot.prototype.aStarPathFind = function (map, limitedMap, destinyInMap){
