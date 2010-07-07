@@ -106,7 +106,7 @@ Matriz.prototype.isValidPos = function (cell) {
 	return true;
 };
 Matriz.prototype.circularCorrectCell = function (cell) {
-	cell.addUpdate(new Vector(this.COLUMS,this.LINES));
+	cell.addUpdate(new Vector(this.COLUMNS,this.LINES));
 	cell.x %= this.COLUMNS;
 	cell.y %= this.LINES;
 };

@@ -326,11 +326,11 @@ WormBot.prototype.searchPath = function (map, destinyInMap) {
 			nodeInMap = nodeInLimitedMap.add(referenceNodeInMap);
 			map.circularCorrectCell(nodeInMap);
 			nodeInMapContent = map.getCell(nodeInMap);
-			if (nodeInMapContent !== 0) {
-				sandbox_map[lin][col] = -1;
+			if (nodeInMapContent === 0) {
+				sandbox_map[lin][col] = null;
 			}
 			else {
-				sandbox_map[lin][col] = null;
+				sandbox_map[lin][col] = -1;
 			}
 		}
 	}
@@ -407,6 +407,7 @@ WormBot.prototype.bfsPathFind = function (map, limitedMap, destiny){
 	var reference_map = rootInMap.subtract(rootInLimitedMap);
 	map.circularCorrectCell(reference_map);
 
+
 	//direcoes
 	var vec_unit =	[
 			new Vector( 0,-1), /*UP   - 0*/
@@ -459,7 +460,7 @@ WormBot.prototype.bfsPathFind = function (map, limitedMap, destiny){
 		nodesToEvaluate = nodesFounded;
 	}
 };
-WormBot.prototype.aStarPathFind = function (origin, destiny, limitedMap){
+WormBot.prototype.aStarPathFind = function (originInLimitedMap, destinyInLimitedMap, limitedMap){
 	//funcoes
 	var createNodeContent = function (_sentido, _origem, _custo, _estimado){
 		return {
@@ -476,8 +477,8 @@ WormBot.prototype.aStarPathFind = function (origin, destiny, limitedMap){
 		var d = Math.abs(dx) + Math.abs(dy);
 		return d;
 	};
-	var typeOfNode = function (nodeInLimitedMap, destiny, limitedMap) {
-		if (nodeInLimitedMap.equals(destiny)) { return 0; } //destino
+	var typeOfNode = function (nodeInLimitedMap, destinyInLimitedMap, limitedMap) {
+		if (nodeInLimitedMap.equals(destinyInLimitedMap)) { return 0; } //destino
 		else if (limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] === null) { return 1; } //não visitado
 		else if (limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] === -1) { return 3; } //parede
 		else { return 2; } //visitado
@@ -516,8 +517,8 @@ WormBot.prototype.aStarPathFind = function (origin, destiny, limitedMap){
 	var nodeInLimitedMap;	//posicao do mesmo nodo mas no sandbox
 	var nodesPriorityQueue = [];	//lista de nodos a processar
 
-	nodesPriorityQueue.push(origin);
-	limitedMap[origin.y][origin.x] = createNodeContent(null, null, 0, estimatedCost(origin, destiny));
+	nodesPriorityQueue.push(originInLimitedMap);
+	limitedMap[originInLimitedMap.y][originInLimitedMap.x] = createNodeContent(null, null, 0, estimatedCost(originInLimitedMap, destinyInLimitedMap));
 
 	while(nodesPriorityQueue.length > 0){
 		nodeToEvaluate = nodesPriorityQueue.shift();
@@ -526,23 +527,24 @@ WormBot.prototype.aStarPathFind = function (origin, destiny, limitedMap){
 			nodeInLimitedMap = nodeToEvaluate.add(vec_unit[direcao]);
 			switch(typeOfNode(
 					nodeInLimitedMap,
-					destiny,
+					destinyInLimitedMap,
 					limitedMap
 				)){
 				case 0://destino
 					limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] =
 						createNodeContent(direcao, nodeToEvaluate, nodeToEvaluateContent.custo+1,
-								estimatedCost(nodeInLimitedMap, destiny));
+								estimatedCost(nodeInLimitedMap, destinyInLimitedMap));
 					insertNodeInPQ(nodesPriorityQueue,limitedMap,nodeInLimitedMap);
-					for(var i = 0; i < 70 && !nodeInLimitedMap.equals(rootInLimitedMap);i++){
+					for(var i = 0; i < 70; i++){
 						this.path.unshift(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].sentido);
 						nodeInLimitedMap = limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].origem;
+						if(nodeInLimitedMap.equals(originInLimitedMap)){ return; }
 					}
 					return;
 				case 1://nao visitado
 					limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] =
 						createNodeContent(direcao, nodeToEvaluate, nodeToEvaluateContent.custo+1,
-							estimatedCost(nodeInLimitedMap, destiny));
+							estimatedCost(nodeInLimitedMap, destinyInLimitedMap));
 					insertNodeInPQ(nodesPriorityQueue,limitedMap,nodeInLimitedMap);
 					break;
 				case 2://visitado

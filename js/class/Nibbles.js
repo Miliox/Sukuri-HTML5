@@ -60,7 +60,7 @@ function Nibbles(canvas, worms) {
 	this.WIDTH = 96;
 	this.HEIGHT = 46;
 	this.POINT = 100;
-	this.DEFAULTFPS = 7;
+	this.DEFAULTFPS = 20;
 	this.INCFPS = 3;
 
 	//Game Objects
