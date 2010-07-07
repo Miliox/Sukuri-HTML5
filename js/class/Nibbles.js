@@ -36,6 +36,7 @@ Classe Nibbles:
 	null start(): inicia o jogo
 	null pause(): pausa o jogo
 	null end(): encerra o jogo
+	null nextLevel()
 	
 	--worms actions--
 	null reviveWorm(): worm morto é revivido na posicao inicial
@@ -121,6 +122,12 @@ Nibbles.prototype.end = function () {
 		this.worms[i].restart();
 	}
 };
+Nibbles.prototype.nextLevel = function(){
+	this.level++;
+	this.fps += this.INCFPS;
+	this.unregisterLoopGame();
+	this.registerLoopGame();
+};
 Nibbles.prototype.reviveWorm = function (worm, i){
 	var body = worm.dieAndReborn();
 	this.sound[1].play();
@@ -178,10 +185,7 @@ Nibbles.prototype.loopGame = function () {
 						this.food.randomPosition();
 						//verifica se passou pro proximo level
 						if (this.ate % 5 == 0) {
-							this.level++;
-							this.fps += this.INCFPS;
-							this.unregisterLoopGame();
-							this.registerLoopGame();
+							this.nextLevel();
 						}
 						//verifica se ultrapassou o recorde
 						if (worm.score > this.maxScore){

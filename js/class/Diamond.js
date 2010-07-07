@@ -67,5 +67,5 @@ Diamond.prototype.isToxic = function () { return this.toxic; };
 Diamond.prototype.isVisible = function () { return this.visible };
 Diamond.prototype.setVisible = function () { this.visible = true; };
 Diamond.prototype.setInvisible = function () { this.visible = false; };
-Diamond.prototype.getPos = function () { return this.position; };
 Diamond.prototype.setPos = function (newPos) { this.position = newPos; };
+Diamond.prototype.getPos = function () { return this.position; };

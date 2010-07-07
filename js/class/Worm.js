@@ -222,8 +222,9 @@ Class WormBot (especializacao de Worm)
 	
 	--path find--
 	null searchPath(Matriz map, Vector destiny): Executa o pathfind
-	null bfsPathFind(Matriz map, Array< Array<Object> > limitedMap, Vector destiny): implementacao do pathfind em BFS
-	
+	null bfsPathFind(Vector originInLimitedMap, Vector destinyInLimitedMap, Matriz limitedMap): pathfind em BFS
+	null aStarPathFind(Vector originInLimitedMap, Vector destinyInLimitedMap, Matriz limitedMap): pathfind em A*
+
 	--movimentacao--
 	null randomMove(Matriz matriz): movimenta arbitrariamente, preferencialmente mantendo a direcao atual
 	null runAway(Vector position): move-se em direcao oposta a indicada

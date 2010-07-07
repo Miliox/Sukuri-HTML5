@@ -1,5 +1,4 @@
 var game;
-
 function gameInit(){
 	//Inicializa Jogo
 	var w0body = [new Vector(4,3),new Vector(3,3),new Vector(2,3),new Vector(1,3)];
