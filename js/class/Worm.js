@@ -335,8 +335,8 @@ WormBot.prototype.searchPath = function (map, destinyInMap) {
 		limitedMap.setWallCell(new Vector(order-1,n));
 		limitedMap.setWallCell(new Vector(n,order-1));
 	}
-	this.bfsPathFind(rootInLimitedMap, destinyInLimitedMap, limitedMap)
-	//this.aStarPathFind(rootInLimitedMap, destinyInLimitedMap, limitedMap);
+	//this.bfsPathFind(rootInLimitedMap, destinyInLimitedMap, limitedMap)
+	this.aStarPathFind(rootInLimitedMap, destinyInLimitedMap, limitedMap);
 };
 WormBot.prototype.randomMove = function (matriz) {
 	var validDirection = this.getOtherValidDirections();
