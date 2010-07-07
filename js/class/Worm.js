@@ -420,11 +420,12 @@ WormBot.prototype.bfsPathFind = function (rootInLimitedMap, destinyInLimitedMap,
 					limitedMap.setCell(nodeInLimitedMap, {sentido : direcao, origem : nodesToEvaluate[i]});
 					if (nodeInLimitedMap.equals(destinyInLimitedMap)) {
 						nodeContent = limitedMap.getCell(nodeInLimitedMap);
-						while((nodeContent.sentido !== null) && (nodeContent.origem !== null)){
+						do{
 							this.path.unshift(limitedMap.getCell(nodeInLimitedMap).sentido);
 							nodeInLimitedMap = limitedMap.getCell(nodeInLimitedMap).origem;
 							nodeContent = limitedMap.getCell(nodeInLimitedMap);
-						}
+						}while((nodeContent.sentido !== null) &&
+							(nodeContent.origem !== null));
 						return;
 					}
 				}
@@ -488,8 +489,8 @@ WormBot.prototype.aStarPathFind = function (originInLimitedMap, destinyInLimited
 
 	var nodeToEvaluate;
 	var nodeToEvaluateContent;
-	var nodeInLimitedMap;	//posicao do mesmo nodo mas no sandbox
-	var nodesPriorityQueue = [];	//lista de nodos a processar
+	var nodeInLimitedMap;
+	var nodesPriorityQueue = [];
 
 	nodesPriorityQueue.push(originInLimitedMap);
 	limitedMap.setCell(originInLimitedMap,
