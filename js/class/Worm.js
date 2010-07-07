@@ -318,8 +318,7 @@ WormBot.prototype.searchPath = function (map, destinyInMap) {
 	//Matriz
 	var nodeInMap, nodeInLimitedMap, nodeInMapContent;
 	var lin, col;
-	//var sandbox_map = new Array(order);
-	var sandbox_map = new Matriz(order, order, null, -1);
+	var sandbox_map = new Matriz(order, order, 0, -1);
 	for(lin = 0; lin < order; lin++){
 		for(col = 0; col < order; col++){
 			nodeInLimitedMap = new Vector(col, lin);
@@ -333,12 +332,6 @@ WormBot.prototype.searchPath = function (map, destinyInMap) {
 	}
 	//cerca matriz, simplifica verificacao de limites
 	for(var n = 0; n < order; n++) {
-		/*
-		sandbox_map[0][n] = -1;
-		sandbox_map[n][0] = -1;
-		sandbox_map[order-1][n] = -1;
-		sandbox_map[n][order-1] = -1;
-		*/
 		sandbox_map.setWallCell(new Vector(n,0));
 		sandbox_map.setWallCell(new Vector(0,n));
 		sandbox_map.setWallCell(new Vector(order-1,n));
@@ -483,19 +476,12 @@ WormBot.prototype.aStarPathFind = function (originInLimitedMap, destinyInLimited
 	var typeOfNode = function (nodeInLimitedMap, destinyInLimitedMap, limitedMap) {
 		var nodeContent = limitedMap.getCell(nodeInLimitedMap);
 		if (nodeInLimitedMap.equals(destinyInLimitedMap)) { return 0; } //destino
-		else if (nodeContent === null) { return 1; } //não visitado
+		else if (nodeContent === 0) { return 1; } //não visitado
 		else if (nodeContent === -1) { return 3; } //parede
 		else { return 2; } //visitado
-		/*
-		if (nodeInLimitedMap.equals(destinyInLimitedMap)) { return 0; } //destino
-		else if (limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] === null) { return 1; } //não visitado
-		else if (limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] === -1) { return 3; } //parede
-		else { return 2; } //visitado
-		*/
 	};
 	var insertNodeInPQ = function (priorQueue, limitedMap, nodeToInsertPos) {
 		var nodePos, nodeContent;
-		//var nodeToInsertContent = limitedMap[nodeToInsertPos.y][nodeToInsertPos.x];
 		var nodeToInsertContent = limitedMap.getCell(nodeToInsertPos);
 		var nodeToInsertTotal = nodeToInsertContent.custo + nodeToInsertContent.estimado;
 		if(priorQueue.length === 0){
@@ -505,7 +491,6 @@ WormBot.prototype.aStarPathFind = function (originInLimitedMap, destinyInLimited
 		else{
 			for(var i = 0; i < priorQueue.length; i++){
 				nodePos = priorQueue[i];
-				//nodeContent = limitedMap[nodePos.y][nodePos.x];
 				nodeContent = limitedMap.getCell(nodePos);
 				if(nodeContent.custo + nodeContent.estimado > nodeToInsertTotal){
 					priorQueue.splice(i,0,nodeToInsertPos);
@@ -530,13 +515,11 @@ WormBot.prototype.aStarPathFind = function (originInLimitedMap, destinyInLimited
 	var nodesPriorityQueue = [];	//lista de nodos a processar
 
 	nodesPriorityQueue.push(originInLimitedMap);
-	//limitedMap[originInLimitedMap.y][originInLimitedMap.x] = createNodeContent(null, null, 0, estimatedCost(originInLimitedMap, destinyInLimitedMap));
 	limitedMap.setCell(originInLimitedMap,
 			createNodeContent(null, null, 0, estimatedCost(originInLimitedMap, destinyInLimitedMap)));
 
 	while(nodesPriorityQueue.length > 0){
 		nodeToEvaluate = nodesPriorityQueue.shift();
-		//nodeToEvaluateContent = limitedMap[nodeToEvaluate.y][nodeToEvaluate.x];
 		nodeToEvaluateContent = limitedMap.getCell(nodeToEvaluate);
 		for(var direcao = 0; direcao < vec_unit.length; direcao++){
 			nodeInLimitedMap = nodeToEvaluate.add(vec_unit[direcao]);
@@ -546,25 +529,17 @@ WormBot.prototype.aStarPathFind = function (originInLimitedMap, destinyInLimited
 					limitedMap
 				)){
 				case 0://destino
-					//limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] =
-					//	createNodeContent(direcao, nodeToEvaluate, nodeToEvaluateContent.custo+1,
-					//			estimatedCost(nodeInLimitedMap, destinyInLimitedMap));
 					limitedMap.setCell(nodeInLimitedMap,
 						createNodeContent(direcao, nodeToEvaluate, nodeToEvaluateContent.custo+1,
 								estimatedCost(nodeInLimitedMap, destinyInLimitedMap)));
 					insertNodeInPQ(nodesPriorityQueue,limitedMap,nodeInLimitedMap);
 					for(var i = 0; i < 70; i++){
-						//this.path.unshift(limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].sentido);
-						this.path.unshift(limitedMap.getCell(nodeInLimitedMap).sentido);
-						//nodeInLimitedMap = limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x].origem;
-						nodeInLimitedMap = limitedMap.getCell(nodeInLimitedMap).origem;
+						this.path.unshift((limitedMap.getCell(nodeInLimitedMap)).sentido);
+						nodeInLimitedMap = (limitedMap.getCell(nodeInLimitedMap)).origem;
 						if(nodeInLimitedMap.equals(originInLimitedMap)){ return; }
 					}
 					return;
 				case 1://nao visitado
-					//limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] =
-					//	createNodeContent(direcao, nodeToEvaluate, nodeToEvaluateContent.custo+1,
-					//		estimatedCost(nodeInLimitedMap, destinyInLimitedMap));
 					limitedMap.setCell(nodeInLimitedMap,
 						createNodeContent(direcao, nodeToEvaluate, nodeToEvaluateContent.custo+1,
 							estimatedCost(nodeInLimitedMap, destinyInLimitedMap)));
@@ -573,7 +548,6 @@ WormBot.prototype.aStarPathFind = function (originInLimitedMap, destinyInLimited
 				case 2://visitado
 					break;
 				case 3://invalido
-					//limitedMap[nodeInLimitedMap.y][nodeInLimitedMap.x] = -1;
 					limitedMap.setWallCell(nodeInLimitedMap);
 					break;
 			}
