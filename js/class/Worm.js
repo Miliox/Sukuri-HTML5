@@ -35,7 +35,8 @@ Classe Worm:
 	--outros--
 	Array<Vector> getValidDirections(): retorna um array com vetores direcao validos para a direcao atual
 	Array<Vector> getOtherValidDirections(): retorna um array com vetores direcao validos, exceto o da direcao atual
-	
+	Vector getVectDirection(Number direction): retorna o vetor unitario que representa a direcao
+
 	--decisoes--
 	null inputProcess(Array<Number> inputList,Matriz matriz, Diamond food): decide nova direcao a partir dos inputs (implementado nas subclasses) 
 
@@ -74,6 +75,18 @@ Worm.prototype.UP = 0;
 Worm.prototype.RIGHT = 1;
 Worm.prototype.DOWN = 2;
 Worm.prototype.LEFT = 3;
+Worm.prototype.getVectDirection = function (direction) {
+	switch(direction){
+		case this.UP:
+			return new Vector( 0,-1);
+		case this.RIGHT:
+			return new Vector( 1, 0);
+		case this.DOWN:
+			return new Vector( 0, 1);
+		case this.LEFT:
+			return new Vector(-1, 0);
+	}
+};
 Worm.prototype.resetScore = function () { this.score = 0; };
 Worm.prototype.addScore = function (point) {
 	this.score += point;
@@ -98,22 +111,7 @@ Worm.prototype.dieAndReborn = function (){
 	return dead;
 };
 Worm.prototype.newHeadPosition = function (){
-	var vetorUnit;
-	switch (this.desiredDirection)
-	{
-		case this.UP:
-			vetorUnit = new Vector(0,-1);
-			break;
-		case this.DOWN:
-			vetorUnit = new Vector(0,1);
-			break;
-		case this.LEFT:
-			vetorUnit = new Vector(-1,0);
-			break;
-		case this.RIGHT:
-			vetorUnit = new Vector(1,0);
-			break;
-	}
+	var vetorUnit = this.getVectDirection(this.desiredDirection);
 	return this.body[0].add(vetorUnit);
 };
 Worm.prototype.movesHead = function (head){
@@ -395,10 +393,10 @@ WormBot.prototype.willCollide = function (matriz) {
 WormBot.prototype.bfsPathFind = function (rootInLimitedMap, destinyInLimitedMap, limitedMap){
 	//direcoes
 	var vec_unit =	[
-			new Vector( 0,-1), /*UP   - 0*/
-			new Vector( 1, 0), /*RIGHT- 1*/
-			new Vector( 0, 1), /*DOWN - 2*/
-			new Vector(-1, 0)  /*LEFT - 3*/
+			this.getVectDirection(this.UP),
+			this.getVectDirection(this.RIGHT),
+			this.getVectDirection(this.DOWN),
+			this.getVectDirection(this.LEFT),
 			];
 
 	var nodeContent;
@@ -481,10 +479,10 @@ WormBot.prototype.aStarPathFind = function (originInLimitedMap, destinyInLimited
 	};
 	//direcoes
 	var vec_unit =	[
-			new Vector( 0,-1), /*UP   - 0*/
-			new Vector( 1, 0), /*RIGHT- 1*/
-			new Vector( 0, 1), /*DOWN - 2*/
-			new Vector(-1, 0)  /*LEFT - 3*/
+			this.getVectDirection(this.UP),
+			this.getVectDirection(this.RIGHT),
+			this.getVectDirection(this.DOWN),
+			this.getVectDirection(this.LEFT),
 			];
 
 	var nodeToEvaluate;
