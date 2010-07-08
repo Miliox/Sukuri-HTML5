@@ -247,7 +247,6 @@ Graphic.prototype.renderBufferHeader = function (){
 	this.ctxBuffer.beginPath();
 	this.ctxBuffer.restore();
 };
-
 Graphic.prototype.renderGameMenu = function () {
 	this.ctx.save();
 	var centerX = this.canvas.width / 2;
@@ -291,7 +290,6 @@ Graphic.prototype.renderGameMenu = function () {
 	this.ctx.fillText('v.0.05', this.canvas.width - 10, this.canvas.height -10);
 	this.ctx.restore();
 };
-
 Graphic.prototype.renderGameAbout = function () {
 	this.ctx.save();
 	var centerX = this.canvas.width / 2;
