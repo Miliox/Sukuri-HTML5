@@ -72,7 +72,7 @@ function Nibbles(canvas, worms) {
 	//Worm
 	this.worms = worms;	//Array de Worms
 	//Diamond
-	this.food = new Diamond(5, this.WIDTH, this.HEIGHT);
+	this.food = new Diamond(this.WIDTH, this.HEIGHT);
 
 	//Sound Effect - only Firefox and maybe Chrome
 	this.sound = DATA.SOUNDS || [new Audio('audio/eat.ogg'), new Audio('audio/die.ogg')];
@@ -104,6 +104,9 @@ Nibbles.prototype.start = function () {
 	this.getMaxScore();
 	this.fps = this.DEFAULTFPS;
 	this.inputs = [];
+	this.food.randomPosition();
+	this.food.randomTime(5);
+	this.food.setInvisible();
 
 	this.registerLoopGame();
 };

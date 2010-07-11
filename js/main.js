@@ -15,6 +15,7 @@ function gameInit(){
 	game.menu();
 
 	window.addEventListener('keydown', waitEnter, true);
+	delete gameInit;
 };
 //controle pelo teclado durante o jogo
 function keyboardGameInput (event) {

@@ -31,7 +31,7 @@ Classe Diamond:
 	--outros--
 	Vector getPos(): obtem posicao atual
 */
-function Diamond (maxWaitTime, maxWidth, maxHeight) {
+function Diamond (maxWidth, maxHeight) {
 	//Coordenadas
 	this.position = new Vector(0,0);
 	//Metricas
@@ -40,7 +40,7 @@ function Diamond (maxWaitTime, maxWidth, maxHeight) {
 
 	//Inicia numa Posicao e em tempo aleatorio
 	this.randomPosition();
-	this.randomTime(maxWaitTime);
+	this.randomTime(5);
 	this.randomType();
 	this.setInvisible();
 }
