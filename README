@@ -14,3 +14,7 @@ In Game:
 	ENTER - Pause
 	ESC   - Return to Title
 	Arrow Keys - Control the snake Direction
+
+How To Use:
+	Clone the project in WWW directory and open in Browser using the URL,
+didn't work opening directly the index.html
