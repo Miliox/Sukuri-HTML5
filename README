@@ -1,0 +1,16 @@
+Description:
+	Simple Concept Game which you control a little red snake trying to eat red
+apples and become the longer snake in the field. Avoid rotten apples and hit
+the walls or other snakes. Game will accelerate and become more difficult,
+so take care.
+
+	This game didn't have any help from Designer, sorry about the designer :(
+
+Control Button:
+Title:
+	ENTER - Start Game
+	SPACE - About
+In Game:
+	ENTER - Pause
+	ESC   - Return to Title
+	Arrow Keys - Control the snake Direction
